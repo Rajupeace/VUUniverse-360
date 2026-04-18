@@ -6,7 +6,8 @@
   "private": true,
   "license": "ISC",
   "scripts": {
-    "build": "nest build",
+    "build": "npx nest build",
+    "render-build": "npm install --legacy-peer-deps && npx nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
