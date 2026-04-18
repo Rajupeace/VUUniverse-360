@@ -1,0 +1,488 @@
+/* ==========================================================================
+   ACADEMIC BROWSER (SENTINEL VERSION)
+   Theme: Vu UniVerse360 Premium (Lumina)
+   ========================================================================== */
+
+/* Subject View Specifics */
+.nexus-browser-container {
+    animation: fadeIn 0.4s ease-out;
+    padding: 1rem;
+}
+
+.browser-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding: 0 0.5rem;
+}
+
+.browser-title {
+    font-size: 1.5rem;
+    font-weight: 950;
+    color: var(--v-text-main);
+    margin: 0;
+    letter-spacing: -0.5px;
+}
+
+.browser-breadcrumbs {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--v-text-muted);
+    font-weight: 700;
+    margin-top: 0.25rem;
+}
+
+.browser-breadcrumbs span {
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.browser-breadcrumbs span:hover {
+    color: var(--v-primary);
+    text-decoration: underline;
+}
+
+.browser-breadcrumbs .sep {
+    font-size: 0.6rem;
+    opacity: 0.5;
+}
+
+.browser-back-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    border-radius: 12px;
+    border: 1px solid var(--v-border);
+    background: white;
+    font-weight: 800;
+    font-size: 0.8rem;
+    color: var(--v-text-dim);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.browser-back-btn:hover {
+    background: var(--v-surface-light);
+    color: var(--v-primary);
+    transform: translateX(-2px);
+}
+
+/* Grid Layout for Years/Semesters/Subjects */
+.nexus-grid-layout {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    animation: slideInUp 0.3s ease-out;
+}
+
+.nexus-node-card {
+    background: var(--v-surface);
+    border: 1px solid var(--v-border);
+    border-radius: 20px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.nexus-node-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--v-shadow-lg);
+    border-color: var(--v-primary-light);
+    background: white;
+}
+
+.nexus-node-icon {
+    font-size: 2rem;
+    width: 60px;
+    height: 60px;
+    background: var(--v-bg);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+}
+
+.nexus-node-card:hover .nexus-node-icon {
+    background: var(--v-primary);
+    color: white;
+    transform: rotate(-10deg);
+}
+
+.nexus-node-info h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--v-text-main);
+}
+
+.nexus-node-info span {
+    font-size: 0.8rem;
+    color: var(--v-text-muted);
+    font-weight: 600;
+}
+
+.node-arrow {
+    margin-left: auto;
+    color: var(--v-border);
+    transition: 0.3s;
+}
+
+.nexus-node-card:hover .node-arrow {
+    color: var(--v-primary);
+    transform: translateX(5px);
+}
+
+.code-badge {
+    display: inline-block;
+    background: #f1f5f9;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-family: monospace;
+    color: var(--v-text-dim);
+    margin-top: 4px;
+    font-weight: 700;
+}
+
+/* List Layout for Modules/Units */
+.nexus-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    animation: fadeIn 0.3s;
+}
+
+.nexus-list-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    background: var(--v-surface);
+    border: 1px solid var(--v-border);
+    border-radius: 14px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.nexus-list-item:hover {
+    background: white;
+    border-color: var(--v-primary-light);
+    transform: translateX(4px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+}
+
+.nexus-list-item svg {
+    font-size: 1.2rem;
+    color: var(--v-text-muted);
+}
+
+.nexus-list-item:hover svg {
+    color: var(--v-primary);
+}
+
+.item-label {
+    flex: 1;
+    font-weight: 700;
+    color: var(--v-text-main);
+}
+
+.item-meta {
+    font-size: 0.75rem;
+    color: var(--v-text-muted);
+    font-weight: 600;
+    background: var(--v-bg);
+    padding: 4px 10px;
+    border-radius: 100px;
+}
+
+.nexus-subject-view {
+    padding: 1.5rem;
+    animation: slideInUp 0.4s var(--nexus-ease);
+}
+
+.section-title {
+    font-size: 1.25rem;
+    font-weight: 850;
+    color: var(--v-text-main);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.section-title::before {
+    content: '';
+    display: block;
+    width: 6px;
+    height: 24px;
+    background: linear-gradient(to bottom, var(--v-primary), var(--v-primary-light));
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(79, 70, 229, 0.3);
+}
+
+/* Resources Preview Area */
+.nexus-resources-preview {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px dashed var(--v-border);
+}
+
+/* Resource Section Cards Layout */
+.res-section {
+    margin-bottom: 2.5rem;
+}
+
+.res-section h4 {
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: var(--v-text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding-left: 0.5rem;
+    border-left: 3px solid var(--v-border);
+}
+
+.res-row {
+    display: flex !important;
+    gap: 1.5rem;
+    overflow-x: auto;
+    padding: 1rem 0.5rem;
+    padding-bottom: 2rem;
+    /* Space for shadows */
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+}
+
+.res-row::-webkit-scrollbar {
+    display: none;
+}
+
+/* Resource Card V2 */
+.res-card-v2 {
+    min-width: 300px;
+    background: var(--v-surface);
+    border-radius: var(--v-radius);
+    border: 1px solid var(--v-border);
+    padding: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.3s var(--nexus-ease);
+    cursor: pointer;
+    text-decoration: none !important;
+    position: relative;
+    overflow: hidden;
+}
+
+.res-card-v2:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: var(--v-shadow-lg);
+    border-color: var(--v-primary-light);
+    background: white;
+}
+
+/* Dynamic Glass Glare on Hover */
+.res-card-v2::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.4), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.res-card-v2:hover::after {
+    opacity: 1;
+}
+
+.res-info {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    flex: 1;
+    min-width: 0;
+    position: relative;
+    z-index: 2;
+}
+
+.res-info svg {
+    font-size: 1.4rem;
+    color: var(--v-primary);
+    flex-shrink: 0;
+    filter: drop-shadow(0 2px 4px rgba(79, 70, 229, 0.1));
+}
+
+.res-info svg.text-warning {
+    color: #f59e0b;
+    filter: drop-shadow(0 2px 4px rgba(245, 158, 11, 0.2));
+}
+
+.res-info svg.text-danger {
+    color: #ef4444;
+    filter: drop-shadow(0 2px 4px rgba(239, 68, 68, 0.2));
+}
+
+.res-info svg.text-success {
+    color: #10b981;
+    filter: drop-shadow(0 2px 4px rgba(16, 185, 129, 0.2));
+}
+
+.res-info svg.text-pink {
+    color: #ec4899;
+    filter: drop-shadow(0 2px 4px rgba(236, 72, 153, 0.2));
+}
+
+.res-info span {
+    font-weight: 700;
+    color: var(--v-text-main);
+    font-size: 0.95rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.res-meta-badge {
+    opacity: 0.7;
+    font-weight: 600 !important;
+}
+
+.res-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    position: relative;
+    z-index: 2;
+}
+
+.dl-btn {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: var(--v-surface-light);
+    color: var(--v-text-muted);
+    transition: all 0.2s;
+    border: 1px solid transparent;
+}
+
+.dl-btn:hover {
+    background: var(--v-primary);
+    color: white;
+    transform: rotate(-10deg);
+    box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3);
+}
+
+.ai-ask-btn {
+    font-size: 0.7rem;
+    font-weight: 800;
+    padding: 0.4rem 0.8rem;
+    border-radius: 100px;
+    background: #eff6ff;
+    color: var(--v-primary);
+    border: 1px solid #dbeafe;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.ai-ask-btn:hover {
+    background: var(--v-primary);
+    color: white;
+    border-color: var(--v-primary);
+}
+
+.node-arrow-static {
+    color: var(--v-text-muted);
+    font-size: 0.9rem;
+    opacity: 0.5;
+}
+
+/* Video specific styling */
+.res-card-v2.vid .res-info svg {
+    font-size: 1.6rem;
+}
+
+/* Empty State Hint */
+.res-empty-hint {
+    font-size: 0.9rem;
+    color: var(--v-text-muted);
+    font-style: italic;
+    padding: 1rem;
+    background: #f8fafc;
+    /* Fallback */
+    background: var(--v-surface-light);
+    border-radius: 8px;
+    width: 100%;
+}
+
+.subject-summary-card {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 1rem;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(148, 163, 184, 0.25);
+    border-radius: 18px;
+    padding: 1.25rem;
+    margin-bottom: 1.75rem;
+    box-shadow: 0 18px 50px rgba(15, 23, 42, 0.04);
+}
+
+.subject-summary-card .summary-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #64748b;
+    margin-bottom: 0.25rem;
+}
+
+.subject-summary-card .summary-value {
+    font-size: 1rem;
+    font-weight: 800;
+    color: #1e293b;
+}
+
+.view-pdf-btn {
+    grid-column: span 1;
+    justify-self: stretch;
+    align-self: center;
+    padding: 0.9rem 1rem;
+    border-radius: 14px;
+    border: none;
+    background: #3b82f6;
+    color: white;
+    font-weight: 800;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease;
+    min-width: 160px;
+}
+
+.view-pdf-btn:hover:not(:disabled) {
+    transform: translateY(-1px);
+    background: #2563eb;
+}
+
+.view-pdf-btn:disabled {
+    background: #cbd5e1;
+    color: #475569;
+    cursor: not-allowed;
+}

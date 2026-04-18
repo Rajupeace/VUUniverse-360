@@ -1,0 +1,128 @@
+/* Global Notifications CSS - Cool White Glassmorphism */
+
+.global-notification-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 99999;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    pointer-events: none;
+    /* Let clicks pass through empty space */
+}
+
+.glass-toast {
+    pointer-events: auto;
+    width: 380px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 16px;
+    box-shadow:
+        0 4px 6px -1px rgba(0, 0, 0, 0.1),
+        0 2px 4px -1px rgba(0, 0, 0, 0.06),
+        inset 0 0 20px rgba(255, 255, 255, 0.5);
+    padding: 16px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: slideInRight 0.4s ease-out forwards;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+}
+
+.toast-icon-box {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 1.2rem;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* Variant Styles */
+.toast-info .toast-icon-box {
+    color: #3b82f6;
+    background: #dbeafe;
+}
+
+.toast-success .toast-icon-box {
+    color: #10b981;
+    background: #d1fae5;
+}
+
+.toast-warning .toast-icon-box {
+    color: #f59e0b;
+    background: #fef3c7;
+}
+
+.toast-accent .toast-icon-box {
+    color: #8b5cf6;
+    background: #ede9fe;
+}
+
+.toast-content {
+    flex: 1;
+}
+
+.toast-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+}
+
+.toast-title {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #1e293b;
+    letter-spacing: -0.01em;
+}
+
+.toast-time {
+    font-size: 0.7rem;
+    color: #94a3b8;
+    font-weight: 500;
+}
+
+.toast-message {
+    font-size: 0.85rem;
+    color: #475569;
+    line-height: 1.4;
+}
+
+.toast-close {
+    background: none;
+    border: none;
+    color: #94a3b8;
+    cursor: pointer;
+    padding: 4px;
+    margin: -4px -4px 0 0;
+    transition: color 0.2s;
+}
+
+.toast-close:hover {
+    color: #ef4444;
+}
+
+/* Animations */
+.animate-toast-in {
+    animation: slideInRight 0.4s ease-out forwards;
+}

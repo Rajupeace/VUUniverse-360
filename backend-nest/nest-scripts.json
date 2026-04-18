@@ -1,0 +1,9 @@
+{
+    "name": "start-nest-backend",
+    "description": "Start the NestJS backend",
+    "scripts": {
+        "nest:dev": "cd backend-nest && npm run start:dev",
+        "nest:start": "cd backend-nest && npm run start",
+        "nest:build": "cd backend-nest && npm run build"
+    }
+}

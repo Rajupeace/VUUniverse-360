@@ -1,0 +1,189 @@
+/* ==========================================================================
+   STUDENT SUPPORT (SENTINEL THEME)
+   Theme: Vu UniVerse360 Premium
+   ========================================================================== */
+
+.support-page {
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    position: relative;
+    animation: fadeIn 0.4s ease-out;
+}
+
+.support-nav-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2.5rem;
+    padding: 0.5rem;
+    background: var(--v-surface);
+    border-radius: 16px;
+    width: fit-content;
+    border: 1px solid var(--v-border);
+}
+
+.support-tab {
+    padding: 0.8rem 1.5rem;
+    border-radius: 12px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--v-text-muted);
+    font-weight: 800;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.support-tab:hover {
+    color: var(--v-text-main);
+}
+
+.support-tab.active {
+    background: var(--v-bg);
+    color: var(--v-primary);
+    border-color: var(--v-border);
+    box-shadow: var(--v-shadow-sm);
+}
+
+/* --- FORM --- */
+.support-form-card {
+    max-width: 700px;
+    padding: 2.5rem;
+    background: var(--v-surface);
+    border: 1px solid var(--v-border);
+    border-radius: 24px;
+    box-shadow: var(--v-shadow);
+}
+
+.support-form-card h3 {
+    font-size: 1.25rem;
+    font-weight: 950;
+    color: var(--v-text-main);
+    margin-bottom: 2rem;
+    letter-spacing: -0.5px;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: var(--v-text-muted);
+    margin-bottom: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 1rem;
+    border-radius: 12px;
+    border: 1px solid var(--v-border);
+    background: var(--v-bg);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--v-text-main);
+    outline: none;
+    transition: 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: var(--v-primary);
+    background: white;
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+}
+
+.submit-ticket-btn {
+    width: 100%;
+    padding: 1.2rem;
+    background: var(--v-text-main);
+    color: white;
+    border: none;
+    border-radius: 14px;
+    font-weight: 900;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.submit-ticket-btn:hover:not(:disabled) {
+    background: black;
+    transform: translateY(-2px);
+    box-shadow: var(--v-shadow-lg);
+}
+
+.submit-ticket-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* --- STATES --- */
+.empty-state {
+    text-align: center;
+    padding: 5rem 2rem;
+    background: var(--v-surface);
+    border-radius: 24px;
+    border: 2px dashed var(--v-border);
+}
+
+.empty-state h4 {
+    font-weight: 950;
+    margin: 1.5rem 0 0.5rem;
+    color: var(--v-text-main);
+}
+
+.empty-state p {
+    color: var(--v-text-muted);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+/* --- FAQ MATRIX --- */
+.faq-matrix {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+}
+
+.faq-item {
+    padding: 1.75rem;
+    background: var(--v-surface);
+    border: 1px solid var(--v-border);
+    border-radius: 20px;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.faq-item:hover {
+    transform: translateY(-3px);
+    border-color: var(--v-primary-light);
+    box-shadow: var(--v-shadow);
+}
+
+.faq-item h4 {
+    font-size: 1rem;
+    font-weight: 850;
+    color: var(--v-text-main);
+    margin-bottom: 0.75rem;
+}
+
+.faq-item p {
+    font-size: 0.9rem;
+    color: var(--v-text-dim);
+    line-height: 1.6;
+    font-weight: 500;
+}

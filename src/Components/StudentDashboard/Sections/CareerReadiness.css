@@ -1,0 +1,174 @@
+/* ==========================================================================
+   CAREER READINESS (SENTINEL THEME)
+   Theme: Vu UniVerse360 Premium
+   ========================================================================== */
+
+.cr-container {
+    padding: 2.5rem;
+    border-radius: 32px;
+    background: var(--v-surface);
+    border: 1px solid var(--v-border);
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--v-shadow);
+    transition: all 0.3s ease;
+    animation: fadeIn 0.4s ease-out;
+}
+
+.cr-container:hover {
+    box-shadow: var(--v-shadow-lg);
+    border-color: var(--v-primary-light);
+}
+
+.cr-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+}
+
+.cr-header h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 950;
+    color: var(--v-text-main);
+    letter-spacing: -0.5px;
+}
+
+.cr-header h3 span {
+    color: var(--v-primary);
+}
+
+.cr-header .cr-status-badge {
+    padding: 0.5rem 1rem;
+    border-radius: 12px;
+    backdrop-filter: blur(4px);
+}
+
+.cr-main {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 3rem;
+    align-items: center;
+}
+
+.cr-score-ring {
+    position: relative;
+    width: 180px;
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cr-score-ring svg circle {
+    stroke: var(--v-surface-light);
+}
+
+.cr-score-value {
+    position: absolute;
+    text-align: center;
+}
+
+.cr-score-value .val {
+    font-size: 3.5rem;
+    font-weight: 950;
+    color: var(--v-text-main);
+    line-height: 1;
+}
+
+.cr-score-value .lab {
+    font-size: 0.8rem;
+    font-weight: 850;
+    color: var(--v-text-muted);
+    letter-spacing: 1px;
+}
+
+.cr-breakdown {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.cr-item-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.6rem;
+}
+
+.cr-item-label {
+    font-size: 0.8rem;
+    font-weight: 850;
+    color: var(--v-text-dim);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.cr-item-val {
+    font-size: 0.85rem;
+    font-weight: 950;
+    color: var(--v-text-main);
+}
+
+.cr-progress-bg {
+    height: 8px;
+    background: var(--v-surface-light);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.cr-progress-fill {
+    height: 100%;
+    border-radius: 10px;
+}
+
+.cr-footer {
+    margin-top: 2.5rem;
+    padding: 1.5rem;
+    background: var(--v-bg);
+    border-radius: 20px;
+    border: 1px solid var(--v-border);
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+}
+
+.cr-footer-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 14px;
+    background: var(--v-surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    font-size: 1.2rem;
+}
+
+.cr-footer-text .desc {
+    font-size: 0.9rem;
+    font-weight: 850;
+    color: var(--v-text-main);
+    line-height: 1.4;
+}
+
+.cr-footer-text .trend {
+    font-size: 0.7rem;
+    color: var(--v-text-muted);
+    font-weight: 800;
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+@media (max-width: 600px) {
+    .cr-main {
+        grid-template-columns: 1fr;
+    }
+
+    .cr-score-ring {
+        margin: 0 auto;
+    }
+}

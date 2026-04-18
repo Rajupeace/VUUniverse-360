@@ -1,0 +1,324 @@
+:root {
+  --bg-primary: #f8fafc;
+  --bg-panel: rgba(255, 255, 255, 0.7);
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+  --accent-primary: #6366f1;
+  --accent-secondary: #a855f7;
+  --glass-border: rgba(255, 255, 255, 0.3);
+  --soft-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+
+  /* Sentinel / Vu UniVerse360 Premium Variables */
+  --v-primary: #6366f1;
+  /* Indigo 500 */
+  --v-primary-dark: #4338ca;
+  /* Indigo 700 */
+  --v-primary-light: #818cf8;
+  /* Indigo 400 */
+  --v-primary-bg: #eef2ff;
+  /* Indigo 50 */
+
+  --v-accent: #10b981;
+  /* Emerald 500 */
+  --v-accent-glow: rgba(16, 185, 129, 0.4);
+
+  --v-bg: #f8fafc;
+  /* Slate 50 */
+  --v-surface: #ffffff;
+  --v-surface-light: #f1f5f9;
+  /* Slate 100 */
+
+  --v-text-main: #0f172a;
+  /* Slate 900 */
+  --v-text-dim: #334155;
+  /* Slate 700 */
+  --v-text-muted: #64748b;
+  /* Slate 500 */
+  --v-text-light: #94a3b8;
+  /* Slate 400 */
+
+  --v-border: #e2e8f0;
+  /* Slate 200 */
+  --v-border-dark: #cbd5e1;
+  /* Slate 300 */
+
+  --v-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --v-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --v-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --v-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+  --v-radius: 16px;
+  --v-radius-xl: 24px;
+  --v-ease: cubic-bezier(0.4, 0, 0.2, 1);
+
+  --v-primary-rgb: 99, 102, 241;
+}
+
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-primary);
+  color: var(--text-main);
+  transition: background 0.3s ease, color 0.3s ease;
+  font-family: var(--font-main);
+}
+
+/* Global Transition for glass panels */
+.glass-panel,
+.glass-card,
+.sd-header,
+.sd-main-grid,
+.sidebar-v2,
+.main-stage {
+  transition: all 0.3s ease;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.system-ui-overlay {
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  z-index: 999;
+  animation: slideInRight 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cmd-hint {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.8rem;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50px;
+  font-size: 0.8rem;
+  color: #64748b;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.cmd-hint .kbd {
+  font-weight: 800;
+  color: #334155;
+  background: #f1f5f9;
+  padding: 2px 4px;
+  border-radius: 4px;
+  border-bottom: 2px solid #cbd5e1;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(50px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Global responsive helpers for dashboards */
+@media (max-width: 1024px) {
+
+  .nexus-sidebar,
+  .sidebar-v2,
+  .nexus-sidebar.collapsed {
+    display: none !important;
+  }
+
+  .dashboard-content-area {
+    padding: 1rem !important;
+    min-height: 100vh !important;
+    height: auto !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .nexus-stats-grid {
+    grid-template-columns: 1fr !important;
+    padding: 0 1rem 1rem !important;
+  }
+
+  .nexus-main-layout {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1rem !important;
+  }
+}
+
+/* Global Shared Layout Containers */
+.nexus-hub-viewport {
+  position: relative;
+  width: 100%;
+  /* Ensure it is never hidden by default unless explicitly needed */
+}
+
+/* --- Global AI Assistant & Modal System (Sentinel Nexus) --- */
+.ai-fab {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--v-primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  cursor: pointer;
+  box-shadow: 0 10px 30px rgba(79, 70, 229, 0.4);
+  z-index: 2001;
+  /* Above modal overlay */
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 4px solid rgba(255, 255, 255, 0.2);
+  overflow: hidden;
+}
+
+.ai-fab .fab-label {
+  position: absolute;
+  right: 60px;
+  white-space: nowrap;
+  font-size: 0.9rem;
+  font-weight: 600;
+  opacity: 0;
+  transform: translateX(20px);
+  transition: all 0.3s ease;
+  pointer-events: none;
+  background: var(--v-primary);
+  padding: 0.5rem 1rem;
+  border-radius: 20px 0 0 20px;
+}
+
+.ai-fab:hover {
+  width: 160px;
+  border-radius: 30px;
+  padding-left: 80px;
+  background: var(--v-primary-dark);
+  box-shadow: 0 15px 40px rgba(79, 70, 229, 0.6);
+}
+
+.ai-fab:hover .fab-label {
+  opacity: 1;
+  transform: translateX(0);
+  right: 60px;
+}
+
+.ai-fab svg {
+  z-index: 2;
+  transition: transform 0.3s ease;
+}
+
+.ai-fab:hover svg {
+  transform: scale(1.1);
+}
+
+.ai-fab:active {
+  transform: scale(0.95);
+}
+
+.nexus-modal-overlay,
+.admin-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(8px);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+.nexus-modal-content,
+.admin-modal-content {
+  background: white;
+  border-radius: 24px;
+  width: 95%;
+  max-width: 1200px;
+  max-height: 90vh;
+  /* Changed from fixed height */
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  /* Restore scroll */
+  overflow-x: hidden;
+  animation: scaleIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  position: relative;
+}
+
+.nexus-modal-body {
+  flex: 1;
+  /* Removed overflow-y: auto to let parent scroll */
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  /* Allow growth */
+}
+
+/* Ensure admin modals mimic this if not already */
+.admin-modal-body {
+  flex: 1;
+  /* Removed overflow-y: auto */
+}
+
+.nexus-modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #f1f5f9;
+  border: none;
+  font-size: 1.5rem;
+  color: #64748b;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2010;
+  transition: all 0.2s ease;
+}
+
+.nexus-modal-close:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+  transform: rotate(90deg);
+}

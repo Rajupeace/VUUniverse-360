@@ -1,0 +1,342 @@
+/* DocViewer.css — Universal Document Viewer Modal */
+
+/* ── Overlay ──────────────────────────────────────────────── */
+.dv-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+}
+
+/* ── Modal ────────────────────────────────────────────────── */
+.dv-modal {
+    background: #fff;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 900px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow:
+        0 25px 60px rgba(0, 0, 0, 0.3),
+        0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* ── Header ───────────────────────────────────────────────── */
+.dv-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid #f1f5f9;
+    background: #fafbff;
+    border-radius: 20px 20px 0 0;
+}
+
+.dv-file-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    min-width: 0;
+}
+
+.dv-file-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: #f1f5f9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+}
+
+.dv-file-name {
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: #1e293b;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 400px;
+}
+
+.dv-type-badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 900;
+    padding: 0.2rem 0.6rem;
+    border-radius: 100px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-top: 0.25rem;
+}
+
+.dv-type-image {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.dv-type-pdf {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.dv-type-word {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.dv-type-excel {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.dv-type-ppt {
+    background: #ffedd5;
+    color: #c2410c;
+}
+
+.dv-type-text {
+    background: #f3f4f6;
+    color: #374151;
+}
+
+.dv-type-other {
+    background: #ede9fe;
+    color: #5b21b6;
+}
+
+.dv-type-unknown {
+    background: #f3f4f6;
+    color: #374151;
+}
+
+.dv-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+}
+
+/* ── Buttons ──────────────────────────────────────────────── */
+.dv-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1.1rem;
+    border-radius: 10px;
+    border: none;
+    font-size: 0.82rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.dv-btn.large {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.95rem;
+}
+
+.dv-btn-primary {
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.35);
+}
+
+.dv-btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(79, 70, 229, 0.45);
+}
+
+.dv-btn-secondary {
+    background: #f1f5f9;
+    color: #475569;
+    border: 1px solid #e2e8f0;
+}
+
+.dv-btn-secondary:hover {
+    background: #e2e8f0;
+    color: #1e293b;
+}
+
+.dv-btn-ghost {
+    background: transparent;
+    color: #64748b;
+    border: 1px solid #e2e8f0;
+    padding: 0.5rem 0.6rem;
+}
+
+.dv-btn-ghost:hover {
+    background: #f1f5f9;
+    color: #334155;
+}
+
+.dv-btn-close {
+    background: #fee2e2;
+    color: #dc2626;
+    border: 1px solid #fecaca;
+    padding: 0.5rem 0.6rem;
+    border-radius: 10px;
+    font-size: 1rem;
+}
+
+.dv-btn-close:hover {
+    background: #fca5a5;
+    transform: scale(1.05);
+}
+
+/* ── Preview Area ─────────────────────────────────────────── */
+.dv-preview {
+    flex: 1;
+    overflow: auto;
+    background: #f8fafc;
+    min-height: 300px;
+    max-height: calc(90vh - 160px);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Image */
+.dv-img-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    min-height: 350px;
+}
+
+.dv-image {
+    max-width: 100%;
+    max-height: 60vh;
+    object-fit: contain;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    transition: transform 0.2s ease;
+}
+
+.dv-image:hover {
+    transform: scale(1.01);
+    cursor: zoom-in;
+}
+
+/* PDF */
+.dv-pdf-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 450px;
+}
+
+.dv-pdf-object {
+    flex: 1;
+    width: 100%;
+    min-height: 450px;
+    border: none;
+}
+
+/* No-preview state */
+.dv-no-preview {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 2rem;
+    text-align: center;
+    gap: 0.75rem;
+    min-height: 300px;
+}
+
+.dv-no-preview svg {
+    font-size: 3.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.dv-no-preview h3 {
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: #1e293b;
+    margin: 0;
+}
+
+.dv-no-preview p {
+    font-size: 0.9rem;
+    color: #64748b;
+    font-weight: 600;
+    margin: 0;
+    max-width: 350px;
+}
+
+/* Error fallback */
+.dv-error-fallback {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 2rem;
+    text-align: center;
+}
+
+/* ── Footer ───────────────────────────────────────────────── */
+.dv-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    border-top: 1px solid #f1f5f9;
+    background: #fafbff;
+    border-radius: 0 0 20px 20px;
+}
+
+.dv-url-hint {
+    font-size: 0.72rem;
+    color: #94a3b8;
+    font-weight: 600;
+    font-family: 'Courier New', monospace;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 380px;
+}
+
+/* ── Responsive ───────────────────────────────────────────── */
+@media (max-width: 600px) {
+    .dv-overlay {
+        padding: 0;
+    }
+
+    .dv-modal {
+        border-radius: 16px 16px 0 0;
+        max-height: 95vh;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+
+    .dv-file-name {
+        max-width: 180px;
+        font-size: 0.85rem;
+    }
+
+    .dv-url-hint {
+        display: none;
+    }
+
+    .dv-footer {
+        flex-wrap: wrap;
+    }
+}

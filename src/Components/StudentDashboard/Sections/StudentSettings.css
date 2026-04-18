@@ -1,0 +1,408 @@
+/* ==========================================================================
+   STUDENT SETTINGS (SENTINEL THEME)
+   Theme: Vu UniVerse360 Premium V5
+   ========================================================================== */
+
+.settings-dashboard-container {
+    padding: 2rem;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    position: relative;
+    min-height: 80vh;
+    animation: fadeIn 0.4s ease-out;
+}
+
+.settings-mesh-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        radial-gradient(circle at 15% 50%, rgba(79, 70, 229, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 85% 30%, rgba(59, 130, 246, 0.04) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+.glass-panel {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
+    border-radius: 24px;
+}
+
+.settings-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.settings-header h2 {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: var(--v-text-main, #1e293b);
+    margin: 0;
+    letter-spacing: -1px;
+}
+
+.settings-header h2 span {
+    color: var(--v-primary, #4f46e5);
+}
+
+.settings-header p {
+    color: var(--v-text-muted, #64748b);
+    margin: 0.5rem 0 0 0;
+    font-weight: 600;
+}
+
+.settings-layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 2.5rem;
+}
+
+.settings-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    height: fit-content;
+    position: sticky;
+    top: 2rem;
+}
+
+.settings-tab {
+    padding: 1.2rem 1.7rem;
+    border-radius: 18px;
+    cursor: pointer;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: rgba(255, 255, 255, 0.6);
+    color: var(--v-text-dim, #64748b);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+.settings-tab:hover {
+    background: white;
+    transform: translateX(5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    color: var(--v-primary, #4f46e5);
+}
+
+.settings-tab.active {
+    background: linear-gradient(135deg, var(--v-primary, #4f46e5), #6366f1);
+    color: white;
+    box-shadow: 0 10px 20px rgba(79, 70, 229, 0.25);
+    border-color: transparent;
+}
+
+.settings-content {
+    min-height: 500px;
+}
+
+.settings-content-card {
+    padding: 3.5rem;
+}
+
+.settings-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3rem;
+}
+
+.settings-section-header h3 {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: var(--v-text-main, #1e293b);
+    margin: 0;
+    letter-spacing: -0.5px;
+}
+
+.settings-btn-primary {
+    padding: 0.8rem 1.8rem;
+    border-radius: 14px;
+    border: none;
+    background: var(--v-primary, #4f46e5);
+    color: white;
+    font-weight: 750;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    transition: all 0.2s ease;
+    box-shadow: 0 8px 16px rgba(79, 70, 229, 0.2);
+}
+
+.settings-btn-primary:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 20px rgba(79, 70, 229, 0.3);
+}
+
+.settings-btn-primary:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.settings-btn-success {
+    background: #10b981;
+    box-shadow: 0 8px 16px rgba(16, 185, 129, 0.2);
+}
+
+.settings-btn-success:hover {
+    box-shadow: 0 12px 20px rgba(16, 185, 129, 0.3);
+}
+
+.profile-pic-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 3rem;
+}
+
+.profile-pic-container {
+    position: relative;
+    width: 160px;
+    height: 160px;
+}
+
+.profile-pic-circle {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 6px solid white;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    background: var(--v-surface-light, #f8fafc);
+    position: relative;
+}
+
+.profile-pic-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-pic-upload-btn {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background: var(--v-primary, #4f46e5);
+    color: white;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 6px 16px rgba(79, 70, 229, 0.3);
+    border: 4px solid white;
+    transition: transform 0.2s, background 0.2s;
+    z-index: 10;
+}
+
+.profile-pic-upload-btn:hover {
+    transform: scale(1.1);
+    background: #4338ca;
+}
+
+.profile-pic-delete-btn {
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+    background: #ef4444;
+    color: white;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 6px 16px rgba(239, 68, 68, 0.3);
+    border: 4px solid white;
+    transition: transform 0.2s, background 0.2s;
+    z-index: 10;
+}
+
+.profile-pic-delete-btn:hover {
+    transform: scale(1.1);
+    background: #dc2626;
+}
+
+.hover-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    transition: opacity 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 2rem;
+}
+
+.profile-pic-circle:hover .hover-overlay {
+    opacity: 1;
+}
+
+.settings-form-grid {
+    display: grid;
+    gap: 2.5rem;
+}
+
+.settings-form-section {
+    background: rgba(255, 255, 255, 0.5);
+    padding: 2.5rem;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+.settings-form-section h4 {
+    font-size: 1.1rem;
+    font-weight: 850;
+    color: var(--v-primary, #4f46e5);
+    margin: 0 0 1.5rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    letter-spacing: 0.5px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.form-row.single {
+    grid-template-columns: 1fr;
+}
+
+.form-row.four-col {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.settings-group label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: var(--v-text-dim, #64748b);
+    margin-bottom: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.settings-input {
+    width: 100%;
+    padding: 1rem 1.2rem;
+    border-radius: 14px;
+    border: 2px solid transparent;
+    background: rgba(255, 255, 255, 0.8);
+    color: var(--v-text-main, #1e293b);
+    font-weight: 700;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.settings-input:focus {
+    outline: none;
+    background: white;
+    border-color: rgba(79, 70, 229, 0.4);
+    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+}
+
+.settings-input:disabled {
+    background: rgba(241, 245, 249, 0.5);
+    color: var(--v-text-dim, #64748b);
+    cursor: not-allowed;
+    border-color: rgba(226, 232, 240, 0.5);
+}
+
+.settings-input.editing {
+    border-color: var(--v-primary, #4f46e5);
+    background: white;
+}
+
+textarea.settings-input {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.security-wrapper {
+    max-width: 500px;
+}
+
+.security-wrapper .settings-input {
+    background: white;
+    border: 1px solid var(--v-border, #e2e8f0);
+}
+
+.security-wrapper .settings-input:focus {
+    border-color: var(--v-primary, #4f46e5);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 1024px) {
+    .settings-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .settings-sidebar {
+        position: static;
+        flex-direction: row;
+        overflow-x: auto;
+        padding-bottom: 1rem;
+    }
+
+    .settings-tab {
+        flex: 1;
+        justify-content: center;
+        white-space: nowrap;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .form-row,
+    .form-row.four-col {
+        grid-template-columns: 1fr;
+    }
+
+    .settings-content-card {
+        padding: 2rem;
+    }
+
+    .settings-section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .settings-btn-primary {
+        width: 100%;
+        justify-content: center;
+    }
+}

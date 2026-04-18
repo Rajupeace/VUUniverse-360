@@ -1,0 +1,319 @@
+/* ==========================================================================
+   STUDENT LABS SCHEDULE (SENTINEL THEME)
+   Theme: Vu UniVerse360 Premium
+   ========================================================================== */
+
+.nexus-page-container {
+    padding: 2.5rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    animation: fadeIn 0.4s ease-out;
+}
+
+/* --- HEADER --- */
+.nexus-page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 3rem;
+    border-bottom: 1px solid var(--v-border);
+    padding-bottom: 2rem;
+}
+
+.nexus-page-title {
+    font-size: 3rem;
+    font-weight: 950;
+    color: var(--v-text-main);
+    margin: 0;
+    line-height: 1;
+    letter-spacing: -2px;
+}
+
+.nexus-page-title span {
+    color: var(--v-primary);
+}
+
+.nexus-page-subtitle {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--v-primary);
+    font-weight: 900;
+    letter-spacing: 2px;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+}
+
+.header-forge-right {
+    text-align: right;
+}
+
+.forge-count {
+    font-size: 2.5rem;
+    font-weight: 950;
+    color: var(--v-text-main);
+}
+
+.forge-status {
+    font-size: 0.8rem;
+    color: var(--v-accent);
+    font-weight: 800;
+    background: rgba(16, 185, 129, 0.1);
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    display: inline-block;
+}
+
+/* --- GUIDELINES --- */
+.forge-guidelines {
+    background: rgba(255, 251, 235, 0.4);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(252, 211, 77, 0.3);
+    padding: 1.5rem 2rem;
+    border-radius: 20px;
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+    align-items: center;
+    box-shadow: 0 10px 30px -10px rgba(245, 158, 11, 0.15);
+}
+
+.guideline-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 14px;
+    background: #f59e0b;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.forge-op-title {
+    margin: 0 0 0.5rem 0;
+    font-size: 1rem;
+    font-weight: 900;
+    color: #92400e;
+}
+
+.forge-op-desc {
+    margin: 0;
+    color: #b45309;
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+/* --- LIST --- */
+.forge-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(600px, 1fr));
+    gap: 2.5rem;
+}
+
+@media (max-width: 1024px) {
+    .forge-list {
+        grid-template-columns: 1fr;
+    }
+}
+
+.forge-card {
+    background: var(--v-surface);
+    border: 1px solid var(--v-border);
+    border-radius: 28px;
+    padding: 2.5rem;
+    box-shadow: var(--v-shadow);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+}
+
+.forge-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--v-shadow-lg);
+    border-color: var(--v-primary-light);
+}
+
+.card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+}
+
+.lab-identity {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.lab-icon-box {
+    width: 70px;
+    height: 70px;
+    border-radius: 20px;
+    background: var(--v-bg);
+    color: var(--v-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    border: 1px solid var(--v-border);
+}
+
+.lab-identity h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.4rem;
+    font-weight: 950;
+    color: var(--v-text-main);
+}
+
+.batch-tag {
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: white;
+    background: var(--v-text-main);
+    padding: 0.4rem 0.8rem;
+    border-radius: 8px;
+}
+
+.lab-timing {
+    text-align: right;
+}
+
+.t-day {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: var(--v-primary);
+}
+
+.t-time {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    font-weight: 700;
+    color: var(--v-text-muted);
+}
+
+.lab-desc {
+    color: var(--v-text-dim);
+    line-height: 1.6;
+    margin-bottom: 2.5rem;
+    font-size: 1rem;
+}
+
+/* NODES */
+.lab-nodes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.node {
+    background: var(--v-bg);
+    padding: 1rem;
+    border-radius: 14px;
+    border: 1px solid transparent;
+}
+
+.n-label {
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: var(--v-text-muted);
+    letter-spacing: 0.5px;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.n-main {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 800;
+    color: var(--v-text-main);
+    font-size: 1rem;
+}
+
+.lab-tools-list {
+    margin-bottom: 2.5rem;
+    background: var(--v-surface);
+    border: 1px solid var(--v-border);
+    padding: 1.5rem;
+    border-radius: 16px;
+}
+
+.tools-title {
+    font-size: 0.8rem;
+    font-weight: 900;
+    color: var(--v-text-dim);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.tools-ribbon {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.tool-pill {
+    padding: 0.5rem 1rem;
+    background: white;
+    border: 1px solid var(--v-border);
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--v-text-main);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.forge-launch-btn {
+    margin-top: auto;
+    width: 100%;
+    padding: 1.25rem;
+    border-radius: 16px;
+    border: none;
+    background: var(--v-text-main);
+    color: white;
+    font-weight: 900;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.forge-launch-btn:hover {
+    background: black;
+    box-shadow: var(--v-shadow-lg);
+    transform: translateY(-2px);
+}
+
+/* EMPTY */
+.nexus-empty-forge {
+    text-align: center;
+    padding: 6rem;
+    background: var(--v-surface);
+    border-radius: 20px;
+    border: 2px dashed var(--v-border);
+    grid-column: 1/-1;
+}
+
+.forge-empty-icon {
+    font-size: 4rem;
+    color: var(--v-border);
+    margin-bottom: 1rem;
+}
+
+.forge-empty-msg {
+    font-size: 1.1rem;
+    color: var(--v-text-muted);
+}

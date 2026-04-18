@@ -1,0 +1,48 @@
+# ─────────────────────────────────────────────────────────────
+# AWS Elastic Beanstalk Configuration
+# FBN XAI Project - Node.js Backend Deployment
+# ─────────────────────────────────────────────────────────────
+
+option_settings:
+  # ── Node.js Platform ────────────────────────────────────────
+  aws:elasticbeanstalk:container:nodejs:
+    NodeCommand: "npm start"
+    NodeVersion: 18.x
+    ProxyServer: nginx
+
+  # ── Environment Variables ────────────────────────────────────
+  aws:elasticbeanstalk:application:environment:
+    NODE_ENV: production
+    PORT: 8080
+
+  # ── Load Balancer ────────────────────────────────────────────
+  aws:elasticbeanstalk:environment:
+    EnvironmentType: LoadBalanced
+    LoadBalancerType: application
+
+  # ── Auto Scaling ─────────────────────────────────────────────
+  aws:autoscaling:asg:
+    MinSize: 1
+    MaxSize: 3
+
+  aws:autoscaling:trigger:
+    MeasureName: CPUUtilization
+    Unit: Percent
+    UpperThreshold: 70
+    LowerThreshold: 20
+    UpperBreachScaleIncrement: 1
+    LowerBreachScaleIncrement: -1
+
+  # ── EC2 Instance ─────────────────────────────────────────────
+  aws:ec2:instances:
+    InstanceTypes: t3.micro
+
+  # ── Health Check ─────────────────────────────────────────────
+  aws:elasticbeanstalk:application:
+    Application Healthcheck URL: /api/health
+
+  # ── Logs ─────────────────────────────────────────────────────
+  aws:elasticbeanstalk:cloudwatch:logs:
+    StreamLogs: true
+    DeleteOnTerminate: false
+    RetentionInDays: 7

@@ -1,0 +1,230 @@
+/* Research Manager Dashboard Styles */
+.research-manager-dashboard {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    font-family: 'Inter', sans-serif;
+}
+
+.manager-header {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.header-left h1 {
+    margin: 0;
+    color: #2d3748;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.sidebar-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    color: #4a5568;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: all 0.2s;
+}
+
+.sidebar-toggle:hover {
+    background: rgba(74, 85, 104, 0.1);
+}
+
+.logout-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: #e53e3e;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.logout-btn:hover {
+    background: #c53030;
+}
+
+.manager-layout {
+    display: flex;
+    min-height: calc(100vh - 80px);
+}
+
+.manager-sidebar {
+    width: 250px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+    transition: width 0.3s ease;
+    overflow: hidden;
+}
+
+.manager-sidebar.collapsed {
+    width: 60px;
+}
+
+.sidebar-content {
+    padding: 1rem 0;
+}
+
+.nav-item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    background: none;
+    border: none;
+    color: #4a5568;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-item:hover {
+    background: rgba(102, 126, 234, 0.1);
+    color: #667eea;
+}
+
+.nav-item.active {
+    background: rgba(102, 126, 234, 0.1);
+    color: #667eea;
+    border-left-color: #667eea;
+}
+
+.manager-sidebar.collapsed .nav-item {
+    justify-content: center;
+    padding: 1rem;
+}
+
+.manager-main {
+    flex: 1;
+    padding: 2rem;
+    overflow-y: auto;
+}
+
+.manager-section {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: #2d3748;
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-size: 1.2rem;
+    color: white;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .manager-header {
+        padding: 1rem;
+    }
+
+    .header-left h1 {
+        font-size: 1.2rem;
+    }
+
+    .manager-sidebar {
+        width: 200px;
+    }
+
+    .manager-sidebar.collapsed {
+        width: 50px;
+    }
+
+    .manager-main {
+        padding: 1rem;
+    }
+
+    .section-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+}
+
+/* ── Embedded Mode ── */
+.research-manager-dashboard.embedded {
+    height: auto;
+    min-height: 100%;
+    background: transparent;
+}
+
+.research-manager-dashboard.embedded .manager-layout {
+    min-height: auto;
+}
+
+.research-manager-dashboard.embedded .manager-main {
+    padding: 0;
+}
+
+.research-manager-dashboard.embedded .manager-header {
+    background: transparent;
+    box-shadow: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    padding: 1rem 0;
+}
+
+.tab-btn {
+    padding: 0.6rem 1.2rem;
+    border-radius: 10px;
+    background: rgba(79, 70, 229, 0.05);
+    border: 1px solid rgba(79, 70, 229, 0.1);
+    color: #64748b;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.tab-btn:hover {
+    background: rgba(79, 70, 229, 0.1);
+    color: #4f46e5;
+}
+
+.tab-btn.active {
+    background: #4f46e5;
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+}

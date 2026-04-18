@@ -1,0 +1,631 @@
+/* ==========================================================================
+   STUDENT ROADMAPS
+   Theme: Vu UniVerse360 Premium (Sentinel)
+   ========================================================================== */
+
+.roadmaps-container {
+    padding: 2.5rem;
+    animation: fadeIn 0.4s ease-out;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+.roadmaps-header {
+    margin-bottom: 3rem;
+    text-align: center;
+}
+
+/* --- FILTERS & SEARCH --- */
+.filters-container {
+    margin-bottom: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.search-wrapper {
+    position: relative;
+    max-width: 650px;
+    margin: 0 auto;
+    /* Center items if desired */
+    width: 100%;
+}
+
+.search-icon {
+    position: absolute;
+    left: 1.25rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--v-text-muted);
+    font-size: 1.1rem;
+}
+
+.roadmap-search-input {
+    width: 100%;
+    padding: 1rem 1rem 1rem 3.5rem;
+    border-radius: 18px;
+    border: 2px solid var(--v-border);
+    font-size: 1rem;
+    outline: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+    transition: all 0.3s;
+    background: white;
+    color: var(--v-text-main);
+}
+
+.roadmap-search-input:focus {
+    border-color: var(--v-primary);
+    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+}
+
+.categories-scroll {
+    display: flex;
+    gap: 0.75rem;
+    overflow-x: auto;
+    padding-bottom: 1rem;
+    justify-content: center;
+    /* Center if items fit */
+    scrollbar-width: none;
+}
+
+.categories-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.category-tab {
+    padding: 0.6rem 1.2rem;
+    border-radius: 100px;
+    border: 1px solid transparent;
+    background: white;
+    color: var(--v-text-dim);
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 0.9rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    white-space: nowrap;
+}
+
+.category-tab:hover {
+    background: var(--v-bg);
+    transform: translateY(-2px);
+    color: var(--v-primary);
+}
+
+.category-tab.active {
+    background: var(--v-primary);
+    color: white;
+    box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3);
+}
+
+/* --- ROADMAP GRID --- */
+.roadmap-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 3rem;
+}
+
+.roadmap-card {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    border: 3px solid #1e293b;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 6px 6px 0px rgba(30, 41, 59, 1);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transition: all 0.2s ease;
+}
+
+.roadmap-card:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: 10px 10px 0px rgba(30, 41, 59, 1);
+    border-color: #1e293b;
+}
+
+.roadmap-icon-box {
+    width: 64px;
+    height: 64px;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem;
+    margin-bottom: 1.5rem;
+    background: rgba(var(--v-primary-rgb, 79, 70, 229), 0.1);
+}
+
+.roadmap-category-badge {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 800;
+    padding: 6px 12px;
+    border-radius: 8px;
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: #f1f5f9;
+    color: #475569;
+    border: 2px solid #cbd5e1;
+}
+
+.roadmap-card h3 {
+    font-size: 1.6rem;
+    color: #0f172a;
+    margin: 0 0 0.75rem 0;
+    font-weight: 950;
+    letter-spacing: -0.02em;
+}
+
+.roadmap-desc {
+    font-size: 0.95rem;
+    color: #475569;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    font-weight: 500;
+    flex: 1;
+}
+
+.roadmap-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--v-bg);
+}
+
+.level-count {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--v-text-muted);
+    background: var(--v-bg);
+    padding: 6px 12px;
+    border-radius: 100px;
+}
+
+.arrow-circle {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--v-bg);
+    color: var(--v-text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+}
+
+.roadmap-card:hover .arrow-circle {
+    background: var(--v-primary);
+    color: white;
+}
+
+/* --- DETAIL VIEW --- */
+.detail-header {
+    background: white;
+    padding: 2rem 2.5rem;
+    border-radius: 28px;
+    box-shadow: var(--v-shadow-lg);
+    border: 1px solid var(--v-border);
+    margin-bottom: 2.5rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.back-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 16px;
+    background: var(--v-bg);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--v-text-muted);
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.back-btn:hover {
+    background: var(--v-text-main);
+    color: white;
+}
+
+.header-content {
+    flex: 1;
+}
+
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.header-top h2 {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 950;
+    color: var(--v-text-main);
+}
+
+.progress-stat {
+    font-size: 1rem;
+    font-weight: 850;
+    background: var(--v-bg);
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+}
+
+.progress-track {
+    height: 14px;
+    background: var(--v-bg);
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid var(--v-border);
+}
+
+.progress-bar {
+    height: 100%;
+    border-radius: 10px;
+    transition: width 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+    background: var(--v-primary);
+    box-shadow: 0 0 10px rgba(79, 70, 229, 0.4);
+}
+
+.detail-layout {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    gap: 2.5rem;
+    align-items: start;
+}
+
+.info-sidebar {
+    position: sticky;
+    top: 2rem;
+}
+
+.roadmap-info-card {
+    background: var(--v-primary);
+    /* Fallback */
+    color: white;
+    border-radius: 28px;
+    padding: 3rem;
+    box-shadow: 0 25px 50px -12px rgba(59, 130, 246, 0.4);
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+}
+
+.info-icon-large {
+    font-size: 5rem;
+    margin-bottom: 2rem;
+    filter: drop-shadow(0 10px 10px rgba(0, 0, 0, 0.2));
+}
+
+.info-rank-box {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    padding: 1.5rem;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.rank-text {
+    text-align: left;
+}
+
+.rank-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    opacity: 0.8;
+    letter-spacing: 0.1em;
+}
+
+.rank-value {
+    font-size: 1.1rem;
+    font-weight: 850;
+}
+
+.timeline-column {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.level-card {
+    background: white;
+    border-radius: 16px;
+    padding: 2.5rem;
+    border: 3px solid #1e293b;
+    position: relative;
+    box-shadow: 6px 6px 0px rgba(30, 41, 59, 1);
+    transition: all 0.3s;
+    margin-left: 2rem;
+}
+
+/* Connector Line */
+.level-connector {
+    position: absolute;
+    left: -26px;
+    top: 5rem;
+    bottom: -3rem;
+    width: 4px;
+    background: repeating-linear-gradient(to bottom,
+            #94a3b8 0,
+            #94a3b8 8px,
+            transparent 8px,
+            transparent 16px);
+    z-index: -1;
+}
+
+.level-card::after {
+    content: '';
+    position: absolute;
+    left: -32px;
+    top: 2.5rem;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: white;
+    border: 3px solid #1e293b;
+    z-index: 2;
+}
+
+.level-card.active::after {
+    border-color: var(--v-primary);
+    background: var(--v-primary);
+    box-shadow: 0 0 10px rgba(79, 70, 229, 0.5);
+}
+
+.level-card.active {
+    border-color: var(--v-primary);
+    box-shadow: 6px 6px 0px rgba(79, 70, 229, 0.2);
+}
+
+.level-card.completed {
+    border-color: var(--v-accent, #10b981);
+    box-shadow: 6px 6px 0px rgba(16, 185, 129, 0.2);
+}
+
+.level-card.completed::after {
+    border-color: var(--v-accent, #10b981);
+    background: var(--v-accent, #10b981);
+}
+
+.level-card:last-child .level-connector {
+    display: none;
+}
+
+.level-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px dashed var(--v-border);
+}
+
+.phase-tag {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 100px;
+    background: var(--v-bg);
+    color: var(--v-text-muted);
+    font-weight: 800;
+    font-size: 0.75rem;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+}
+
+.level-title {
+    font-size: 1.5rem;
+    color: var(--v-text-main);
+    font-weight: 900;
+    margin: 0;
+}
+
+.level-desc {
+    color: var(--v-text-dim);
+    margin-top: 0.5rem;
+}
+
+.topics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+}
+
+.topic-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    border-radius: 12px;
+    background: white;
+    border: 2px solid #e2e8f0;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.topic-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 4px 4px 0px rgba(30, 41, 59, 0.15);
+    border-color: #94a3b8;
+}
+
+.topic-item.done {
+    background: #f0fdf4;
+    border-color: #10b981;
+    box-shadow: 4px 4px 0px rgba(16, 185, 129, 0.2);
+}
+
+.topic-check {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 2px solid var(--v-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    color: white;
+    transition: all 0.2s;
+}
+
+.topic-item.done .topic-check {
+    background: #10b981;
+    border-color: #10b981;
+}
+
+.topic-label {
+    font-weight: 600;
+    color: var(--v-text-main);
+    font-size: 0.95rem;
+}
+
+.topic-item.done .topic-label {
+    color: #15803d;
+    text-decoration: line-through;
+}
+
+.completion-box {
+    text-align: center;
+    padding: 4rem;
+    background: var(--v-surface);
+    border-radius: 24px;
+    border: 1px solid var(--v-border);
+}
+
+@media (max-width: 1024px) {
+    .detail-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .info-sidebar {
+        position: static;
+        margin-bottom: 2rem;
+    }
+
+    .roadmap-info-card {
+        padding: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        text-align: left;
+    }
+
+    .info-icon-large {
+        margin: 0;
+        font-size: 3rem;
+    }
+
+    .info-rank-box {
+        margin: 0;
+    }
+
+    .level-connector {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .roadmap-info-card {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .info-icon-large {
+        margin-bottom: 1rem;
+    }
+
+    .info-rank-box {
+        margin-top: 1rem;
+        width: 100%;
+    }
+}
+
+/* UI/UX Extras */
+.prep-mesh-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: radial-gradient(circle at 10% 20%, rgba(139, 92, 246, 0.05), transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(56, 189, 248, 0.03), transparent 40%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.premium-hover-effect {
+    position: relative;
+    z-index: 10;
+}
+
+.card-glass-glow {
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    opacity: 0.15;
+    filter: blur(40px);
+    z-index: 1;
+    pointer-events: none;
+    transition: all 0.4s ease;
+}
+
+.premium-hover-effect:hover .card-glass-glow {
+    opacity: 0.3;
+    transform: scale(1.5);
+}
+
+.hover-pulse {
+    animation: pulse-soft 2s infinite;
+}
+
+@keyframes pulse-soft {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.4);
+    }
+
+    70% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 10px rgba(79, 70, 229, 0);
+    }
+
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(79, 70, 229, 0);
+    }
+}
+
+.glass-panel {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.hover-float {
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.hover-float:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.15);
+}

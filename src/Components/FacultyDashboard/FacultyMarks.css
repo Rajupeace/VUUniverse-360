@@ -1,0 +1,178 @@
+/* ═══════════════════════════════════════════════════════════════
+   FACULTY GRADING HUB - PREMIUM V6 DESIGN
+   Aesthetic: Logic-Driven Glassmorphism, Clean Data Engineering
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+    --grd-primary: #4f46e5;
+    --grd-secondary: #06b6d4;
+    --grd-accent: #f43f5e;
+    --grd-success: #10b981;
+    --grd-slate-50: #f8fafc;
+    --grd-slate-100: #f1f5f9;
+    --grd-slate-200: #e2e8f0;
+    --grd-slate-700: #475569;
+    --grd-slate-900: #0f172a;
+    --grd-glass: rgba(255, 255, 255, 0.85);
+    --grd-border: rgba(226, 232, 240, 0.6);
+}
+
+.grading-container {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    animation: grdFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ─────── Filter Bar V6 ─────── */
+.grading-filter-bar {
+    background: var(--grd-glass);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--grd-border);
+    border-radius: 20px;
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+}
+
+/* ─────── Stats Ribbon V6 ─────── */
+.grd-stats-ribbon {
+    display: flex;
+    gap: 2rem;
+    padding: 0.75rem 1.5rem;
+    background: var(--grd-slate-50);
+    border-radius: 16px;
+    border: 1px solid var(--grd-slate-200);
+}
+
+.ribbon-item-v6 {
+    display: flex;
+    flex-direction: column;
+}
+
+.ribbon-label {
+    font-size: 0.65rem;
+    font-weight: 850;
+    color: var(--grd-slate-700);
+    opacity: 0.6;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.ribbon-value {
+    font-size: 1.1rem;
+    font-weight: 950;
+    color: var(--grd-slate-900);
+}
+
+/* ─────── Grading Table V6 ─────── */
+.grd-table-wrapper {
+    background: white;
+    border-radius: 24px;
+    border: 1px solid var(--grd-slate-200);
+    overflow: auto;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.04);
+}
+
+.grd-table-v6 {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.grd-table-v6 thead th {
+    background: var(--grd-slate-50);
+    padding: 1.25rem 1rem;
+    font-size: 0.7rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    color: var(--grd-slate-700);
+    border-bottom: 2px solid var(--grd-slate-100);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.grd-table-v6 tbody td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--grd-slate-100);
+    font-size: 0.85rem;
+    font-weight: 750;
+    color: var(--grd-slate-900);
+    transition: all 0.2s;
+}
+
+.grd-table-v6 tbody tr:hover td {
+    background: var(--grd-slate-50);
+}
+
+/* ─────── Cell Types ─────── */
+.cla-header-v6 {
+    background-color: rgba(99, 102, 241, 0.05) !important;
+    color: #4f46e5 !important;
+}
+
+.mod1-header-v6 {
+    background-color: rgba(168, 85, 247, 0.05) !important;
+    color: #a855f7 !important;
+}
+
+.mod2-header-v6 {
+    background-color: rgba(244, 63, 94, 0.05) !important;
+    color: #f43f5e !important;
+}
+
+/* ─────── Mark Inputs V6 ─────── */
+.grd-input-v6 {
+    width: 54px;
+    padding: 0.5rem;
+    border: 1px solid var(--grd-slate-200);
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 900;
+    font-size: 0.85rem;
+    color: var(--grd-slate-900);
+    background: white;
+    transition: all 0.2s;
+}
+
+.grd-input-v6:focus {
+    border-color: var(--grd-primary);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+    outline: none;
+    transform: scale(1.1);
+}
+
+.grd-input-v6:disabled {
+    background: transparent;
+    border-color: transparent;
+    color: var(--grd-slate-700);
+}
+
+/* ─────── Animations ─────── */
+@keyframes grdFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 1024px) {
+    .grading-filter-bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .grd-stats-ribbon {
+        justify-content: space-around;
+    }
+}

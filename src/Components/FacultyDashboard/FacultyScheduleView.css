@@ -1,0 +1,596 @@
+/* ================================================================
+   SENTINEL V5 — FACULTY SCHEDULE VIEW
+   Premium redesign: clear day/time/section layout
+================================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900;950&family=Plus+Jakarta+Sans:wght@400;600;700;800;900&display=swap');
+
+:root {
+    --fsv-primary: #6366f1;
+    --fsv-success: #10b981;
+    --fsv-warning: #f59e0b;
+    --fsv-seminar: #a855f7;
+    --fsv-bg: #f0f4ff;
+    --fsv-white: #ffffff;
+    --fsv-text: #1e293b;
+    --fsv-muted: #64748b;
+    --fsv-border: #e2e8f0;
+    --fsv-shadow: 0 8px 28px -8px rgba(0, 0, 0, 0.10);
+    --fsv-radius: 16px;
+    --fsv-ease: cubic-bezier(0.4, 0, 0.2, 1);
+    --fsv-font: 'Plus Jakarta Sans', sans-serif;
+    --fsv-title-font: 'Outfit', sans-serif;
+}
+
+/* ── Shell ─────────────────────────────────────────────────── */
+.fsv-shell {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: var(--fsv-bg);
+    background-image:
+        radial-gradient(ellipse 60% 40% at 90% 5%, rgba(99, 102, 241, 0.07), transparent),
+        radial-gradient(ellipse 30% 30% at 5% 90%, rgba(16, 185, 129, 0.05), transparent);
+    font-family: var(--fsv-font);
+    color: var(--fsv-text);
+    overflow: hidden;
+    padding: 1.5rem 2rem 0;
+    gap: 1rem;
+}
+
+/* ── Header ────────────────────────────────────────────────── */
+.fsv-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.fsv-title {
+    font-family: var(--fsv-title-font);
+    font-size: 1.6rem;
+    font-weight: 950;
+    margin: 0;
+    color: var(--fsv-text);
+    letter-spacing: -1px;
+    line-height: 1;
+}
+
+.fsv-subtitle {
+    margin: 4px 0 0;
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: var(--fsv-muted);
+    letter-spacing: 0.3px;
+}
+
+.fsv-header-stats {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.fsv-hstat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: var(--fsv-white);
+    border: 1px solid var(--fsv-border);
+    border-radius: 12px;
+    padding: 0.45rem 0.85rem;
+    min-width: 50px;
+}
+
+.fsv-hs-num {
+    font-family: var(--fsv-title-font);
+    font-size: 1.15rem;
+    font-weight: 950;
+    color: var(--fsv-text);
+    line-height: 1;
+}
+
+.fsv-hs-lbl {
+    font-size: 0.55rem;
+    font-weight: 900;
+    color: var(--fsv-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-top: 2px;
+}
+
+.fsv-refresh-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    border: 1.5px solid var(--fsv-border);
+    background: var(--fsv-white);
+    color: var(--fsv-muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+}
+
+.fsv-refresh-btn:hover {
+    border-color: var(--fsv-primary);
+    color: var(--fsv-primary);
+}
+
+/* ── Sections banner ───────────────────────────────────────── */
+.fsv-sections-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+    background: var(--fsv-white);
+    border: 1px solid var(--fsv-border);
+    border-radius: 14px;
+    padding: 0.6rem 1rem;
+}
+
+.fsv-sections-label {
+    font-size: 0.65rem;
+    font-weight: 900;
+    color: var(--fsv-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-shrink: 0;
+}
+
+.fsv-section-chip {
+    background: #eef2ff;
+    color: var(--fsv-primary);
+    border: 1px solid #c7d2fe;
+    border-radius: 8px;
+    padding: 3px 10px;
+    font-size: 0.65rem;
+    font-weight: 900;
+    letter-spacing: 0.3px;
+}
+
+/* ── Day pill navigation ───────────────────────────────────── */
+.fsv-week-row {
+    display: flex;
+    gap: 0.5rem;
+    flex-shrink: 0;
+}
+
+.fsv-day-pill {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 0.65rem 0.5rem;
+    border-radius: 14px;
+    border: 2px solid transparent;
+    background: var(--fsv-white);
+    cursor: pointer;
+    transition: all 0.2s var(--fsv-ease);
+    position: relative;
+    font-family: var(--fsv-font);
+}
+
+.fsv-day-pill:hover {
+    border-color: #c7d2fe;
+    background: #f8faff;
+}
+
+.fsv-day-pill.active {
+    border-color: var(--fsv-primary);
+    background: #eef2ff;
+    box-shadow: 0 6px 18px rgba(99, 102, 241, 0.18);
+}
+
+.fsv-day-pill.today {
+    border-color: var(--fsv-success);
+}
+
+.fsv-day-pill.today.active {
+    border-color: var(--fsv-primary);
+}
+
+.fsv-dp-short {
+    font-family: var(--fsv-title-font);
+    font-size: 0.72rem;
+    font-weight: 950;
+    color: var(--fsv-text);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.fsv-dp-count {
+    font-size: 0.65rem;
+    font-weight: 900;
+    color: var(--fsv-primary);
+    background: #eef2ff;
+    padding: 1px 7px;
+    border-radius: 6px;
+}
+
+.fsv-dp-count.zero {
+    background: #f1f5f9;
+    color: #94a3b8;
+}
+
+.fsv-today-dot {
+    width: 5px;
+    height: 5px;
+    background: var(--fsv-success);
+    border-radius: 50%;
+    position: absolute;
+    bottom: 6px;
+    animation: fsv-pulse 2s infinite;
+}
+
+@keyframes fsv-pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(0.75);
+        opacity: 0.5;
+    }
+}
+
+/* ── Session list layout ───────────────────────────────────── */
+.fsv-session-list-wrap {
+    flex: 1;
+    display: flex;
+    gap: 1rem;
+    overflow: hidden;
+    padding-bottom: 1.5rem;
+}
+
+.fsv-session-list {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    overflow-y: auto;
+    padding-right: 4px;
+    scrollbar-width: thin;
+    scrollbar-color: #c7d2fe transparent;
+}
+
+.fsv-session-list::-webkit-scrollbar {
+    width: 5px;
+}
+
+.fsv-session-list::-webkit-scrollbar-thumb {
+    background: #c7d2fe;
+    border-radius: 10px;
+}
+
+/* ── Session Card ──────────────────────────────────────────── */
+.fsv-session-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: var(--fsv-white);
+    border-radius: var(--fsv-radius);
+    border: 1px solid var(--fsv-border);
+    border-left: 4px solid var(--fsv-primary);
+    /* overridden inline */
+    padding: 0.9rem 1.1rem;
+    transition: all 0.2s var(--fsv-ease);
+    position: relative;
+    overflow: hidden;
+}
+
+.fsv-session-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.07);
+    border-color: #c7d2fe;
+}
+
+.fsv-session-card.live {
+    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2), 0 8px 24px rgba(16, 185, 129, 0.1);
+}
+
+/* Period badge */
+.fsv-period-num {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--fsv-title-font);
+    font-size: 0.78rem;
+    font-weight: 950;
+    flex-shrink: 0;
+}
+
+/* Time block */
+.fsv-time-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 72px;
+    flex-shrink: 0;
+    gap: 2px;
+    padding-right: 0.85rem;
+    border-right: 1px solid #f1f5f9;
+}
+
+.fsv-time-start {
+    font-family: var(--fsv-title-font);
+    font-size: 1rem;
+    font-weight: 950;
+    color: var(--fsv-primary);
+    line-height: 1;
+    letter-spacing: -0.5px;
+}
+
+.fsv-time-divider {
+    font-size: 0.55rem;
+    color: #94a3b8;
+    font-weight: 800;
+}
+
+.fsv-time-end {
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: var(--fsv-muted);
+}
+
+.fsv-live-tag {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    margin-top: 4px;
+    font-size: 0.52rem;
+    font-weight: 900;
+    color: var(--fsv-success);
+    background: rgba(16, 185, 129, 0.1);
+    padding: 1px 6px;
+    border-radius: 10px;
+    letter-spacing: 0.5px;
+    animation: fsv-pulse 1.6s infinite;
+}
+
+/* Card main content */
+.fsv-card-main {
+    flex: 1;
+}
+
+.fsv-card-top-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 4px;
+    flex-wrap: wrap;
+}
+
+.fsv-type-badge {
+    font-size: 0.58rem;
+    font-weight: 900;
+    padding: 2px 8px;
+    border-radius: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.fsv-code-badge {
+    font-size: 0.58rem;
+    font-weight: 900;
+    padding: 2px 8px;
+    border-radius: 6px;
+    background: #f1f5f9;
+    color: #64748b;
+}
+
+.fsv-subject {
+    font-family: var(--fsv-title-font);
+    font-size: 1rem;
+    font-weight: 950;
+    color: var(--fsv-text);
+    margin: 0 0 6px;
+    letter-spacing: -0.3px;
+    line-height: 1.2;
+}
+
+/* Detail chips row */
+.fsv-detail-row {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+}
+
+.fsv-detail-chip {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.65rem;
+    font-weight: 800;
+    color: var(--fsv-muted);
+    background: #f8fafc;
+    padding: 3px 9px;
+    border-radius: 8px;
+    border: 1px solid var(--fsv-border);
+}
+
+/* ── Empty state ───────────────────────────────────────────── */
+.fsv-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 1rem;
+    text-align: center;
+    color: var(--fsv-muted);
+}
+
+.fsv-empty h3 {
+    font-family: var(--fsv-title-font);
+    font-weight: 950;
+    font-size: 1rem;
+    color: var(--fsv-text);
+    margin: 0 0 0.4rem;
+}
+
+.fsv-empty p {
+    font-size: 0.78rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+/* ── Loading ───────────────────────────────────────────────── */
+.fsv-loading {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 3rem;
+    justify-content: center;
+    color: var(--fsv-muted);
+    font-weight: 800;
+    font-size: 0.78rem;
+}
+
+.fsv-spinner {
+    width: 24px;
+    height: 24px;
+    border: 3px solid #e0e7ff;
+    border-top-color: var(--fsv-primary);
+    border-radius: 50%;
+    animation: fsv-spin 0.85s linear infinite;
+}
+
+@keyframes fsv-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.fa-spin {
+    animation: fsv-spin 0.85s linear infinite;
+}
+
+/* ── Aside sidebar ─────────────────────────────────────────── */
+.fsv-aside {
+    width: 200px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+
+.fsv-aside-card {
+    background: var(--fsv-white);
+    border: 1px solid var(--fsv-border);
+    border-radius: var(--fsv-radius);
+    padding: 1rem;
+}
+
+.fsv-aside-title {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.6rem;
+    font-weight: 900;
+    color: var(--fsv-muted);
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin-bottom: 0.85rem;
+}
+
+/* Bar chart */
+.fsv-week-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 6px;
+    height: 80px;
+}
+
+.fsv-bar-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    height: 100%;
+}
+
+.fsv-bar-track {
+    flex: 1;
+    width: 100%;
+    background: #f1f5f9;
+    border-radius: 4px;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+}
+
+.fsv-bar-fill {
+    width: 100%;
+    border-radius: 4px;
+    transition: height 0.5s ease;
+    min-height: 3px;
+}
+
+.fsv-bar-label {
+    font-size: 0.52rem;
+    font-weight: 900;
+    color: var(--fsv-muted);
+    text-transform: uppercase;
+}
+
+.fsv-bar-num {
+    font-size: 0.55rem;
+    font-weight: 900;
+    color: var(--fsv-text);
+}
+
+/* Type row */
+.fsv-type-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 8px;
+}
+
+.fsv-type-label {
+    font-size: 0.62rem;
+    font-weight: 800;
+    color: var(--fsv-text);
+    min-width: 50px;
+}
+
+.fsv-type-bar {
+    flex: 1;
+    height: 6px;
+    background: #f1f5f9;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.fsv-type-num {
+    font-size: 0.62rem;
+    font-weight: 900;
+    min-width: 16px;
+    text-align: right;
+}
+
+@media (max-width: 900px) {
+    .fsv-aside {
+        display: none;
+    }
+
+    .fsv-shell {
+        padding: 1rem 1rem 0;
+    }
+}

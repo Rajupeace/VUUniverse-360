@@ -1,0 +1,79 @@
+/* ═══════════════════════════════════════════════════════════════
+   FACULTY OPERATIONAL DIAGNOSTICS - PREMIUM V6 DESIGN
+   Aesthetic: Data-Driven Transparency, Premium Glassmorphism
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+    --dia-primary: #6366f1;
+    --dia-success: #10b981;
+    --dia-warning: #f59e0b;
+    --dia-slate-50: #f8fafc;
+    --dia-slate-100: #f1f5f9;
+    --dia-slate-200: #e2e8f0;
+    --dia-slate-700: #475569;
+    --dia-slate-900: #0f172a;
+    --dia-glass: rgba(255, 255, 255, 0.85);
+    --dia-border: rgba(226, 232, 240, 0.6);
+}
+
+.diagnostics-container {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    animation: diaFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dia-stat-card {
+    background: var(--dia-glass);
+    backdrop-filter: blur(12px);
+    border-radius: 28px;
+    padding: 2.5rem;
+    border: 1px solid var(--dia-border);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
+}
+
+.dia-stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 25px 50px -15px rgba(0, 0, 0, 0.1);
+}
+
+.dia-node-box {
+    background: white;
+    border-radius: 24px;
+    padding: 2.5rem;
+    border: 1px solid var(--dia-slate-200);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.02);
+}
+
+.dia-list-item {
+    background: var(--dia-slate-50);
+    padding: 1.5rem;
+    border-radius: 18px;
+    border: 1px solid var(--dia-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.2s;
+}
+
+.dia-list-item:hover {
+    background: white;
+    border-color: var(--dia-primary);
+    transform: translateX(6px);
+}
+
+@keyframes diaFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

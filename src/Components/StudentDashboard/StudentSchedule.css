@@ -1,0 +1,621 @@
+/* ================================================================
+   SENTINEL V5 — STUDENT SCHEDULE  ·  Premium Redesign
+   Glassmorphism cards · Timeline layout · Type-coded sessions
+================================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900;950&family=Plus+Jakarta+Sans:wght@400;600;700;800;900&display=swap');
+
+:root {
+    --ss-primary: #6366f1;
+    --ss-indigo-lg: rgba(99, 102, 241, 0.12);
+    --ss-success: #10b981;
+    --ss-warning: #f59e0b;
+    --ss-lab: #06b6d4;
+    --ss-seminar: #a855f7;
+    --ss-danger: #f43f5e;
+    --ss-bg: #f0f4ff;
+    --ss-white: #ffffff;
+    --ss-text: #1e293b;
+    --ss-muted: #64748b;
+    --ss-border: #e2e8f0;
+    --ss-shadow: 0 8px 28px -8px rgba(0, 0, 0, 0.10);
+    --ss-shadow-lg: 0 20px 50px -14px rgba(0, 0, 0, 0.14);
+    --ss-radius: 20px;
+    --ss-ease: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Shell ──────────────────────────────────────────────────── */
+.v5-schedule-shell {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 2rem 2.5rem;
+    gap: 1.5rem;
+    background: var(--ss-bg);
+    background-image:
+        radial-gradient(ellipse 60% 50% at 85% 5%, rgba(99, 102, 241, 0.08), transparent),
+        radial-gradient(ellipse 40% 35% at 5% 90%, rgba(6, 182, 212, 0.06), transparent);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    overflow: hidden;
+    color: var(--ss-text);
+}
+
+/* ── Header ─────────────────────────────────────────────────── */
+.v5-schedule-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.v5-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 2rem;
+    font-weight: 950;
+    color: var(--ss-text);
+    margin: 0;
+    letter-spacing: -1.5px;
+    line-height: 1;
+}
+
+.v5-title span {
+    color: var(--ss-primary);
+}
+
+.v5-subtitle {
+    margin: 0.35rem 0 0;
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: var(--ss-muted);
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.v5-subtitle::before {
+    content: '';
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    background: var(--ss-success);
+    border-radius: 50%;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.22);
+    animation: ss-pulse 2.2s infinite;
+}
+
+/* ── View pills  ─────────────────────────────────────────────── */
+.v5-view-pills {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.v5-pill {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1.1rem;
+    border-radius: 12px;
+    border: 1.5px solid var(--ss-border);
+    background: var(--ss-white);
+    color: var(--ss-muted);
+    font-weight: 800;
+    font-size: 0.72rem;
+    cursor: pointer;
+    transition: all 0.22s var(--ss-ease);
+    font-family: inherit;
+    letter-spacing: 0.3px;
+}
+
+.v5-pill:hover {
+    border-color: var(--ss-primary);
+    color: var(--ss-primary);
+}
+
+.v5-pill.active.theory {
+    background: #eef2ff;
+    color: var(--ss-primary);
+    border-color: var(--ss-primary);
+}
+
+.v5-pill.active.labs {
+    background: #ecfeff;
+    color: var(--ss-lab);
+    border-color: var(--ss-lab);
+}
+
+/* ── Main layout ─────────────────────────────────────────────── */
+.v5-schedule-main {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ── Theory layout ───────────────────────────────────────────── */
+.v5-theory-layout {
+    display: flex;
+    gap: 1.25rem;
+    height: 100%;
+    overflow: hidden;
+}
+
+/* ── Day navigation strip ────────────────────────────────────── */
+.v5-day-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex-shrink: 0;
+    padding: 1.25rem;
+    background: #0f172a;
+    border-radius: var(--ss-radius);
+    width: 80px;
+    align-items: center;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+
+.v5-day-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    border: none;
+    background: rgba(255, 255, 255, 0.06);
+    color: rgba(255, 255, 255, 0.45);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    font-size: 0.72rem;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.2s var(--ss-ease);
+    position: relative;
+    flex-shrink: 0;
+}
+
+.v5-day-btn:hover {
+    background: rgba(99, 102, 241, 0.25);
+    color: var(--ss-white);
+}
+
+.v5-day-btn.active {
+    background: var(--ss-primary);
+    color: var(--ss-white);
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.45);
+    transform: scale(1.05);
+}
+
+.v5-day-btn.today .day-dot {
+    display: block;
+}
+
+.day-dot {
+    display: none;
+    width: 5px;
+    height: 5px;
+    background: var(--ss-success);
+    border-radius: 50%;
+    position: absolute;
+    bottom: 5px;
+    animation: ss-pulse 2s infinite;
+}
+
+.day-name {
+    font-size: 0.68rem;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.day-count {
+    font-size: 0.55rem;
+    font-weight: 700;
+    opacity: 0.7;
+}
+
+/* ── Session info area ───────────────────────────────────────── */
+.v5-timeline-area {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
+    padding-right: 4px;
+}
+
+.v5-timeline-area::-webkit-scrollbar {
+    width: 5px;
+}
+
+.v5-timeline-area::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
+
+.v5-class-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+
+/* ── Session card ────────────────────────────────────────────── */
+.v5-schedule-card {
+    display: flex;
+    gap: 0;
+    background: var(--ss-white);
+    border-radius: var(--ss-radius);
+    border: 1.5px solid var(--ss-border);
+    overflow: hidden;
+    transition: all 0.25s var(--ss-ease);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    position: relative;
+}
+
+.v5-schedule-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--ss-shadow-lg);
+    border-color: #c7d2fe;
+}
+
+.v5-schedule-card.ongoing {
+    border-color: var(--ss-success);
+    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.15), var(--ss-shadow);
+}
+
+/* Type accent strip on left */
+.v5-schedule-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--ss-primary);
+    border-radius: var(--ss-radius) 0 0 var(--ss-radius);
+}
+
+.v5-schedule-card[data-type="Lab"]::before {
+    background: var(--ss-lab);
+}
+
+.v5-schedule-card[data-type="Tutorial"]::before {
+    background: var(--ss-warning);
+}
+
+.v5-schedule-card[data-type="Seminar"]::before {
+    background: var(--ss-seminar);
+}
+
+/* ── Card time column ────────────────────────────────────────── */
+.v5-card-time {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.25rem 1rem 1.25rem 1.5rem;
+    min-width: 88px;
+    flex-shrink: 0;
+    border-right: 1.5px solid #f1f5f9;
+    gap: 2px;
+}
+
+.time-val {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 950;
+    color: var(--ss-primary);
+    line-height: 1;
+    letter-spacing: -0.5px;
+}
+
+.time-sep {
+    font-size: 0.6rem;
+    font-weight: 800;
+    color: var(--ss-muted);
+    letter-spacing: 0.3px;
+}
+
+.live-tag {
+    margin-top: 6px;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 0.55rem;
+    font-weight: 900;
+    color: var(--ss-success);
+    background: rgba(16, 185, 129, 0.1);
+    padding: 2px 7px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+    animation: ss-pulse 1.5s ease-in-out infinite;
+}
+
+/* ── Card content ────────────────────────────────────────────── */
+.v5-card-content {
+    flex: 1;
+    padding: 1rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.v5-card-top {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.v5-badge-type {
+    font-size: 0.58rem;
+    font-weight: 900;
+    padding: 2px 8px;
+    border-radius: 6px;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    background: var(--ss-indigo-lg);
+    color: var(--ss-primary);
+}
+
+.v5-badge-room {
+    font-size: 0.62rem;
+    font-weight: 800;
+    color: var(--ss-muted);
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    margin-left: auto;
+    background: #f8fafc;
+    padding: 2px 8px;
+    border-radius: 6px;
+}
+
+.v5-subject-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 900;
+    color: var(--ss-text);
+    margin: 0;
+    letter-spacing: -0.3px;
+    line-height: 1.2;
+}
+
+.v5-faculty-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--ss-muted);
+    margin-top: 2px;
+}
+
+.v5-avatar-mini {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--ss-primary), #818cf8);
+    color: white;
+    font-size: 0.6rem;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+/* ── Card action side ────────────────────────────────────────── */
+.v5-card-actions {
+    display: flex;
+    align-items: center;
+    padding: 0 1rem 0 0;
+}
+
+.v5-btn-action {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    border: none;
+    background: #f8faff;
+    color: var(--ss-primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    font-size: 0.8rem;
+}
+
+.v5-btn-action:hover {
+    background: var(--ss-primary);
+    color: white;
+    transform: translateX(3px);
+}
+
+/* ── Day header (inside timeline) ────────────────────────────── */
+.v5-day-heading {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.v5-day-heading-text {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 950;
+    color: var(--ss-text);
+    letter-spacing: -0.5px;
+}
+
+.v5-day-heading-count {
+    font-size: 0.68rem;
+    font-weight: 900;
+    color: var(--ss-primary);
+    background: var(--ss-indigo-lg);
+    padding: 3px 10px;
+    border-radius: 20px;
+}
+
+/* ── Empty state ──────────────────────────────────────────────── */
+.v5-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3.5rem 1rem;
+    text-align: center;
+    flex: 1;
+}
+
+.v5-empty-icon {
+    width: 72px;
+    height: 72px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #eef2ff, #f8faff);
+    border: 1.5px solid #e0e7ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    color: #c7d2fe;
+    margin-bottom: 1.25rem;
+}
+
+.v5-empty-state h3 {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 950;
+    font-size: 1.1rem;
+    color: var(--ss-text);
+    margin: 0 0 0.4rem;
+    letter-spacing: -0.3px;
+}
+
+.v5-empty-state p {
+    font-size: 0.8rem;
+    color: var(--ss-muted);
+    font-weight: 700;
+    margin: 0;
+}
+
+/* ── Loading ──────────────────────────────────────────────────── */
+.v5-loading-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 5rem;
+    gap: 1rem;
+    color: var(--ss-muted);
+    font-weight: 800;
+    font-size: 0.8rem;
+}
+
+.v5-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid #e0e7ff;
+    border-top-color: var(--ss-primary);
+    border-radius: 50%;
+    animation: ss-spin 0.85s linear infinite;
+}
+
+/* ── Animations ───────────────────────────────────────────────── */
+@keyframes ss-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes ss-pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.55;
+        transform: scale(0.82);
+    }
+}
+
+/* ── Upcoming preview cards (empty state) ───────────────────── */
+.v5-upcoming-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #f8faff;
+    border: 1px solid #eef2ff;
+    border-radius: 12px;
+    padding: 0.65rem 1rem;
+    margin-bottom: 6px;
+    transition: all 0.2s;
+}
+
+.v5-upcoming-card:hover {
+    background: #eef2ff;
+    border-color: #c7d2fe;
+}
+
+/* ── Break divider card ─────────────────────────────────────── */
+.v5-break-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.65rem;
+    padding: 0.55rem 1.25rem;
+    background: linear-gradient(135deg, #fef3c7, #fde68a);
+    border: 1px solid #f59e0b;
+    border-radius: 12px;
+    font-size: 0.65rem;
+    font-weight: 900;
+    color: #92400e;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.v5-break-divider::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(45deg, transparent, transparent 6px,
+            rgba(251, 191, 36, 0.15) 6px, rgba(251, 191, 36, 0.15) 12px);
+}
+
+.v5-break-divider span,
+.v5-break-divider .v5-break-icon {
+    position: relative;
+    z-index: 1;
+}
+
+.v5-break-divider.lunch {
+    background: linear-gradient(135deg, #ffe4e6, #fecdd3);
+    border-color: #f87171;
+    color: #7f1d1d;
+}
+
+/* ── Multi-hour session card ────────────────────────────────── */
+.v5-schedule-card.multi-hour {
+    border-left-width: 5px;
+}
+
+.v5-schedule-card.multi-hour .v5-subject-title {
+    font-size: 1.1rem;
+}
+
+.v5-schedule-card.multi-hour .v5-card-time {
+    min-width: 95px;
+}

@@ -1,0 +1,608 @@
+/* ==========================================================================
+   ADVANCED LEARNING HUB (SENTINEL THEME)
+   Theme: Vu UniVerse360 Premium
+   ========================================================================== */
+
+.nexus-advanced-container {
+    padding: 2rem 3rem;
+    animation: fadeIn 0.4s ease-out;
+    position: relative;
+    overflow: hidden;
+}
+
+/* --- DECORATIVE ELEMENTS --- */
+.nexus-cyber-grid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: linear-gradient(rgba(99, 102, 241, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.nexus-scanline {
+    position: absolute;
+    width: 100%;
+    height: 100px;
+    background: linear-gradient(to bottom, transparent, rgba(99, 102, 241, 0.05), transparent);
+    top: -100px;
+    left: 0;
+    pointer-events: none;
+    z-index: 1;
+    animation: scanline 8s linear infinite;
+}
+
+@keyframes scanline {
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(2000px);
+    }
+}
+
+/* --- HEADER --- */
+.nexus-adv-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 3rem;
+}
+
+.nexus-page-title {
+    font-size: 3rem;
+    font-weight: 950;
+    color: var(--v-text-main);
+    margin: 0;
+    letter-spacing: -2px;
+}
+
+.nexus-page-title span {
+    color: var(--v-primary);
+}
+
+.nexus-page-subtitle {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--v-primary);
+    font-weight: 950;
+    letter-spacing: 2px;
+    font-size: 0.75rem;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+}
+
+.stat-node {
+    background: var(--v-surface);
+    padding: 1.25rem 2rem;
+    border-radius: 20px;
+    border: 1px solid var(--v-border);
+    text-align: center;
+    box-shadow: var(--v-shadow);
+}
+
+.stat-node .val {
+    font-size: 2rem;
+    font-weight: 950;
+    color: var(--v-primary);
+    display: block;
+    line-height: 1.1;
+}
+
+.stat-node .lab {
+    font-size: 0.7rem;
+    font-weight: 950;
+    color: var(--v-text-muted);
+    letter-spacing: 0.15rem;
+    text-transform: uppercase;
+}
+
+/* --- TABS --- */
+.nexus-adv-tabs {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 3rem;
+    background: var(--v-surface);
+    padding: 0.5rem;
+    border-radius: 20px;
+    width: fit-content;
+    border: 1px solid var(--v-border);
+}
+
+.adv-tab {
+    border: none;
+    background: transparent;
+    padding: 0.75rem 1.5rem;
+    border-radius: 14px;
+    font-weight: 800;
+    color: var(--v-text-muted);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+}
+
+.adv-tab.active {
+    background: var(--v-bg);
+    color: var(--v-primary);
+    border: 1px solid var(--v-border);
+    box-shadow: var(--v-shadow-sm);
+}
+
+/* --- WORKSTATION LAYOUT --- */
+.tech-workstation {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 3rem;
+}
+
+.tech-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.tech-node {
+    background: var(--v-surface);
+    border: 1px solid var(--v-border);
+    padding: 1.25rem 1.5rem;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+}
+
+.tech-node:hover {
+    transform: translateX(4px);
+    border-color: var(--tech-color);
+}
+
+.tech-node.active {
+    border-color: var(--tech-color);
+    box-shadow: var(--v-shadow);
+    background: var(--v-bg);
+}
+
+.tech-icon {
+    font-size: 1.8rem;
+    color: var(--tech-color);
+    min-width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border-radius: 14px;
+    transition: 0.3s;
+    border: 1px solid var(--v-border);
+}
+
+.tech-node.active .tech-icon {
+    background: var(--tech-color);
+    color: white;
+    border-color: transparent;
+}
+
+.tech-info h4 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 900;
+    color: var(--v-text-main);
+}
+
+.tech-info p {
+    margin: 0.25rem 0 0;
+    font-size: 0.75rem;
+    color: var(--v-text-muted);
+    font-weight: 600;
+}
+
+.tech-active-bar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+}
+
+/* --- INTERACTION PANE --- */
+.interaction-pane {
+    background: var(--v-surface);
+    border: 1px solid var(--v-border);
+    border-radius: 32px;
+    padding: 3rem;
+    min-height: 600px;
+    box-shadow: var(--v-shadow-lg);
+}
+
+.pane-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 3rem;
+    border-bottom: 1px solid var(--v-border);
+    padding-bottom: 1.5rem;
+}
+
+.pane-header h2 {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: 950;
+    color: var(--v-text-main);
+    letter-spacing: -0.02em;
+}
+
+.pane-header span {
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: var(--v-primary);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: 0.5rem;
+    display: block;
+}
+
+.resource-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.col-title {
+    font-size: 0.8rem;
+    font-weight: 900;
+    color: var(--v-text-light);
+    letter-spacing: 1px;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    text-transform: uppercase;
+}
+
+.resource-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.resource-item {
+    background: var(--v-bg);
+    border: 1px solid var(--v-border);
+    padding: 1.25rem;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.resource-item:hover {
+    border-color: var(--v-primary);
+    background: white;
+    transform: translateY(-3px);
+    box-shadow: var(--v-shadow);
+}
+
+.res-icon {
+    font-size: 1.2rem;
+    color: var(--v-primary);
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border-radius: 12px;
+    box-shadow: var(--v-shadow-sm);
+    flex-shrink: 0;
+}
+
+.res-text h4 {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: var(--v-text-main);
+    line-height: 1.3;
+}
+
+.res-text span {
+    font-size: 0.7rem;
+    color: var(--v-text-muted);
+    font-weight: 600;
+}
+
+.empty-resource {
+    padding: 3rem 1rem;
+    text-align: center;
+    border: 1px dashed var(--v-border);
+    border-radius: 16px;
+    color: var(--v-text-light);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    background: var(--v-bg);
+}
+
+/* --- FACULTY LIST --- */
+.faculty-nexus .f-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 2rem;
+}
+
+.f-card {
+    background: var(--v-surface);
+    border: 1px solid var(--v-border);
+    padding: 2rem;
+    border-radius: 24px;
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: var(--v-shadow);
+}
+
+.f-card:hover {
+    border-color: var(--v-primary-light);
+    transform: translateY(-5px);
+    box-shadow: var(--v-shadow-lg);
+}
+
+.f-avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, var(--v-primary), var(--v-primary-dark));
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    box-shadow: var(--v-shadow-sm);
+    flex-shrink: 0;
+}
+
+.f-main h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 900;
+    color: var(--v-text-main);
+}
+
+.f-subj {
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: var(--v-primary);
+    letter-spacing: 0.05em;
+    margin-bottom: 0.8rem;
+    display: block;
+    text-transform: uppercase;
+}
+
+.f-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.f-detail {
+    font-size: 0.8rem;
+    color: var(--v-text-muted);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.f-connect {
+    border: none;
+    background: var(--v-text-main);
+    color: white;
+    padding: 0.8rem 1.4rem;
+    border-radius: 12px;
+    font-weight: 900;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-left: auto;
+    white-space: nowrap;
+    font-size: 0.8rem;
+}
+
+.f-connect:hover {
+    background: black;
+    transform: translateY(-2px);
+}
+
+/* --- EXAM SYSTEM --- */
+.exam-status-banner {
+    background: #fef2f2;
+    color: #ef4444;
+    padding: 1.25rem 2.5rem;
+    border-radius: 20px;
+    margin-bottom: 3rem;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1rem;
+    border: 1px solid #fee2e2;
+    animation: nexus-pulse-anim 3s infinite;
+}
+
+.exam-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 2.5rem;
+}
+
+.exam-card {
+    background: var(--v-surface);
+    padding: 2.5rem;
+    border-radius: 32px;
+    border: 1px solid var(--v-border);
+    transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: var(--v-shadow);
+}
+
+.exam-card:hover {
+    border-color: #ef4444;
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(239, 68, 68, 0.1);
+}
+
+.exam-card h3 {
+    font-size: 1.6rem;
+    font-weight: 950;
+    margin-bottom: 0.5rem;
+    color: var(--v-text-main);
+}
+
+.exam-card p {
+    color: var(--v-text-muted);
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.exam-meta {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.exam-meta span {
+    font-size: 0.75rem;
+    font-weight: 800;
+    padding: 0.5rem 1rem;
+    background: var(--v-bg);
+    border-radius: 10px;
+    color: var(--v-text-main);
+    text-transform: uppercase;
+}
+
+.exam-btn {
+    width: 100%;
+    padding: 1.25rem;
+    border-radius: 16px;
+    border: none;
+    background: var(--v-text-main);
+    color: white;
+    font-weight: 900;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.exam-btn:hover {
+    background: black;
+    box-shadow: var(--v-shadow-lg);
+}
+
+/* --- UTILS --- */
+.nexus-loading-ring {
+    border: 3px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 3px solid var(--v-primary);
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.faculty-header {
+    margin-bottom: 3rem;
+    text-align: center;
+}
+
+.mission-commanders-title {
+    font-size: 1.4rem;
+    font-weight: 950;
+    color: var(--v-text-main);
+    letter-spacing: -0.5px;
+    margin: 0 0 0.5rem 0;
+}
+
+.mission-commanders-desc {
+    color: var(--v-text-muted);
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin: 0;
+}
+
+.no-synced-faculty {
+    grid-column: 1/-1;
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.no-synced-icon {
+    font-size: 3rem;
+    opacity: 0.2;
+    margin-bottom: 1rem;
+    color: var(--v-text-muted);
+}
+
+.nexus-empty-journal h3 {
+    font-size: 1.1rem;
+    color: var(--v-text-dim);
+    margin: 0 0 0.5rem;
+}
+
+.nexus-empty-journal p {
+    color: var(--v-text-light);
+    font-size: 0.9rem;
+}
+
+@media (max-width: 1024px) {
+    .Nexus-advanced-container {
+        padding: 1.5rem;
+    }
+
+    .tech-workstation {
+        grid-template-columns: 1fr;
+    }
+
+    .resource-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .nexus-adv-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .nexus-adv-tabs {
+        width: 100%;
+        overflow-x: auto;
+    }
+}

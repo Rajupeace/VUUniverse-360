@@ -1,0 +1,2592 @@
+/* ================================================================
+   ATTENDANCE MANAGER DASHBOARD  v4 — Clean White (matches reference)
+================================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900;950&family=Plus+Jakarta+Sans:wght@400;600;700;800;900&display=swap');
+
+:root {
+    --amd-purple: #6366f1;
+    --amd-green: #22c55e;
+    --amd-red: #ef4444;
+    --amd-blue: #3b82f6;
+    --amd-amber: #f59e0b;
+    --amd-text: #0f172a;
+    --amd-muted: #64748b;
+    --amd-border: #e8edf5;
+    --amd-bg: #f4f6fb;
+    --amd-surface: #ffffff;
+    --amd-sidebar: #ffffff;
+    --amd-font: 'Plus Jakarta Sans', sans-serif;
+    --amd-title: 'Outfit', sans-serif;
+    --amd-radius: 14px;
+    --amd-shadow: 0 2px 12px rgba(15, 23, 42, 0.07);
+    --amd-ease: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Root ────────────────────────────────────────────────── */
+.amd-shell {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+    font-family: var(--amd-font);
+    background: var(--amd-bg);
+}
+
+/* ================================================================
+   SIDEBAR  —  WHITE  (like reference image)
+================================================================ */
+.amd-sidebar {
+    width: 200px;
+    flex-shrink: 0;
+    background: var(--amd-sidebar);
+    border-right: 1px solid var(--amd-border);
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: none;
+    transition: width 0.3s var(--amd-ease);
+}
+
+.amd-sidebar.collapsed {
+    width: 70px;
+}
+
+.amd-sidebar::-webkit-scrollbar {
+    display: none;
+}
+
+/* Logo */
+.amd-sidebar-logo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.1rem 0.9rem;
+    border-bottom: 1px solid var(--amd-border);
+    height: 60px;
+    flex-shrink: 0;
+}
+
+.amd-logo-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    overflow: hidden;
+}
+
+.amd-collapse-btn {
+    background: none;
+    border: none;
+    color: var(--amd-muted);
+    cursor: pointer;
+    width: 26px;
+    height: 26px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+}
+
+.amd-collapse-btn:hover {
+    background: #f1f5f9;
+    color: var(--amd-text);
+}
+
+.amd-logo-mark {
+    width: 30px;
+    height: 30px;
+    background: linear-gradient(135deg, var(--amd-purple), #818cf8);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 0.8rem;
+}
+
+.amd-logo-name {
+    font-family: var(--amd-title);
+    font-size: 0.85rem;
+    font-weight: 950;
+    color: var(--amd-text);
+}
+
+/* Profile CTA card (like "Create class" card in reference) */
+.amd-profile-cta {
+    margin: 1rem 0.75rem;
+    background: #f0f4ff;
+    border: 1px solid #dde4ff;
+    border-radius: var(--amd-radius);
+    padding: 1.1rem 0.9rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.35rem;
+    overflow: hidden;
+}
+
+.amd-sidebar.collapsed .amd-profile-cta {
+    display: none;
+}
+
+.amd-profile-av-wrap {
+    position: relative;
+    margin-bottom: 0.3rem;
+}
+
+.amd-profile-av {
+    width: 50px;
+    height: 50px;
+    border-radius: 14px;
+    color: white;
+    font-weight: 950;
+    font-family: var(--amd-title);
+    font-size: 1.15rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 16px rgba(99, 102, 241, 0.25);
+}
+
+.amd-profile-title {
+    font-size: 0.75rem;
+    font-weight: 900;
+    color: var(--amd-text);
+    line-height: 1.2;
+}
+
+.amd-profile-sub {
+    font-size: 0.6rem;
+    font-weight: 700;
+    color: var(--amd-muted);
+}
+
+.amd-profile-action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    width: 100%;
+    padding: 0.55rem;
+    background: var(--amd-purple);
+    color: white;
+    border: none;
+    border-radius: 9px;
+    cursor: pointer;
+    font-family: var(--amd-font);
+    font-size: 0.65rem;
+    font-weight: 900;
+    margin-top: 0.4rem;
+    transition: 0.16s;
+}
+
+.amd-profile-action:hover {
+    background: #4f46e5;
+}
+
+/* Nav */
+.amd-nav {
+    padding: 0.5rem 0.65rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.amd-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.6rem 0.75rem;
+    border-radius: 10px;
+    border: none;
+    background: transparent;
+    color: var(--amd-muted);
+    cursor: pointer;
+    font-family: var(--amd-font);
+    font-size: 0.76rem;
+    font-weight: 700;
+    text-align: left;
+    width: 100%;
+    transition: all 0.15s;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.amd-sidebar.collapsed .amd-nav-item {
+    justify-content: center;
+    padding: 0.6rem 0;
+    gap: 0;
+}
+
+.amd-nav-item:hover {
+    background: #f0f4ff;
+    color: var(--amd-purple);
+}
+
+.amd-nav-item.active {
+    background: #eef2ff;
+    color: var(--amd-purple);
+    font-weight: 900;
+}
+
+.amd-nav-item span {
+    transition: opacity 0.2s;
+}
+
+.amd-sidebar.collapsed .amd-nav-item span {
+    display: none;
+}
+
+/* Footer */
+.amd-sidebar-foot {
+    margin-top: auto;
+    padding: 0.75rem 0.85rem;
+    border-top: 1px solid var(--amd-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+}
+
+.amd-org-name {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.6rem;
+    font-weight: 800;
+    color: var(--amd-muted);
+    overflow: hidden;
+}
+
+.amd-org-icon {
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+.amd-logout {
+    background: none;
+    border: none;
+    color: var(--amd-muted);
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 6px;
+    transition: 0.14s;
+    display: flex;
+    align-items: center;
+}
+
+.amd-logout:hover {
+    color: var(--amd-red);
+}
+
+/* ================================================================
+   MAIN
+================================================================ */
+.amd-main {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* ── Top Header ──────────────────────────────────────────── */
+.amd-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    background: var(--amd-surface);
+    border-bottom: 1px solid var(--amd-border);
+    flex-shrink: 0;
+    gap: 1rem;
+}
+
+.amd-welcome {
+    font-family: var(--amd-title);
+    font-size: 1.1rem;
+    font-weight: 950;
+    color: var(--amd-text);
+    margin: 0;
+    letter-spacing: -0.4px;
+}
+
+.amd-date-line {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--amd-muted);
+    margin: 2px 0 0;
+}
+
+.amd-date-pill {
+    display: flex;
+    align-items: center;
+    background: #4f46e5;
+    color: white;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.62rem;
+    font-weight: 900;
+    box-shadow: 0 2px 8px rgba(79, 70, 229, 0.3);
+}
+
+
+.amd-header-right {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.amd-search-box {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--amd-bg);
+    border: 1px solid var(--amd-border);
+    border-radius: 9px;
+    padding: 0 0.75rem;
+    height: 32px;
+    transition: border-color 0.15s;
+}
+
+.amd-search-box:focus-within {
+    border-color: var(--amd-purple);
+}
+
+.amd-search-box input {
+    width: 170px;
+    background: none;
+    border: none;
+    outline: none;
+    font-family: var(--amd-font);
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--amd-text);
+}
+
+.amd-search-box input::placeholder {
+    color: #cbd5e1;
+}
+
+.amd-head-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+    background: var(--amd-bg);
+    border: 1px solid var(--amd-border);
+    color: var(--amd-muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.14s;
+}
+
+.amd-head-btn:hover {
+    border-color: var(--amd-purple);
+    color: var(--amd-purple);
+}
+
+.amd-head-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 950;
+    font-family: var(--amd-title);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+@keyframes amd-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.amd-spinning {
+    animation: amd-spin 0.8s linear infinite;
+}
+
+/* ── Scrollable body ─────────────────────────────────────── */
+.amd-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.1rem 1.5rem;
+    scrollbar-width: thin;
+    scrollbar-color: #c7d2fe transparent;
+}
+
+.amd-body::-webkit-scrollbar {
+    width: 5px;
+}
+
+.amd-body::-webkit-scrollbar-thumb {
+    background: #c7d2fe;
+    border-radius: 10px;
+}
+
+/* ── Filter row ──────────────────────────────────────────── */
+.amd-filter-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.9rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.amd-section-title {
+    font-family: var(--amd-title);
+    font-size: 0.9rem;
+    font-weight: 950;
+    color: var(--amd-text);
+    margin: 0;
+}
+
+.amd-filter-group {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.amd-fsel {
+    height: 30px;
+    padding: 0 0.7rem;
+    background: var(--amd-surface);
+    border: 1px solid var(--amd-border);
+    border-radius: 8px;
+    font-family: var(--amd-font);
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--amd-text);
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.14s;
+}
+
+.amd-fsel:focus {
+    border-color: var(--amd-purple);
+}
+
+.amd-fbtn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    height: 30px;
+    padding: 0 0.85rem;
+    background: var(--amd-surface);
+    border: 1px solid var(--amd-border);
+    border-radius: 8px;
+    color: var(--amd-muted);
+    cursor: pointer;
+    font-family: var(--amd-font);
+    font-size: 0.68rem;
+    font-weight: 800;
+    transition: 0.14s;
+}
+
+.amd-fbtn:hover {
+    border-color: var(--amd-purple);
+    color: var(--amd-purple);
+}
+
+/* ================================================================
+   STAT CARDS ROW  — matches reference exactly
+================================================================ */
+.amd-stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr) 1.2fr;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.amd-stat-card {
+    background: var(--amd-surface);
+    border: 1px solid var(--amd-border);
+    border-radius: var(--amd-radius);
+    padding: 1rem 1rem 0.6rem;
+    box-shadow: var(--amd-shadow);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.2s var(--amd-ease);
+}
+
+.amd-stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.amd-stat-card.vertical {
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.amd-stat-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.amd-stat-lbl {
+    font-size: 0.58rem;
+    font-weight: 900;
+    color: var(--amd-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.amd-stat-val {
+    font-family: var(--amd-title);
+    font-size: 1.5rem;
+    font-weight: 950;
+    color: var(--amd-text);
+    letter-spacing: -1px;
+    line-height: 1.1;
+}
+
+/* Colored bottom bar — like reference */
+.amd-stat-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    border-radius: 0 0 var(--amd-radius) var(--amd-radius);
+}
+
+/* Manager profile card (rightmost in row) */
+.amd-manager-card {
+    background: var(--amd-surface);
+    border: 1px solid var(--amd-border);
+    border-radius: var(--amd-radius);
+    padding: 1rem;
+    box-shadow: var(--amd-shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.amd-mc-av {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    color: white;
+    font-weight: 950;
+    font-family: var(--amd-title);
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2px;
+}
+
+.amd-mc-name {
+    font-size: 0.82rem;
+    font-weight: 900;
+    color: var(--amd-text);
+}
+
+.amd-mc-email {
+    font-size: 0.6rem;
+    color: var(--amd-muted);
+    word-break: break-all;
+}
+
+.amd-mc-badges {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+}
+
+.amd-mc-badge {
+    font-size: 0.52rem;
+    font-weight: 900;
+    padding: 2px 7px;
+    border-radius: 5px;
+    background: #eef2ff;
+    color: var(--amd-purple);
+    border: 1px solid #c7d2fe;
+}
+
+/* ================================================================
+   MID ROW  — messages + donut + calendar
+================================================================ */
+.amd-mid-row {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 0.85rem;
+    margin-bottom: 1rem;
+}
+
+.amd-mid-row.tri {
+    grid-template-columns: 1fr 280px 300px;
+}
+
+.amd-panel {
+    background: var(--amd-surface);
+    border: 1px solid var(--amd-border);
+    border-radius: var(--amd-radius);
+    padding: 1rem 1.05rem;
+    box-shadow: var(--amd-shadow);
+}
+
+.amd-panel-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.85rem;
+    font-family: var(--amd-title);
+    font-size: 0.82rem;
+    font-weight: 950;
+    color: var(--amd-text);
+}
+
+.amd-view-all-btn {
+    font-size: 0.62rem;
+    font-weight: 900;
+    color: var(--amd-purple);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.amd-icon-menu {
+    background: none;
+    border: none;
+    color: var(--amd-muted);
+    cursor: pointer;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 2px 4px;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    transition: color 0.13s;
+}
+
+.amd-icon-menu:hover {
+    color: var(--amd-text);
+}
+
+/* Session rows (Messages panel) */
+.amd-session-row {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #f8fafc;
+}
+
+.amd-session-row:last-child {
+    border-bottom: none;
+}
+
+.amd-session-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 0.85rem;
+}
+
+.amd-session-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.amd-session-title {
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: var(--amd-text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.amd-session-sub {
+    font-size: 0.6rem;
+    font-weight: 600;
+    color: var(--amd-muted);
+    margin-top: 1px;
+}
+
+.amd-session-badge {
+    font-size: 0.6rem;
+    font-weight: 900;
+    padding: 2px 9px;
+    border-radius: 999px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.amd-session-badge.success {
+    background: #f0fdf4;
+    color: #16a34a;
+}
+
+.amd-session-badge.neutral {
+    background: #f1f5f9;
+    color: #64748b;
+}
+
+/* Donut panel */
+.amd-panel-chart {
+    display: flex;
+    flex-direction: column;
+}
+
+.amd-donut-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem 0;
+}
+
+.amd-donut-legend {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 0.6rem;
+    font-weight: 700;
+    color: var(--amd-muted);
+    margin-top: 0.5rem;
+}
+
+.amd-donut-legend span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+i.lx {
+    display: inline-block;
+    width: 9px;
+    height: 9px;
+    border-radius: 2px;
+}
+
+i.lx.purple {
+    background: var(--amd-purple);
+}
+
+i.lx.green {
+    background: var(--amd-green);
+}
+
+i.lx.amber {
+    background: var(--amd-amber);
+}
+
+/* ── Calendar ───────────────────────────────────────────── */
+.amd-calendar {
+    font-size: 0.72rem;
+}
+
+.amd-cal-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 900;
+    font-size: 0.8rem;
+    color: var(--amd-text);
+    margin-bottom: 0.65rem;
+}
+
+.amd-cal-nav button {
+    background: var(--amd-bg);
+    border: 1px solid var(--amd-border);
+    border-radius: 6px;
+    color: var(--amd-muted);
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.13s;
+}
+
+.amd-cal-nav button:hover {
+    border-color: var(--amd-purple);
+    color: var(--amd-purple);
+}
+
+.amd-cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+}
+
+.amd-cal-hdr {
+    text-align: center;
+    font-size: 0.52rem;
+    font-weight: 900;
+    color: #94a3b8;
+    padding: 2px;
+}
+
+.amd-cal-cell {
+    text-align: center;
+    font-size: 0.62rem;
+    font-weight: 700;
+    color: var(--amd-muted);
+    padding: 4px 0;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.1s;
+}
+
+.amd-cal-cell:hover:not(.empty) {
+    background: #eef2ff;
+    color: var(--amd-purple);
+}
+
+.amd-cal-cell.today {
+    background: var(--amd-purple);
+    color: white;
+    font-weight: 950;
+}
+
+.amd-cal-cell.selected {
+    background: #eef2ff;
+    color: var(--amd-purple);
+    font-weight: 950;
+}
+
+.amd-cal-cell.empty {
+    pointer-events: none;
+}
+
+/* ================================================================
+   BOTTOM ROW  — table + notes + timetable
+================================================================ */
+.amd-bottom-row {
+    display: grid;
+    grid-template-columns: 1fr 0.5fr 0.65fr;
+    gap: 0.85rem;
+}
+
+/* Student table-lite in overview */
+.amd-table-head-row {
+    display: grid;
+    grid-template-columns: 24px 1fr 60px 60px 80px;
+    gap: 6px;
+    padding: 0 4px 6px;
+    font-size: 0.58rem;
+    font-weight: 900;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid var(--amd-border);
+    margin-bottom: 4px;
+}
+
+.amd-table-row {
+    display: grid;
+    grid-template-columns: 24px 1fr 60px 60px 80px;
+    gap: 6px;
+    align-items: center;
+    padding: 0.45rem 4px;
+    border-bottom: 1px solid #f8fafc;
+    transition: background 0.12s;
+}
+
+.amd-table-row:hover {
+    background: #f8fafc;
+    border-radius: 8px;
+}
+
+.amd-row-num {
+    font-size: 0.65rem;
+    font-weight: 800;
+    color: #94a3b8;
+}
+
+.amd-row-student {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--amd-text);
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.amd-row-av {
+    width: 24px;
+    height: 24px;
+    border-radius: 7px;
+    color: white;
+    font-size: 0.52rem;
+    font-weight: 950;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.amd-row-av.sm {
+    width: 26px;
+    height: 26px;
+    border-radius: 7px;
+    font-size: 0.58rem;
+}
+
+.amd-row-meta {
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: var(--amd-muted);
+}
+
+.amd-row-status {
+    font-size: 0.58rem;
+    font-weight: 900;
+    padding: 2px 8px;
+    border-radius: 6px;
+    display: inline-block;
+}
+
+.amd-row-status.good {
+    background: #f0fdf4;
+    color: #16a34a;
+}
+
+.amd-row-status.avg {
+    background: #fffbeb;
+    color: #d97706;
+}
+
+.amd-row-status.bad {
+    background: #fef2f2;
+    color: #dc2626;
+}
+
+/* Notes */
+.amd-notes-input {
+    width: 100%;
+    min-height: 100px;
+    resize: none;
+    background: none;
+    border: none;
+    outline: none;
+    font-family: var(--amd-font);
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--amd-muted);
+    line-height: 1.6;
+    box-sizing: border-box;
+}
+
+.amd-notes-input::placeholder {
+    color: #cbd5e1;
+}
+
+.amd-notes-input.large {
+    min-height: 250px;
+}
+
+/* Timetable */
+.amd-tt-slot {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.55rem 0;
+    border-bottom: 1px solid #f8fafc;
+}
+
+.amd-tt-slot:last-child {
+    border-bottom: none;
+}
+
+.amd-tt-time {
+    font-size: 0.6rem;
+    font-weight: 900;
+    padding: 3px 7px;
+    border-radius: 6px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.amd-tt-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.amd-tt-subject {
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: var(--amd-text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.amd-tt-section {
+    font-size: 0.6rem;
+    color: var(--amd-muted);
+    font-weight: 600;
+    margin-top: 1px;
+}
+
+.amd-tt-btn {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    border: none;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: opacity 0.13s;
+}
+
+.amd-tt-btn:hover {
+    opacity: 0.8;
+}
+
+/* ================================================================
+   SUB-PAGES (Sections / Students / etc.)
+================================================================ */
+.amd-sub-page {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.amd-sub-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.amd-sub-header h2 {
+    font-family: var(--amd-title);
+    font-size: 1rem;
+    font-weight: 950;
+    color: var(--amd-text);
+    margin: 0;
+}
+
+/* Section grid */
+.amd-sec-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.85rem;
+}
+
+.amd-sec-card {
+    background: var(--amd-surface);
+    border: 1px solid var(--amd-border);
+    border-radius: var(--amd-radius);
+    padding: 1.1rem;
+    box-shadow: var(--amd-shadow);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.55rem;
+    cursor: pointer;
+    transition: all 0.2s var(--amd-ease);
+}
+
+.amd-sec-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(99, 102, 241, 0.1);
+    border-color: #c7d2fe;
+}
+
+.amd-sec-top {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.amd-sec-ring {
+    margin: 4px 0;
+}
+
+.amd-sec-name {
+    font-family: var(--amd-title);
+    font-size: 0.82rem;
+    font-weight: 950;
+    color: var(--amd-text);
+}
+
+.amd-sec-badge {
+    font-size: 0.6rem;
+    font-weight: 900;
+    padding: 2px 8px;
+    border-radius: 6px;
+}
+
+.amd-sec-badge.good {
+    background: #f0fdf4;
+    color: #16a34a;
+    border: 1px solid #bbf7d0;
+}
+
+.amd-sec-badge.warn {
+    background: #fffbeb;
+    color: #d97706;
+    border: 1px solid #fde68a;
+}
+
+.amd-sec-nums {
+    display: flex;
+    gap: 0.75rem;
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--amd-muted);
+    text-align: center;
+}
+
+.amd-sec-nums div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+
+.green-n {
+    font-size: 1rem;
+    font-weight: 950;
+    color: var(--amd-green);
+}
+
+.red-n {
+    font-size: 1rem;
+    font-weight: 950;
+    color: var(--amd-red);
+}
+
+.blue-n {
+    font-size: 1rem;
+    font-weight: 950;
+    color: var(--amd-blue);
+}
+
+.amd-sec-cta {
+    width: 100%;
+    padding: 0.5rem;
+    font-family: var(--amd-font);
+    font-size: 0.65rem;
+    font-weight: 900;
+    background: #eef2ff;
+    color: var(--amd-purple);
+    border: 1.5px solid #c7d2fe;
+    border-radius: 9px;
+    cursor: pointer;
+    transition: 0.16s;
+}
+
+.amd-sec-cta:hover {
+    background: var(--amd-purple);
+    color: white;
+}
+
+/* Chip row */
+.amd-chip-row {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.amd-chip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0.45rem 0.9rem;
+    border-radius: 9px;
+    font-size: 0.7rem;
+    font-weight: 800;
+    border: 1.5px solid;
+}
+
+.amd-chip.purple {
+    background: #eef2ff;
+    color: var(--amd-purple);
+    border-color: #c7d2fe;
+}
+
+.amd-chip.green {
+    background: #f0fdf4;
+    color: #16a34a;
+    border-color: #bbf7d0;
+}
+
+.amd-chip.red {
+    background: #fef2f2;
+    color: #dc2626;
+    border-color: #fecaca;
+}
+
+.amd-chip.blue {
+    background: #eff6ff;
+    color: #1d4ed8;
+    border-color: #bfdbfe;
+}
+
+/* Full table */
+.amd-full-table-wrap {
+    background: var(--amd-surface);
+    border: 1px solid var(--amd-border);
+    border-radius: var(--amd-radius);
+    overflow: hidden;
+    box-shadow: var(--amd-shadow);
+}
+
+.amd-full-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.75rem;
+    font-family: var(--amd-font);
+}
+
+.amd-full-table thead {
+    background: #f8fafc;
+    border-bottom: 1px solid var(--amd-border);
+}
+
+.amd-full-table th {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    font-size: 0.58rem;
+    font-weight: 900;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #94a3b8;
+    white-space: nowrap;
+}
+
+.amd-full-table tbody tr {
+    border-bottom: 1px solid #f1f5f9;
+    transition: background 0.12s;
+}
+
+.amd-full-table tbody tr:hover {
+    background: #f8fafc;
+}
+
+.amd-full-table tbody tr.risk {
+    background: rgba(239, 68, 68, 0.02);
+}
+
+.amd-full-table td {
+    padding: 0.7rem 1rem;
+    color: var(--amd-text);
+    font-weight: 600;
+}
+
+.amd-tbl-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 28px;
+    height: 20px;
+    border-radius: 5px;
+    font-size: 0.65rem;
+    font-weight: 900;
+}
+
+.amd-tbl-badge.green {
+    background: rgba(34, 197, 94, 0.12);
+    color: #16a34a;
+}
+
+.amd-tbl-badge.red {
+    background: rgba(239, 68, 68, 0.1);
+    color: #dc2626;
+}
+
+.amd-pct-bar {
+    width: 70px;
+    height: 5px;
+    background: #f1f5f9;
+    border-radius: 4px;
+    overflow: hidden;
+    display: inline-block;
+}
+
+.amd-pct-bar>div {
+    height: 100%;
+    border-radius: 4px;
+}
+
+.amd-pct-bar.wide {
+    width: 100%;
+    height: 6px;
+    display: block;
+}
+
+/* Loading / Empty */
+.amd-loading-pulse {
+    height: 80px;
+    background: linear-gradient(90deg, #f0f4ff 25%, #e8edf5 50%, #f0f4ff 75%);
+    background-size: 200% 100%;
+    animation: amd-pulse 1.5s infinite ease-in-out;
+    border-radius: 10px;
+}
+
+.amd-loading-pulse.full {
+    height: 200px;
+}
+
+@keyframes amd-pulse {
+    0% {
+        background-position: 200% 0
+    }
+
+    100% {
+        background-position: -200% 0
+    }
+}
+
+.amd-spinner {
+    width: 28px;
+    height: 28px;
+    border: 3px solid #e0e7ff;
+    border-top-color: var(--amd-purple);
+    border-radius: 50%;
+    animation: amd-spin 0.8s linear infinite;
+    margin: 2rem auto;
+}
+
+.amd-no-data,
+.amd-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #94a3b8;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 3rem;
+    gap: 0.75rem;
+}
+
+.amd-empty-state p {
+    max-width: 300px;
+    line-height: 1.6;
+    margin: 0.5rem 0 0;
+}
+
+/* ── Responsive ─────────────────────────────────────────── */
+@media (max-width:1280px) {
+    .amd-stats-row {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .amd-manager-card {
+        display: none;
+    }
+
+    .amd-mid-row.tri {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .amd-panel-cal {
+        grid-column: span 2;
+        display: block;
+    }
+
+    .amd-bottom-row {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width:960px) {
+    .amd-sidebar {
+        width: 52px;
+    }
+
+    .amd-nav-item span,
+    .amd-logo-name,
+    .amd-profile-cta,
+    .amd-org-name span {
+        display: none;
+    }
+
+    .amd-stats-row {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .amd-mid-row {
+        grid-template-columns: 1fr;
+    }
+
+    .amd-bottom-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width:600px) {
+    .amd-stats-row {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .amd-body {
+        padding: 0.75rem 0.85rem;
+    }
+
+    .amd-header {
+        padding: 0.75rem 1rem;
+    }
+}
+
+/* Panel modifiers & layout helpers */
+.amd-header-left {
+    display: flex;
+    flex-direction: column;
+}
+
+.amd-panel-table {
+    overflow: hidden;
+}
+
+.amd-panel-notes {
+    display: flex;
+    flex-direction: column;
+}
+
+.amd-panel-tt {
+    display: flex;
+    flex-direction: column;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   MARK ATTENDANCE TAB
+════════════════════════════════════════════════════════════════ */
+.amd-mark-controls {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.amd-subject-input {
+    padding: 8px 12px;
+    border: 1px solid var(--amd-border);
+    border-radius: var(--amd-radius);
+    font-size: 0.85rem;
+    min-width: 200px;
+}
+
+.amd-mark-actions {
+    display: flex;
+    gap: 8px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+}
+
+.amd-mark-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: var(--amd-radius);
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s var(--amd-ease);
+}
+
+.amd-mark-btn.present {
+    background: var(--amd-green);
+    color: white;
+}
+
+.amd-mark-btn.present:hover {
+    background: #16a34a;
+}
+
+.amd-mark-btn.absent {
+    background: var(--amd-red);
+    color: white;
+}
+
+.amd-mark-btn.absent:hover {
+    background: #dc2626;
+}
+
+.amd-mark-btn.late {
+    background: var(--amd-amber);
+    color: white;
+}
+
+.amd-mark-btn.late:hover {
+    background: #d97706;
+}
+
+.amd-attendance-table {
+    background: var(--amd-surface);
+    border-radius: var(--amd-radius);
+    overflow: hidden;
+    box-shadow: var(--amd-shadow);
+}
+
+.amd-attendance-header {
+    display: grid;
+    grid-template-columns: 50px 2fr 1fr 2fr;
+    gap: 16px;
+    padding: 16px 20px;
+    background: #f8fafc;
+    border-bottom: 1px solid var(--amd-border);
+    font-weight: 700;
+    font-size: 0.8rem;
+    color: var(--amd-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.amd-attendance-row {
+    display: grid;
+    grid-template-columns: 50px 2fr 1fr 2fr;
+    gap: 16px;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--amd-border);
+    align-items: center;
+    transition: background 0.2s var(--amd-ease);
+}
+
+.amd-attendance-row:hover {
+    background: #f8fafc;
+}
+
+.amd-attendance-row:last-child {
+    border-bottom: none;
+}
+
+.amd-row-num {
+    font-weight: 700;
+    color: var(--amd-muted);
+    font-size: 0.8rem;
+}
+
+.amd-status-buttons {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.amd-status-btn {
+    padding: 4px 8px;
+    border: 1px solid var(--amd-border);
+    background: white;
+    border-radius: 6px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s var(--amd-ease);
+    min-width: 60px;
+}
+
+.amd-status-btn.present {
+    background: var(--amd-green);
+    color: white;
+    border-color: var(--amd-green);
+}
+
+.amd-status-btn.absent {
+    background: var(--amd-red);
+    color: white;
+    border-color: var(--amd-red);
+}
+
+.amd-status-btn.late {
+    background: var(--amd-amber);
+    color: white;
+    border-color: var(--amd-amber);
+}
+
+.amd-status-btn.leave {
+    background: var(--amd-blue);
+    color: white;
+    border-color: var(--amd-blue);
+}
+
+.amd-save-section {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.amd-save-btn {
+    background: var(--amd-purple);
+    color: white;
+    border: none;
+    padding: 12px 32px;
+    border-radius: var(--amd-radius);
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s var(--amd-ease);
+    box-shadow: var(--amd-shadow);
+}
+
+.amd-save-btn:hover:not(:disabled) {
+    background: #4f46e5;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
+}
+
+.amd-save-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Mark Attendance Tab Styles */
+.amd-mark-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.amd-subject-input {
+    flex: 1;
+    height: 32px;
+    padding: 0 10px;
+    border: 1px solid var(--amd-border);
+    border-radius: 8px;
+    font-size: 0.8rem;
+    outline: none;
+    transition: border-color 0.15s;
+}
+
+.amd-subject-input:focus {
+    border-color: var(--amd-purple);
+}
+
+.amd-mark-actions {
+    display: flex;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.amd-mark-btn {
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--amd-border);
+    background: var(--amd-surface);
+    font-size: 0.75rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.amd-mark-btn.present:hover {
+    background: #f0fdf4;
+    color: #16a34a;
+    border-color: #bbf7d0;
+}
+
+.amd-mark-btn.absent:hover {
+    background: #fef2f2;
+    color: #dc2626;
+    border-color: #fecaca;
+}
+
+.amd-mark-btn.late:hover {
+    background: #fffbeb;
+    color: #d97706;
+    border-color: #fde68a;
+}
+
+.amd-attendance-table {
+    background: var(--amd-surface);
+    border: 1px solid var(--amd-border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 15px 0;
+}
+
+.amd-attendance-header {
+    display: grid;
+    grid-template-columns: 40px 1fr 100px 240px;
+    gap: 10px;
+    padding: 12px 20px;
+    background: #f8fafc;
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid var(--amd-border);
+}
+
+.amd-attendance-row {
+    display: grid;
+    grid-template-columns: 40px 1fr 100px 240px;
+    gap: 10px;
+    padding: 10px 20px;
+    align-items: center;
+    border-bottom: 1px solid #f1f5f9;
+    transition: background 0.15s;
+}
+
+.amd-attendance-row:hover {
+    background: #f8fafc;
+}
+
+.amd-status-buttons {
+    display: flex;
+    gap: 5px;
+}
+
+.amd-status-btn {
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--amd-border);
+    background: var(--amd-surface);
+    font-size: 0.65rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: #64748b;
+}
+
+.amd-status-btn:hover {
+    background: #f1f5f9;
+}
+
+.amd-status-btn.present {
+    background: #22c55e;
+    color: white;
+    border-color: #22c55e;
+}
+
+.amd-status-btn.absent {
+    background: #ef4444;
+    color: white;
+    border-color: #ef4444;
+}
+
+.amd-status-btn.late {
+    background: #f59e0b;
+    color: white;
+    border-color: #f59e0b;
+}
+
+.amd-status-btn.leave {
+    background: #64748b;
+    color: white;
+    border-color: #64748b;
+}
+
+.amd-save-section {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.amd-save-btn {
+    padding: 10px 25px;
+    background: var(--amd-purple);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: 0.2s;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.amd-save-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    background: #4f46e5;
+}
+
+.amd-save-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Performance Analysis Styles */
+.amd-report-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+    padding: 0.5rem 0;
+}
+
+.amd-report-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 1.1rem;
+    transition: all 0.2s var(--amd-ease);
+}
+
+.amd-report-card:hover {
+    transform: translateY(-2px);
+    background: white;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+    border-color: var(--amd-purple);
+}
+
+.amd-report-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.9rem;
+}
+
+.amd-report-main {
+    display: flex;
+    gap: 10px;
+}
+
+.amd-report-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.amd-report-name {
+    font-size: 0.82rem;
+    font-weight: 800;
+    color: var(--amd-text);
+    line-height: 1.2;
+}
+
+.amd-report-sub {
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: var(--amd-muted);
+    margin-top: 2px;
+}
+
+.amd-report-pct {
+    font-family: var(--amd-title);
+    font-size: 1rem;
+    font-weight: 950;
+    color: var(--amd-text);
+}
+
+.amd-report-foot {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.62rem;
+    font-weight: 700;
+    color: var(--amd-muted);
+    margin-top: 0.7rem;
+}
+
+.mb-4 {
+    margin-bottom: 1.5rem;
+}
+
+.w-full {
+    width: 100%;
+}
+
+.amd-sec-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.85rem;
+}
+
+.amd-sec-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 1rem;
+}
+
+.amd-sec-badge {
+    padding: 2px 7px;
+    border-radius: 5px;
+    font-size: 0.62rem;
+    font-weight: 800;
+}
+
+.amd-sec-badge.good {
+    background: #f0fdf4;
+    color: #16a34a;
+}
+
+.amd-sec-badge.warn {
+    background: #fef2f2;
+    color: #dc2626;
+}
+
+/* Student Modal Styles */
+.amd-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(15, 23, 42, 0.4);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.amd-modal {
+    background: white;
+    width: 100%;
+    max-width: 500px;
+    border-radius: 20px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+}
+
+.amd-modal-head {
+    padding: 24px;
+    border-bottom: 1px solid #f1f5f9;
+    background: #f8fafc;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.amd-modal-sub {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--amd-muted);
+    margin: 4px 0 0 0;
+}
+
+.amd-modal-close {
+    background: #f1f5f9;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 0.8rem;
+    color: #64748b;
+    transition: 0.2s;
+}
+
+.amd-modal-close:hover {
+    background: #e2e8f0;
+    color: #0f172a;
+}
+
+.amd-modal-body {
+    padding: 24px;
+}
+
+.amd-modal-body h4 {
+    margin: 0 0 16px 0;
+    font-size: 0.85rem;
+    color: var(--amd-text);
+}
+
+.amd-subject-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.amd-subject-row {
+    padding: 12px;
+    background: #f8fafc;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+}
+
+.amd-subject-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.amd-subject-name {
+    font-size: 0.78rem;
+    font-weight: 800;
+    color: var(--amd-text);
+}
+
+.amd-subject-meta {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--amd-muted);
+}
+
+.amd-subject-stat {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.amd-subject-pct {
+    font-size: 0.72rem;
+    font-weight: 900;
+    min-width: 40px;
+    text-align: right;
+}
+
+.amd-empty-text {
+    text-align: center;
+    color: var(--amd-muted);
+    font-size: 0.8rem;
+    padding: 20px;
+}
+
+.m-0 {
+    margin: 0;
+}
+
+/* Mini Calendar Premium Styles */
+.amd-calendar {
+    padding: 0.5rem;
+}
+
+.amd-cal-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+    padding: 0 0.5rem;
+}
+
+.amd-cal-nav span {
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: var(--amd-text);
+}
+
+.amd-cal-nav button {
+    background: #f1f5f9;
+    border: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #64748b;
+}
+
+.amd-cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+}
+
+.amd-cal-hdr {
+    font-size: 0.62rem;
+    font-weight: 800;
+    color: #94a3b8;
+    text-align: center;
+    padding: 4px 0;
+}
+
+.amd-cal-cell {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 700;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: 0.2s;
+}
+
+.amd-cal-cell:hover:not(.empty) {
+    background: #f1f5f9;
+}
+
+.amd-cal-cell.today {
+    background: var(--amd-purple);
+    color: white;
+}
+
+.amd-cal-cell.selected {
+    border: 2px solid var(--amd-purple);
+    color: var(--amd-purple);
+}
+
+.amd-cal-cell.empty {
+    cursor: default;
+}
+
+.amd-empty-small {
+    padding: 2rem;
+    text-align: center;
+    color: #94a3b8;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+.amd-donut-legend.compact {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+    justify-content: center;
+}
+
+.amd-table-row.at-risk {
+    background: #fef2f2;
+}
+
+.amd-row-status.low {
+    color: #f59e0b;
+    background: #fffbeb;
+}
+
+.amd-row-status.bad {
+    color: #ef4444;
+    background: #fef2f2;
+}
+
+.amd-fbtn.purple {
+    background: #f5f3ff;
+    color: #7c3aed;
+    border-color: #ddd6fe;
+}
+
+.amd-fbtn.purple:hover {
+    background: #ede9fe;
+}
+
+/* ── Bottom Row Overview ── */
+.amd-bottom-row {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 0.85rem;
+    align-items: flex-start;
+}
+
+.amd-panel-sections-mini {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #f1f5f9;
+}
+
+.amd-mini-sec-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 0.75rem;
+}
+
+.amd-mini-sec-card {
+    background: #f8fafc;
+    border-radius: 8px;
+    padding: 10px;
+    border: 1px solid #f1f5f9;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.amd-mini-sec-card:hover {
+    border-color: var(--amd-purple);
+    background: #fdfbff;
+}
+
+.amd-mini-sec-card.active {
+    border-color: var(--amd-purple);
+    background: #fdfbff;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.08);
+}
+
+.amd-mini-sec-card.warning {
+    border-left: 3px solid #ef4444;
+}
+
+.amd-ms-top {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    margin-bottom: 6px;
+}
+
+.amd-ms-top b {
+    color: #1e293b;
+}
+
+.amd-ms-top span {
+    font-weight: 800;
+    color: var(--amd-purple);
+}
+
+.amd-ms-meta {
+    font-size: 0.65rem;
+    color: #64748b;
+    margin-top: 6px;
+    font-weight: 600;
+}
+
+/* ── Students Row UI ── */
+.amd-table-row.clickable {
+    cursor: pointer;
+}
+
+.amd-table-row.clickable:hover {
+    background: #f8fafc;
+    transform: translateX(2px);
+}
+
+.amd-row-name-wrap {
+    display: flex;
+    flex-direction: column;
+}
+
+.amd-row-n {
+    font-weight: 700;
+    color: #1e293b;
+    font-size: 0.75rem;
+}
+
+.amd-row-id {
+    font-size: 0.65rem;
+    color: #94a3b8;
+    font-weight: 600;
+}
+
+.amd-row-meta.green {
+    color: #22c55e;
+    background: #f0fdf4;
+    padding: 2px 6px;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.amd-manager-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid #f1f5f9;
+    margin-bottom: 0.85rem;
+}
+
+.amd-mc-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    border-left: 1px solid #f1f5f9;
+    padding-left: 12px;
+}
+
+.amd-ms-row {
+    display: flex;
+    gap: 12px;
+    justify-content: space-between;
+    font-size: 0.65rem;
+}
+
+.amd-ms-row span {
+    color: #64748b;
+    font-weight: 600;
+}
+
+.amd-ms-row b {
+    color: #1e293b;
+    font-weight: 800;
+}
+
+/* ── Year Wise Dist (New) ────────────────────────────────── */
+.amd-year-dist-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.2rem;
+    margin-bottom: 1.5rem;
+}
+
+.amd-year-card {
+    background: var(--amd-surface);
+    border: 1px solid var(--amd-border);
+    border-radius: var(--amd-radius);
+    padding: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.amd-year-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--amd-purple);
+    box-shadow: 0 10px 20px rgba(99, 102, 241, 0.1);
+}
+
+.amd-year-card.active {
+    background: linear-gradient(135deg, white, #f5f3ff);
+    border-color: var(--amd-purple);
+    box-shadow: 0 8px 16px rgba(99, 102, 241, 0.08);
+}
+
+.amd-year-card.active::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--amd-purple);
+}
+
+.amd-y-label {
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: var(--amd-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+}
+
+.amd-y-val {
+    font-size: 2rem;
+    font-weight: 900;
+    font-family: var(--amd-title);
+    color: var(--amd-text);
+    margin-bottom: 0.3rem;
+    letter-spacing: -0.02em;
+}
+
+.amd-y-sub {
+    font-size: 0.7rem;
+    color: var(--amd-muted);
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.amd-y-progress {
+    height: 6px;
+    background: #f1f5f9;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.amd-y-progress div {
+    height: 100%;
+    border-radius: 10px;
+    transition: width 1s var(--amd-ease);
+}
+
+@media (max-width: 1024px) {
+    .amd-year-dist-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .amd-year-dist-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ── Attendance Matrix ───────────────────────────────────── */
+.amd-matrix-wrap {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid var(--amd-border);
+    border-radius: 12px;
+    background: white;
+}
+
+.amd-matrix-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 0.72rem;
+}
+
+.amd-matrix-table th,
+.amd-matrix-table td {
+    padding: 0.8rem 1rem;
+    border-bottom: 1px solid var(--amd-border);
+    border-right: 1px solid var(--amd-border);
+    text-align: center;
+    white-space: nowrap;
+}
+
+.amd-matrix-table th {
+    background: #f8fafc;
+    font-weight: 800;
+    color: var(--amd-muted);
+    text-transform: uppercase;
+    font-size: 0.65rem;
+    letter-spacing: 0.05em;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.amd-matrix-table .sticky-col {
+    position: sticky;
+    left: 0;
+    background: white;
+    z-index: 5;
+    text-align: left;
+    border-right: 2px solid var(--amd-border);
+}
+
+.amd-matrix-table th.sticky-col {
+    z-index: 15;
+    background: #f8fafc;
+}
+
+.amd-matrix-table .name {
+    min-width: 180px;
+}
+
+.amd-matrix-name-cell {
+    display: flex;
+    flex-direction: column;
+}
+
+.amd-matrix-name-cell b {
+    color: var(--amd-text);
+    font-weight: 700;
+}
+
+.amd-matrix-name-cell span {
+    color: var(--amd-muted);
+    font-size: 0.65rem;
+    font-weight: 600;
+}
+
+.amd-matrix-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+
+.amd-matrix-cell .pct {
+    font-weight: 800;
+    font-size: 0.75rem;
+}
+
+.amd-matrix-cell .count {
+    font-size: 0.6rem;
+    color: inherit;
+    opacity: 0.7;
+}
+
+.amd-matrix-table td.risk {
+    color: #be123c;
+    background: #fff1f2;
+}
+
+.amd-matrix-table td.good {
+    color: #15803d;
+    background: #f0fdf4;
+}
+
+.amd-matrix-table td.empty {
+    color: #94a3b8;
+    background: #f8fafc;
+}
+
+.amd-matrix-table tr:hover td {
+    background-color: #f1f5f9;
+}
+
+.amd-matrix-table tr:hover td.risk {
+    background-color: #ffe4e6;
+}
+
+.amd-matrix-table tr:hover td.good {
+    background-color: #dcfce7;
+}
+
+.mt-6 {
+    margin-top: 1.5rem;
+}
+
+.mt-4 {
+    margin-top: 1rem;
+}
+
+/* ── Embedded Mode ── */
+.amd-shell.embedded {
+    height: auto;
+    min-height: 100%;
+    background: transparent;
+}
+
+.amd-shell.embedded .amd-main {
+    height: auto;
+    overflow: visible;
+}
+
+.amd-shell.embedded .amd-body {
+    padding: 1.5rem 0;
+    overflow: visible;
+}
+
+.amd-shell.embedded .amd-header {
+    background: transparent;
+    box-shadow: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    padding: 1rem 0;
+}
+
+.tab-btn {
+    padding: 0.6rem 1.2rem;
+    border-radius: 10px;
+    background: rgba(99, 102, 241, 0.05);
+    border: 1px solid rgba(99, 102, 241, 0.1);
+    color: #64748b;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.tab-btn:hover {
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--amd-purple);
+}
+
+.tab-btn.active {
+    background: var(--amd-purple);
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+}
+
+@media (max-width: 1024px) {
+    .amd-stats-row {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .amd-mid-row.tri {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,454 @@
+/* ═══════════════════════════════════════════════════════════════
+   SESSION ATTENDANCE TRACKER - PROFESSIONAL V5 (WHITE/INDIGO)
+   Aesthetic: Clinical Precision, Professional Hierarchy, High Contrast
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+    --att-primary: #4f46e5;
+    --att-primary-light: #eef2ff;
+    --att-secondary: #8b5cf6;
+    --att-success: #10b981;
+    --att-danger: #ef4444;
+    --att-warning: #f59e0b;
+    --att-info: #3b82f6;
+    --att-bg: #ffffff;
+    --att-card: #f8fafc;
+    --att-border: #e2e8f0;
+    --att-text-main: #1e293b;
+    --att-text-muted: #64748b;
+}
+
+.faculty-marking-container {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+}
+
+/* ─────── Header ─────── */
+.marking-header {
+    border-bottom: 2px solid var(--att-border);
+    padding-bottom: 2rem;
+}
+
+.marking-header h1 {
+    font-size: 2.75rem;
+    font-weight: 950;
+    color: var(--att-text-main);
+    margin: 0;
+    letter-spacing: -0.05em;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.marking-header h1 span {
+    color: var(--att-primary);
+}
+
+.nexus-subtitle {
+    margin-top: 0.5rem;
+    font-size: 1rem;
+    color: var(--att-text-muted);
+    font-weight: 600;
+}
+
+/* ─────── Glass Form ─────── */
+.marking-form {
+    background: white;
+    border-radius: 28px;
+    padding: 0;
+}
+
+.form-section {
+    background: var(--att-card);
+    border: 1.5px solid var(--att-border);
+    border-radius: 24px;
+    padding: 2.5rem;
+    margin-bottom: 2.5rem;
+}
+
+.form-header-v6 {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.icon-box-v6 {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.form-group.flex-2 {
+    grid-column: span 2;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 850;
+    color: var(--att-text-main);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.75rem;
+}
+
+.form-group select,
+.form-group input {
+    width: 100%;
+    padding: 0.9rem 1.2rem;
+    border: 1.5px solid var(--att-border);
+    border-radius: 14px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--att-text-main);
+    background: white;
+    transition: all 0.2s ease;
+}
+
+.form-group select:focus,
+.form-group input:focus {
+    outline: none;
+    border-color: var(--att-primary);
+    box-shadow: 0 0 0 4px var(--att-primary-light);
+}
+
+/* ─────── Stats ─────── */
+.statistics {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1.25rem;
+    margin-bottom: 2.5rem;
+}
+
+.stat-card {
+    background: white;
+    border: 1.5px solid var(--att-border);
+    padding: 1.5rem;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    transition: transform 0.2s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+}
+
+.stat-value {
+    font-size: 2.25rem;
+    font-weight: 950;
+    color: var(--att-text-main);
+    letter-spacing: -0.05em;
+}
+
+.stat-label {
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: var(--att-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.stat-icon {
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+}
+
+.stat-card.green .stat-icon {
+    color: var(--att-success);
+}
+
+.stat-card.red .stat-icon {
+    color: var(--att-danger);
+}
+
+.stat-card.yellow .stat-icon {
+    color: var(--att-warning);
+}
+
+.stat-card.blue .stat-icon {
+    color: var(--att-info);
+}
+
+.stat-card.total .stat-icon {
+    color: var(--att-primary);
+}
+
+/* ─────── Bulk Actions ─────── */
+.bulk-actions {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.bulk-btn {
+    flex: 1;
+    padding: 1rem;
+    border: 1.5px solid var(--att-border);
+    border-radius: 14px;
+    background: white;
+    color: var(--att-text-main);
+    font-weight: 850;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.mark-all-present:hover {
+    background: var(--att-success);
+    color: white;
+    border-color: var(--att-success);
+}
+
+.mark-all-absent:hover {
+    background: var(--att-danger);
+    color: white;
+    border-color: var(--att-danger);
+}
+
+/* ─────── Roster ─────── */
+.student-list-section {
+    background: white;
+    border: 1.5px solid var(--att-border);
+    border-radius: 24px;
+    overflow: hidden;
+}
+
+.list-header {
+    padding: 1.5rem 2rem;
+    background: var(--att-card);
+    border-bottom: 1.5px solid var(--att-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.list-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 900;
+    color: var(--att-text-main);
+}
+
+.list-header h3 span {
+    color: var(--att-primary);
+    font-size: 0.9rem;
+    margin-left: 0.5rem;
+}
+
+.search-wrapper {
+    position: relative;
+    width: 300px;
+}
+
+.search-wrapper svg {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--att-text-muted);
+}
+
+.search-input {
+    width: 100%;
+    padding: 0.7rem 1rem 0.7rem 2.8rem !important;
+    border-radius: 10px !important;
+    border: 1.5px solid var(--att-border) !important;
+    font-weight: 600 !important;
+}
+
+.student-list {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.student-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    border: 1.5px solid var(--att-border);
+    border-radius: 16px;
+    transition: all 0.2s;
+}
+
+.student-row:hover {
+    border-color: var(--att-primary);
+    background: var(--att-primary-light);
+}
+
+.student-info {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.sid-pill {
+    background: var(--att-card);
+    color: var(--att-text-main);
+    padding: 0.4rem 0.8rem;
+    border-radius: 8px;
+    font-weight: 850;
+    font-size: 0.75rem;
+    border: 1.5px solid var(--att-border);
+    min-width: 90px;
+    text-align: center;
+}
+
+.student-name {
+    font-weight: 800;
+    color: var(--att-text-main);
+    font-size: 1rem;
+}
+
+.status-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.status-chip {
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    font-size: 0.7rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: white;
+    border: 1.5px solid var(--att-border);
+    color: var(--att-text-muted);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.status-chip:hover {
+    border-color: var(--att-text-main);
+    color: var(--att-text-main);
+}
+
+.status-chip.active.present {
+    background: var(--att-success);
+    color: white;
+    border-color: var(--att-success);
+    box-shadow: 0 4px 10px rgba(16, 185, 129, 0.2);
+}
+
+.status-chip.active.absent {
+    background: var(--att-danger);
+    color: white;
+    border-color: var(--att-danger);
+    box-shadow: 0 4px 10px rgba(239, 68, 68, 0.2);
+}
+
+.status-chip.active.leave {
+    background: var(--att-warning);
+    color: white;
+    border-color: var(--att-warning);
+    box-shadow: 0 4px 10px rgba(245, 158, 11, 0.2);
+}
+
+.status-chip.active.late {
+    background: var(--att-info);
+    color: white;
+    border-color: var(--att-info);
+    box-shadow: 0 4px 10px rgba(59, 130, 246, 0.2);
+}
+
+/* ─────── Footer ─────── */
+.form-actions {
+    margin-top: 3rem;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 1.2rem;
+    background: var(--att-primary);
+    color: white;
+    border: none;
+    border-radius: 16px;
+    font-size: 1.1rem;
+    font-weight: 950;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 10px 25px -5px rgba(79, 70, 229, 0.4);
+}
+
+.submit-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 30px -5px rgba(79, 70, 229, 0.5);
+}
+
+.submit-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.success-message {
+    background: #f0fdf4;
+    color: var(--att-success);
+    padding: 1rem;
+    border-radius: 12px;
+    border: 1.5px solid #dcfce7;
+    font-weight: 800;
+    margin-top: 1.5rem;
+    text-align: center;
+}
+
+.error-message {
+    background: #fef2f2;
+    color: var(--att-danger);
+    padding: 1rem;
+    border-radius: 12px;
+    border: 1.5px solid #fee2e2;
+    font-weight: 800;
+    margin-top: 1.5rem;
+    text-align: center;
+}
+
+@media (max-width: 992px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-group.flex-2 {
+        grid-column: span 1;
+    }
+
+    .statistics {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .student-row {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .status-actions {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+}

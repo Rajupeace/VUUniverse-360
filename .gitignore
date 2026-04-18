@@ -1,0 +1,56 @@
+# Dependencies
+node_modules/
+**/node_modules/
+.venv/
+**/.venv/
+
+# Environment files
+.env
+**/.env
+
+# Logs
+*.log
+npm-debug.log*
+
+# Build output
+/build
+/dist
+**/dist/
+
+# Coverage
+coverage/
+
+# Python
+__pycache__/
+*.pyc
+
+# Backup files
+*.bak
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# AWS
+.elasticbeanstalk/*.env
+.elasticbeanstalk/config.global.yml
+*.pem
+*.key
+aws-exports.js
+
+# Deployment artifacts
+*.zip
+*.tar.gz
+.serverless/
+.webpack/
+cdk.out/
+
+# Temp files
+*.tmp
+temp/

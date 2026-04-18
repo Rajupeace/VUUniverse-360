@@ -1,0 +1,115 @@
+/* ═══════════════════════════════════════════════════════════════
+   FACULTY NOTICE BOARD - PREMIUM V6 DESIGN
+   Aesthetic: Trust-Centric Glassmorphism, Sophisticated Typography
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+    --not-primary: #6366f1;
+    --not-slate-50: #f8fafc;
+    --not-slate-100: #f1f5f9;
+    --not-slate-200: #e2e8f0;
+    --not-slate-700: #475569;
+    --not-slate-900: #0f172a;
+    --not-glass: rgba(255, 255, 255, 0.85);
+    --not-border: rgba(226, 232, 240, 0.6);
+}
+
+.notice-board-container {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    animation: notFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.notice-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 2rem;
+}
+
+.notice-card-v6 {
+    background: var(--not-glass);
+    backdrop-filter: blur(12px);
+    border-radius: 28px;
+    padding: 2.5rem;
+    border: 1px solid var(--not-border);
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.04);
+}
+
+.notice-card-v6:hover {
+    transform: translateY(-8px);
+    border-color: var(--not-primary);
+    box-shadow: 0 25px 50px -15px rgba(0, 0, 0, 0.08);
+}
+
+.notice-accent-line {
+    position: absolute;
+    top: 2rem;
+    left: 0;
+    width: 6px;
+    height: 60px;
+    background: var(--not-primary);
+    border-radius: 0 4px 4px 0;
+}
+
+.notice-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.notice-tag {
+    padding: 0.4rem 0.8rem;
+    border-radius: 10px;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--not-primary);
+    font-size: 0.7rem;
+    font-weight: 950;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.notice-date {
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: var(--not-slate-700);
+    opacity: 0.5;
+}
+
+.notice-text {
+    font-size: 1.15rem;
+    font-weight: 850;
+    color: var(--not-slate-900);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.notice-footer-bar {
+    height: 4px;
+    width: 40px;
+    background: var(--not-primary);
+    border-radius: 10px;
+    opacity: 0.3;
+}
+
+@keyframes notFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 768px) {
+    .notice-grid {
+        grid-template-columns: 1fr;
+    }
+}

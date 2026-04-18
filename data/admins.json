@@ -1,0 +1,14 @@
+[
+  {
+    "_id": "699959a1484fc0502a2781ac",
+    "adminId": "BobbyFNB@09=",
+    "password": "Martin@FNB09",
+    "adminToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IkJvYmJ5Rk5CQDA5PSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3MTc5MTAyMiwiZXhwIjoxNzcyMzk1ODIyfQ.M2CNmc_FnzJiMV4PvF-pDz9Qs1SwQnY5tSVp7qNdQPo",
+    "tokenIssuedAt": "2026-02-22T20:10:22.982Z",
+    "name": "Bobby Admin",
+    "role": "admin",
+    "createdAt": "2026-02-21T07:07:13.959Z",
+    "updatedAt": "2026-02-22T20:10:23.015Z",
+    "__v": 0
+  }
+]

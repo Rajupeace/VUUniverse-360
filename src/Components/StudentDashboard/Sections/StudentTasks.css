@@ -1,0 +1,318 @@
+/* ==========================================================================
+   STUDENT TASKS (SENTINEL THEME)
+   Theme: Vu UniVerse360 Premium
+   ========================================================================== */
+
+.tasks-page {
+    position: relative;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+    animation: fadeIn 0.4s ease-out;
+}
+
+.tasks-grid {
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 2.5rem;
+    margin-top: 2rem;
+}
+
+@media (max-width: 1024px) {
+    .tasks-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* --- FILTERS --- */
+.task-filters {
+    display: flex;
+    gap: 0.5rem;
+    background: var(--v-surface);
+    padding: 0.5rem;
+    border-radius: 14px;
+    border: 1px solid var(--v-border);
+}
+
+.filter-btn {
+    padding: 0.6rem 1.25rem;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--v-text-muted);
+    font-size: 0.75rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.filter-btn:hover {
+    color: var(--v-text-main);
+}
+
+.filter-btn.active {
+    background: var(--v-bg);
+    color: var(--v-primary);
+    border-color: var(--v-border);
+    box-shadow: var(--v-shadow-sm);
+}
+
+/* --- ADD TASK --- */
+.add-task-card {
+    background: var(--v-surface);
+    padding: 2rem;
+    border-radius: 24px;
+    border: 1px solid var(--v-border);
+    height: fit-content;
+    position: sticky;
+    top: 2rem;
+    box-shadow: var(--v-shadow);
+}
+
+.add-task-card h3 {
+    font-size: 1rem;
+    font-weight: 950;
+    color: var(--v-text-main);
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    letter-spacing: 0.5px;
+}
+
+.add-task-card input {
+    width: 100%;
+    padding: 1rem 1.25rem;
+    border-radius: 14px;
+    border: 1px solid var(--v-border);
+    background: var(--v-bg);
+    font-size: 0.95rem;
+    font-weight: 600;
+    outline: none;
+    transition: all 0.2s;
+    color: var(--v-text-main);
+}
+
+.add-task-card input:focus {
+    border-color: var(--v-primary);
+    background: white;
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+}
+
+.add-task-expanded {
+    overflow: hidden;
+}
+
+.date-hint {
+    margin-top: 1.25rem;
+    font-size: 0.8rem;
+    color: var(--v-text-muted);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+}
+
+.form-actions {
+    margin-top: 2rem;
+    display: flex;
+    gap: 1rem;
+}
+
+.save-btn {
+    flex: 2;
+    padding: 1rem;
+    background: var(--v-text-main);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-weight: 800;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.save-btn:hover {
+    background: black;
+    transform: translateY(-2px);
+    box-shadow: var(--v-shadow);
+}
+
+.cancel-btn {
+    flex: 1;
+    padding: 1rem;
+    background: var(--v-bg);
+    color: var(--v-text-muted);
+    border: 1px solid transparent;
+    border-radius: 12px;
+    font-weight: 800;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.cancel-btn:hover {
+    background: #e2e8f0;
+    color: var(--v-text-main);
+}
+
+/* --- TASK LIST --- */
+.task-list-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.nexus-task-item {
+    background: var(--v-surface);
+    border-radius: 20px;
+    padding: 1.5rem;
+    border: 1px solid var(--v-border);
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+.nexus-task-item:hover {
+    border-color: var(--v-primary-light);
+    transform: translateX(5px);
+    box-shadow: var(--v-shadow);
+}
+
+.nexus-task-item.completed {
+    background: var(--v-bg);
+    border-color: transparent;
+    opacity: 0.8;
+}
+
+.task-main {
+    flex: 1;
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+    cursor: pointer;
+}
+
+.check-box {
+    font-size: 1.5rem;
+    color: var(--v-border-dark);
+    margin-top: 0.1rem;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.check-box .checked {
+    color: var(--v-accent);
+}
+
+.nexus-task-item:hover .check-box {
+    color: var(--v-primary);
+}
+
+.nexus-task-item:hover .check-box .checked {
+    color: var(--v-accent);
+}
+
+.task-text {
+    font-weight: 800;
+    color: var(--v-text-main);
+    font-size: 1.1rem;
+    display: block;
+    line-height: 1.4;
+}
+
+.completed .task-text {
+    text-decoration: line-through;
+    color: var(--v-text-muted);
+}
+
+.task-meta {
+    margin-top: 0.75rem;
+    display: flex;
+    gap: 1rem;
+    font-size: 0.75rem;
+    font-weight: 800;
+    flex-wrap: wrap;
+}
+
+.personal-badge {
+    color: var(--v-primary);
+    background: var(--v-primary-bg);
+    padding: 4px 10px;
+    border-radius: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.global-badge {
+    color: #d97706;
+    background: #fffbeb;
+    padding: 4px 10px;
+    border-radius: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.due-date {
+    color: var(--v-text-light);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.task-delete-btn {
+    background: #fef2f2;
+    border: none;
+    color: #f43f5e;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    opacity: 0;
+}
+
+.nexus-task-item:hover .task-delete-btn {
+    opacity: 1;
+}
+
+.task-delete-btn:hover {
+    background: #fee2e2;
+    transform: scale(1.1);
+}
+
+.empty-tasks {
+    padding: 5rem 2rem;
+    text-align: center;
+    background: var(--v-surface);
+    border-radius: 32px;
+    border: 2px dashed var(--v-border);
+}
+
+.empty-icon {
+    font-size: 4rem;
+    color: var(--v-border);
+    margin-bottom: 1.5rem;
+}
+
+.empty-tasks h4 {
+    font-weight: 950;
+    color: var(--v-text-main);
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+}
+
+.empty-tasks p {
+    font-size: 0.95rem;
+    color: var(--v-text-muted);
+    font-weight: 700;
+}

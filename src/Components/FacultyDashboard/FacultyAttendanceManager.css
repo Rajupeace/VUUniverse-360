@@ -1,0 +1,241 @@
+/* ═══════════════════════════════════════════════════════════════
+   ATTENDANCE COMMAND HUB - PROFESSIONAL V5 (WHITE/INDIGO)
+   Aesthetic: Clinical Precision, Professional Hierarchy, High Contrast
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+    --ach-primary: #4f46e5;
+    --ach-primary-light: #eef2ff;
+    --ach-success: #10b981;
+    --ach-danger: #ef4444;
+    --ach-warning: #f59e0b;
+    --ach-info: #3b82f6;
+    --ach-bg: #ffffff;
+    --ach-card: #f8fafc;
+    --ach-border: #e2e8f0;
+    --ach-text-main: #1e293b;
+    --ach-text-muted: #64748b;
+}
+
+.attendance-manager {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* ─────── Header ─────── */
+.f-view-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-bottom: 2px solid var(--ach-border);
+    padding-bottom: 2rem;
+    margin-bottom: 1rem;
+}
+
+.f-view-header h2 {
+    font-size: 2.75rem;
+    font-weight: 950;
+    color: var(--ach-text-main);
+    margin: 0;
+    letter-spacing: -0.05em;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.f-view-header h2 span {
+    color: var(--ach-primary);
+}
+
+.nexus-subtitle {
+    margin-top: 0.5rem;
+    font-size: 1rem;
+    color: var(--ach-text-muted);
+    font-weight: 600;
+}
+
+/* ─────── Controls Bar ─────── */
+.f-attendance-controls {
+    background: white !important;
+    border: 1.5px solid var(--ach-border) !important;
+    border-radius: 20px !important;
+    padding: 1.5rem !important;
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.control-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.control-icon-box {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.f-attendance-controls select,
+.f-attendance-controls input {
+    border: 1.5px solid var(--ach-border) !important;
+    border-radius: 10px !important;
+    padding: 0.5rem 1rem !important;
+    font-weight: 750 !important;
+    color: var(--ach-text-main) !important;
+    background: white !important;
+}
+
+/* ─────── Slot Pills ─────── */
+.slot-pill {
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+}
+
+.slot-pill:hover {
+    border-color: var(--ach-primary) !important;
+    transform: translateY(-2px);
+}
+
+.slot-pill.active {
+    background: var(--ach-primary-light) !important;
+    border-color: var(--ach-primary) !important;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.1) !important;
+}
+
+/* ─────── Stats Grid ─────── */
+.f-weekly-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.f-stat-card {
+    background: white;
+    border: 1.5px solid var(--ach-border);
+    border-radius: 16px;
+    padding: 1.25rem !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    transition: transform 0.2s ease;
+}
+
+.f-stat-card:hover {
+    transform: translateY(-3px);
+}
+
+.f-stat-card .val {
+    font-size: 2rem;
+    font-weight: 950;
+    letter-spacing: -0.05em;
+}
+
+.f-stat-card .lab {
+    font-size: 0.65rem;
+    font-weight: 850;
+    color: var(--ach-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+/* ─────── Roster ─────── */
+.f-roster-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 1.25rem;
+}
+
+.f-node-card {
+    border: 1.5px solid var(--ach-border) !important;
+    border-radius: 20px !important;
+    transition: all 0.2s !important;
+    position: relative;
+    overflow: hidden;
+}
+
+.f-node-card:hover {
+    border-color: var(--ach-primary) !important;
+    background: var(--ach-primary-light) !important;
+}
+
+.f-node-card.absent-node {
+    border-left-width: 6px !important;
+}
+
+.daily-log-marker {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    transition: all 0.2s;
+}
+
+/* ─────── Footer ─────── */
+.f-submit-footer {
+    background: white !important;
+    border-top: 2px solid var(--ach-border) !important;
+    padding: 1.5rem 2.5rem !important;
+    margin: 0 -2rem -2rem -2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nexus-btn-primary {
+    padding: 1rem 2.5rem;
+    background: var(--ach-primary);
+    color: white;
+    border: none;
+    border-radius: 14px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.nexus-btn-primary:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px -5px rgba(79, 70, 229, 0.4);
+}
+
+.nexus-btn-primary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+@media (max-width: 1024px) {
+    .f-weekly-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .f-attendance-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}

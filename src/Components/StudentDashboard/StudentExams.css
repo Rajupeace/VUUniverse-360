@@ -1,0 +1,602 @@
+/* ==========================================================================
+   STUDENT EXAMS (SENTINEL THEME)
+   Theme: Vu UniVerse360 Premium
+   ========================================================================== */
+
+.nexus-exams-list,
+.nexus-assessment-history,
+.nexus-exam-taking-env,
+.nexus-result-center {
+    padding: 2.5rem;
+    max-width: 1600px;
+    margin: 0 auto;
+    position: relative;
+    animation: fadeIn 0.4s ease-out;
+}
+
+/* --- LIST VIEW --- */
+.nexus-exams-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 3rem;
+}
+
+.nexus-journal-title {
+    font-size: 3rem;
+    font-weight: 950;
+    color: var(--v-text-main);
+    margin: 0;
+    letter-spacing: -2px;
+}
+
+.nexus-journal-title span {
+    color: var(--v-primary);
+}
+
+.nexus-journal-subtitle {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--v-primary);
+    font-weight: 950;
+    letter-spacing: 2px;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+}
+
+.header-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.nexus-history-trigger {
+    padding: 0.8rem 1.5rem;
+    border-radius: 14px;
+    border: 1px solid var(--v-border);
+    background: white;
+    color: var(--v-text-dim);
+    font-weight: 800;
+    cursor: pointer;
+    transition: 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.85rem;
+}
+
+.nexus-history-trigger:hover {
+    border-color: var(--v-primary);
+    color: var(--v-primary);
+    box-shadow: var(--v-shadow-sm);
+}
+
+/* --- GRID & CARDS --- */
+.nexus-notes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 2rem;
+}
+
+.challenge-node-card {
+    background: var(--v-surface);
+    border-radius: 24px;
+    padding: 2rem;
+    border: 1px solid var(--v-border);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: var(--v-shadow);
+    display: flex;
+    flex-direction: column;
+}
+
+.challenge-node-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--v-primary-light);
+    box-shadow: var(--v-shadow-lg);
+}
+
+.node-accent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, var(--v-primary), var(--v-accent));
+}
+
+.node-head {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+}
+
+.subject-tag {
+    font-size: 0.75rem;
+    font-weight: 900;
+    color: var(--v-primary);
+    background: var(--v-primary-bg);
+    padding: 4px 10px;
+    border-radius: 6px;
+    letter-spacing: 0.5px;
+}
+
+.week-tag {
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: var(--v-text-muted);
+}
+
+.node-title {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: var(--v-text-main);
+    margin: 0 0 1.5rem;
+    line-height: 1.3;
+}
+
+.node-metrics {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.node-metric-item {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--v-text-dim);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.node-launch-btn {
+    margin-top: auto;
+    width: 100%;
+    padding: 1rem;
+    border-radius: 12px;
+    border: none;
+    background: var(--v-text-main);
+    color: white;
+    font-weight: 800;
+    cursor: pointer;
+    transition: 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+}
+
+.node-launch-btn:hover {
+    background: black;
+    transform: scale(1.02);
+}
+
+/* --- EXAM TAKING --- */
+.nexus-exam-taking-env {
+    max-width: 1000px;
+}
+
+.exam-sticky-header {
+    position: sticky;
+    top: 80px;
+    z-index: 50;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--v-border);
+    padding: 1.25rem 2rem;
+    border-radius: 20px;
+    box-shadow: var(--v-shadow-lg);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3rem;
+}
+
+.exam-id-badge {
+    font-size: 0.7rem;
+    font-weight: 900;
+    color: var(--v-accent);
+    letter-spacing: 1px;
+    margin-bottom: 0.25rem;
+}
+
+.header-left h2 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 900;
+    color: var(--v-text-main);
+}
+
+.subject-pipe {
+    color: var(--v-text-muted);
+    font-weight: 400;
+    margin-left: 0.5rem;
+}
+
+.nexus-timer {
+    font-size: 1.5rem;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 900;
+    font-variant-numeric: tabular-nums;
+    color: var(--v-text-main);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: var(--v-bg);
+    padding: 0.5rem 1.5rem;
+    border-radius: 12px;
+    border: 1px solid var(--v-border);
+}
+
+.nexus-timer.critical {
+    color: #ef4444;
+    background: #fef2f2;
+    border-color: #fee2e2;
+    animation: pulse-red 1s infinite;
+}
+
+@keyframes pulse-red {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.nexus-btn-finish {
+    padding: 0.75rem 1.5rem;
+    border-radius: 12px;
+    border: none;
+    background: var(--v-primary);
+    color: white;
+    font-weight: 800;
+    cursor: pointer;
+    transition: 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.nexus-btn-finish:hover {
+    background: var(--v-primary-dark);
+}
+
+/* --- QUESTIONS --- */
+.nexus-q-card {
+    background: white;
+    border: 1px solid var(--v-border);
+    border-radius: 24px;
+    padding: 2.5rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--v-shadow-sm);
+}
+
+.q-label {
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: var(--v-text-muted);
+    margin-bottom: 1rem;
+    letter-spacing: 1px;
+}
+
+.q-marks {
+    float: right;
+    color: var(--v-primary);
+}
+
+.q-text {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--v-text-main);
+    margin: 0 0 2rem;
+    line-height: 1.5;
+}
+
+.options-matrix {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.option-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem;
+    border: 2px solid var(--v-border);
+    border-radius: 16px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.option-item:hover {
+    background: var(--v-bg);
+    border-color: var(--v-border-dark);
+}
+
+.option-item.selected {
+    border-color: var(--v-primary);
+    background: var(--v-primary-bg);
+}
+
+.option-item input {
+    display: none;
+}
+
+.opt-marker {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--v-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    color: var(--v-text-muted);
+    font-size: 0.9rem;
+}
+
+.option-item.selected .opt-marker {
+    background: var(--v-primary);
+    color: white;
+}
+
+.opt-text {
+    font-weight: 600;
+    color: var(--v-text-main);
+}
+
+.nexus-mega-submit {
+    width: 100%;
+    padding: 1.5rem;
+    background: black;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 900;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 2rem;
+    letter-spacing: 1px;
+}
+
+.nexus-mega-submit:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* --- RESULT VIEW --- */
+.nexus-result-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+}
+
+.nexus-result-card {
+    background: white;
+    padding: 4rem;
+    border-radius: 32px;
+    text-align: center;
+    max-width: 600px;
+    width: 100%;
+    box-shadow: var(--v-shadow-xl);
+    border: 1px solid var(--v-border);
+}
+
+.nexus-stamp {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+}
+
+.result-title {
+    font-size: 2.5rem;
+    font-weight: 950;
+    color: var(--v-text-main);
+    margin: 0 0 1rem;
+}
+
+.result-desc {
+    font-size: 1rem;
+    color: var(--v-text-muted);
+    font-weight: 500;
+    margin-bottom: 3rem;
+}
+
+.result-stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.res-stat-card {
+    background: var(--v-bg);
+    padding: 1.5rem;
+    border-radius: 16px;
+}
+
+.res-stat-card .val {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: var(--v-text-main);
+}
+
+.res-stat-card .lab {
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: var(--v-text-muted);
+    margin-top: 0.5rem;
+}
+
+.highlight-big {
+    font-size: 2rem !important;
+}
+
+.rating.pass {
+    color: var(--v-accent) !important;
+}
+
+.rating.fail {
+    color: #f43f5e !important;
+}
+
+.result-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.nexus-btn-pri,
+.nexus-btn-sec {
+    flex: 1;
+    padding: 1rem;
+    border-radius: 14px;
+    font-weight: 800;
+    cursor: pointer;
+    border: none;
+    transition: 0.2s;
+}
+
+.nexus-btn-pri {
+    background: var(--v-text-main);
+    color: white;
+}
+
+.nexus-btn-sec {
+    background: var(--v-bg);
+    color: var(--v-text-main);
+}
+
+/* --- HISTORY --- */
+.history-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.nexus-back-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    border: 1px solid var(--v-border);
+    background: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--v-text-dim);
+}
+
+.history-title {
+    font-size: 2rem;
+    font-weight: 950;
+    margin: 0;
+}
+
+.history-title span {
+    color: var(--v-primary);
+}
+
+.nexus-history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.nexus-history-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    padding: 1.5rem 2rem;
+    border-radius: 18px;
+    border: 1px solid var(--v-border);
+    transition: 0.2s;
+}
+
+.nexus-history-card:hover {
+    transform: translateX(5px);
+    border-color: var(--v-primary);
+    box-shadow: var(--v-shadow);
+}
+
+.card-left {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.subject-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--v-primary);
+}
+
+.card-left h4 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--v-text-main);
+}
+
+.info-sub {
+    font-size: 0.8rem;
+    color: var(--v-text-muted);
+    font-weight: 600;
+}
+
+.card-right {
+    text-align: right;
+}
+
+.card-right .score {
+    font-size: 1.2rem;
+    font-weight: 900;
+    color: var(--v-text-main);
+}
+
+.card-right .rating {
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+/* Empty States */
+.nexus-empty-challenges {
+    text-align: center;
+    padding: 5rem;
+    grid-column: 1/-1;
+    background: var(--v-bg);
+    border-radius: 20px;
+    border: 2px dashed var(--v-border);
+}
+
+.empty-ufo {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+@media (max-width: 768px) {
+    .options-matrix {
+        grid-template-columns: 1fr;
+    }
+
+    .exam-sticky-header {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+}

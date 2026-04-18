@@ -1,0 +1,117 @@
+/* ==========================================================================
+   SKILLS RADAR (SENTINEL THEME)
+   Theme: Vu UniVerse360 Premium
+   ========================================================================== */
+
+.radar-card {
+    background: var(--v-surface);
+    border-radius: 28px;
+    padding: 2rem;
+    border: 1px solid var(--v-border);
+    box-shadow: var(--v-shadow);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    animation: fadeIn 0.5s ease-out;
+}
+
+.radar-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--v-shadow-lg);
+    border-color: var(--v-primary-light);
+}
+
+.radar-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px dashed var(--v-border);
+}
+
+.radar-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 950;
+    color: var(--v-text-main);
+}
+
+.radar-header h3 span {
+    color: var(--v-primary);
+}
+
+.pro-badge {
+    background: linear-gradient(135deg, var(--v-primary), var(--v-primary-dark));
+    color: white;
+    font-size: 0.65rem;
+    font-weight: 800;
+    padding: 0.3rem 0.75rem;
+    border-radius: 100px;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3);
+}
+
+.radar-body {
+    position: relative;
+    z-index: 10;
+}
+
+.radar-point {
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.radar-point:hover {
+    r: 6px;
+    fill: var(--v-accent);
+}
+
+.radar-label {
+    font-family: 'Outfit', sans-serif;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.radar-footer {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2rem;
+    background: var(--v-bg);
+    padding: 1rem 1.5rem;
+    border-radius: 16px;
+}
+
+.skill-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.skill-stat .val {
+    font-size: 1.25rem;
+    font-weight: 950;
+    color: var(--v-text-main);
+}
+
+.skill-stat .lbl {
+    font-size: 0.65rem;
+    font-weight: 800;
+    color: var(--v-text-muted);
+    letter-spacing: 1px;
+    margin-top: 0.25rem;
+}
+
+.hover-expand {
+    transition: r 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), fill 0.3s ease;
+}
+
+.hover-expand:hover {
+    r: 8px !important;
+    fill: #f59e0b !important;
+}

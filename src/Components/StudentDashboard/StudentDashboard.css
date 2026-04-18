@@ -1,0 +1,675 @@
+/* ==========================================================================
+   THE ULTIMATE STUDENT DASHBOARD DESIGN SYSTEM
+   Theme: "Sentinel Nexus" - High-Fidelity, Clean, Future-Ready
+   ========================================================================== */
+
+:root {
+    /* Core Palette (Sentinel System) */
+    --v-primary: #4f46e5;
+    --v-primary-light: #6366f1;
+    --v-primary-dark: #4338ca;
+    --v-secondary: #f59e0b;
+    --v-accent: #10b981;
+    --v-danger: #ef4444;
+    --v-bg: #f8fafc;
+    --v-surface: #ffffff;
+    --v-surface-light: #f1f5f9;
+    --v-border: rgba(15, 23, 42, 0.08);
+
+    /* Text Information */
+    --v-text-main: #0f172a;
+    --v-text-dim: #475569;
+    --v-text-muted: #94a3b8;
+    --v-text-light: #cbd5e1;
+
+    /* Extended Palette */
+    --v-primary-bg: #eef2ff;
+    --v-border-dark: #cbd5e1;
+
+    /* Elevation & Effects */
+    --v-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --v-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --v-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --v-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    --v-glass: rgba(255, 255, 255, 0.7);
+    --v-glass-blur: blur(20px);
+    --v-radius: 12px;
+    --v-radius-xl: 24px;
+    --v-ease: cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Legacy Mapping for compatibility */
+    --nexus-primary: var(--v-primary);
+    --nexus-secondary: var(--v-secondary);
+    --nexus-bg: var(--v-bg);
+    --nexus-text-main: var(--v-text-main);
+    --nexus-text-muted: var(--v-text-muted);
+    --nexus-ease: var(--v-ease);
+    --nexus-radius: var(--v-radius);
+    --nexus-shadow: var(--v-shadow-md);
+    --nexus-shadow-lg: var(--v-shadow-lg);
+
+    /* Shared Animations */
+    --anim-fade: fadeIn 0.4s ease-out;
+    --anim-slide: slideInUp 0.4s ease-out;
+}
+
+/* ==========================================================================
+   GLOBAL ANIMATIONS
+   ========================================================================== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* ==========================================================================
+   GLOBAL RESET & UTILITIES
+   ========================================================================== */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Outfit', sans-serif;
+    background-color: var(--v-bg);
+    color: var(--v-text-main);
+    overflow: hidden;
+    /* Prevent body scroll, handle in content area */
+}
+
+/* Smooth Scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* ==========================================================================
+   MAIN LAYOUT ENGINE
+   ========================================================================== */
+.student-dashboard-layout {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    background: var(--v-bg);
+    overflow: hidden;
+    position: relative;
+}
+
+/* Sidebar styles are handled in StudentSidebar.css */
+
+/* --- CONTENT AREA --- */
+.dashboard-content-area {
+    flex: 1;
+    height: 100vh;
+    overflow-y: auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: var(--v-bg);
+    /* Subtle mesh grid background matches other dashboards */
+    background-image:
+        linear-gradient(rgba(79, 70, 229, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(79, 70, 229, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+
+    /* Custom Scrollbar for Content Area */
+    scrollbar-width: thin;
+    scrollbar-color: var(--v-primary) transparent;
+}
+
+.dashboard-content-area::-webkit-scrollbar {
+    width: 6px;
+}
+
+.dashboard-content-area::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.dashboard-content-area::-webkit-scrollbar-thumb {
+    background: var(--v-primary-light);
+    border-radius: 10px;
+}
+
+/* Header */
+.nexus-glass-header {
+    height: 80px;
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--v-border);
+    position: sticky;
+    top: 0;
+    z-index: 40;
+}
+
+.nexus-view-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--v-text-main);
+    margin: 0;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+}
+
+.nexus-view-title span {
+    color: var(--v-primary-light);
+}
+
+.header-time-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.time-val {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--v-text-main);
+    font-variant-numeric: tabular-nums;
+}
+
+.date-val {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--v-text-muted);
+    text-transform: uppercase;
+}
+
+/* --- PAGE CONTAINER --- */
+.nexus-bento-viewport,
+.nexus-page-container {
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* --- BENTO GRID SYSTEM --- */
+.bento-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    grid-auto-rows: minmax(160px, auto);
+}
+
+.bento-card {
+    background: var(--v-surface);
+    border: 1px solid var(--v-border);
+    border-radius: var(--v-radius);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+    animation: floating-dashboard 6s ease-in-out infinite;
+}
+
+.animate-bento:nth-child(2n) {
+    animation-delay: 0.5s;
+}
+
+.animate-bento:nth-child(3n) {
+    animation-delay: 1s;
+}
+
+@keyframes floating-dashboard {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+.bento-card:hover {
+    transform: translateY(-12px) scale(1.01);
+    box-shadow: var(--v-shadow-xl);
+    border-color: var(--v-primary-light);
+    animation-play-state: paused;
+}
+
+.span-grid-2 {
+    grid-column: span 2;
+}
+
+.span-grid-3 {
+    grid-column: span 3;
+}
+
+.span-grid-4 {
+    grid-column: span 4;
+}
+
+/* Bento Hero */
+.bento-hero {
+    grid-column: span 4;
+    background: linear-gradient(135deg, white, #f0fdf4);
+    border: 1px solid #bbf7d0;
+    border-radius: var(--v-radius-xl);
+    padding: 3rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 20px 40px -10px rgba(16, 185, 129, 0.1);
+}
+
+.hero-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+    gap: 2rem;
+}
+
+.hero-greeting h2 {
+    font-size: 2.5rem;
+    font-weight: 950;
+    margin: 0 0 0.5rem 0;
+    letter-spacing: -0.05em;
+    color: var(--v-text-main);
+}
+
+.hero-greeting h2 span {
+    color: #15803d;
+    /* Green accent for students */
+}
+
+.hero-greeting p {
+    font-size: 1.1rem;
+    color: var(--v-text-dim);
+    max-width: 600px;
+}
+
+/* --- PREMIUM STUDENT BUTTONS V6 --- */
+.quick-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.4rem;
+    border-radius: 12px;
+    font-weight: 800;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid transparent;
+    letter-spacing: 0.02em;
+    min-width: 40px;
+}
+
+/* Default Primary (Green) */
+.quick-btn.primary,
+.quick-btn {
+    background: linear-gradient(135deg, #15803d 0%, #166534 100%);
+    color: white;
+    box-shadow: 0 4px 10px rgba(21, 128, 61, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.quick-btn.primary:hover,
+.quick-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(21, 128, 61, 0.3);
+    background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+}
+
+.quick-btn.secondary {
+    background: white;
+    border: 1px solid #e2e8f0;
+    color: #475569;
+}
+
+.quick-btn.secondary:hover {
+    border-color: #15803d;
+    color: #15803d;
+    background: #f0fdf4;
+}
+
+.quick-btn.outline {
+    background: transparent;
+    border: 2px solid #15803d;
+    color: #15803d;
+    box-shadow: none;
+}
+
+.quick-btn.outline:hover {
+    background: #15803d;
+    color: white;
+}
+
+.quick-btn.danger {
+    background: #fee2e2;
+    color: #ef4444;
+    border: 1px solid #fee2e2;
+}
+
+.quick-btn.danger:hover {
+    background: #ef4444;
+    color: white;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.quick-btn svg {
+    font-size: 1.1em;
+}
+
+/* Stat Cards */
+.stat-card-premium {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--v-text-muted);
+    letter-spacing: 0.05em;
+}
+
+.stat-value {
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: var(--v-text-main);
+    line-height: 1;
+}
+
+.stat-sub {
+    font-size: 0.75rem;
+    color: var(--v-text-dim);
+}
+
+.stat-mini-chart {
+    height: 6px;
+    background: #e2e8f0;
+    border-radius: 10px;
+    width: 100%;
+    margin-top: auto;
+    overflow: hidden;
+}
+
+.mini-bar-flow {
+    height: 100%;
+    background: var(--v-primary);
+    border-radius: 10px;
+}
+
+/* Bento Utilities */
+
+.bento-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.bento-card-header h3 {
+    font-size: 1.1rem;
+    font-weight: 800;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--v-text-main);
+}
+
+.bento-card-header h3 svg {
+    color: var(--v-primary);
+}
+
+.bento-pulse {
+    background: white;
+    /* Fallback */
+}
+
+/* Session/Class Compact View */
+.session-compact {
+    margin-top: auto;
+}
+
+.s-subject {
+    font-size: 1.25rem;
+    font-weight: 900;
+    margin: 0 0 0.5rem 0;
+    color: var(--v-text-main);
+}
+
+.s-meta {
+    font-size: 0.85rem;
+    color: var(--v-text-dim);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.s-faculty {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--v-text-muted);
+    margin-bottom: 1rem;
+}
+
+.s-action {
+    width: 100%;
+    padding: 0.8rem;
+    border-radius: 8px;
+    border: 1px solid var(--v-border);
+    background: var(--v-bg);
+    color: var(--v-primary);
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.s-action:hover {
+    background: var(--v-primary);
+    color: white;
+}
+
+.live-tag {
+    background: #ecfdf5;
+    color: #10b981;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+}
+
+.session-empty {
+    color: var(--v-text-muted);
+    font-style: italic;
+    font-size: 0.9rem;
+    margin-top: 1rem;
+}
+
+/* --- COMPONENTS --- */
+
+/* Student Header for subjects etc */
+.student-header {
+    margin-bottom: 2rem;
+}
+
+.student-header h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    margin: 0;
+    color: var(--v-text-main);
+}
+
+/* Cards & Lists */
+.nexus-card {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem;
+    border: 1px solid var(--v-border);
+    box-shadow: var(--v-shadow-sm);
+}
+
+/* Notification Overlay */
+.navigating-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px);
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.navigating-pulse {
+    width: 60px;
+    height: 60px;
+    border: 4px solid var(--v-primary);
+    border-radius: 50%;
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(0.8);
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: scale(1.5);
+        opacity: 0;
+    }
+}
+
+/* --- MOBILE RESPONSIVENESS --- */
+.mobile-sidebar-toggle {
+    display: none;
+    position: fixed;
+    bottom: 2rem;
+    left: 2rem;
+    width: 56px;
+    height: 56px;
+    background: var(--v-primary);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    z-index: 100;
+    box-shadow: 0 10px 25px rgba(79, 70, 229, 0.4);
+    font-size: 1.5rem;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.mobile-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 45;
+}
+
+@media (max-width: 1024px) {
+    .bento-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .span-grid-3,
+    .span-grid-4 {
+        grid-column: span 2;
+    }
+
+    .nexus-sidebar {
+        position: fixed;
+        transform: translateX(-100%);
+        box-shadow: 20px 0 50px rgba(0, 0, 0, 0.2);
+    }
+
+    .mobile-open .nexus-sidebar {
+        transform: translateX(0);
+        width: 280px !important;
+    }
+
+    .mobile-sidebar-toggle {
+        display: flex;
+    }
+}
+
+@media (max-width: 640px) {
+    .bento-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .span-grid-2,
+    .span-grid-3,
+    .span-grid-4 {
+        grid-column: span 1;
+    }
+
+    .hero-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.5rem;
+    }
+
+    .quick-btn {
+        margin-left: 0;
+        margin-right: 1rem;
+    }
+
+    .nexus-bento-viewport,
+    .nexus-page-container {
+        padding: 1rem;
+    }
+}

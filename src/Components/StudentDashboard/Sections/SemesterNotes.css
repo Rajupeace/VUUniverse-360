@@ -1,0 +1,443 @@
+/* ==========================================================================
+   SEMESTER NOTES (SENTINEL THEME)
+   Theme: Vu UniVerse360 Premium
+   ========================================================================== */
+
+.journal-container {
+    display: flex;
+    gap: 3rem;
+    height: calc(100vh - 160px);
+    padding-bottom: 2rem;
+    max-width: 1600px;
+    margin: 0 auto;
+    animation: fadeIn 0.4s ease-out;
+}
+
+/* --- SIDEBAR --- */
+.journal-sidebar {
+    width: 320px;
+    background: var(--v-surface, white);
+    border-radius: 24px;
+    border: 1px solid var(--v-border);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: var(--v-shadow-lg);
+}
+
+.js-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--v-border);
+    background: var(--v-bg);
+}
+
+.js-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--v-text-main);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.js-list {
+    overflow-y: auto;
+    flex: 1;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.subject-btn {
+    width: 100%;
+    text-align: left;
+    padding: 1rem 1.25rem;
+    border-radius: 14px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--v-text-dim);
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.subject-btn:hover {
+    background: var(--v-surface-light, #f8fafc);
+    color: var(--v-text-main);
+}
+
+.subject-btn.active {
+    background: rgba(79, 70, 229, 0.08);
+    /* Transparent Primary */
+    color: var(--v-primary);
+    border-color: rgba(79, 70, 229, 0.2);
+    font-weight: 800;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+}
+
+.subject-btn-content {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.general-notes-btn {
+    margin: 1rem 1.5rem;
+    padding: 1rem;
+    border-radius: 12px;
+    border: 1px dashed var(--v-border);
+    background: var(--v-bg);
+    color: var(--v-text-dim);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    font-weight: 700;
+    transition: 0.2s;
+}
+
+.general-notes-btn:hover {
+    border-color: var(--v-primary);
+    color: var(--v-primary);
+    background: white;
+}
+
+/* --- MAIN CONTENT --- */
+.journal-main {
+    flex: 1;
+    background: var(--v-surface, white);
+    border-radius: 24px;
+    border: 1px solid var(--v-border);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: var(--v-shadow-lg);
+}
+
+.jm-header {
+    padding: 1.5rem 2.5rem;
+    border-bottom: 1px solid var(--v-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+}
+
+.jm-title h2 {
+    margin: 0;
+    font-size: 1.75rem;
+    font-weight: 950;
+    color: var(--v-text-main);
+    letter-spacing: -0.02em;
+}
+
+.jm-meta {
+    margin: 0.4rem 0 0;
+    color: var(--v-text-muted);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.jm-actions {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.jm-loading-spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--v-border);
+    border-top-color: var(--v-primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+.jm-content-area {
+    flex: 1;
+    overflow-y: auto;
+    padding: 2.5rem;
+    background: var(--v-bg, #f8fafc);
+}
+
+/* --- RESOURCES SECTION --- */
+.published-resources {
+    margin-bottom: 2.5rem;
+}
+
+.pr-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px dashed var(--v-border);
+}
+
+.pr-header h4 {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--v-text-muted);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.pr-grid {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.resource-item-v2 {
+    padding: 0.75rem 1.25rem;
+    border-radius: 12px;
+    background: var(--v-surface);
+    border: 1px solid var(--v-border);
+    display: flex;
+    gap: 0.8rem;
+    align-items: center;
+    text-decoration: none;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+.resource-item-v2:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+    border-color: var(--v-primary-light);
+}
+
+.ri-icon {
+    width: 32px;
+    height: 32px;
+    background: rgba(var(--v-primary-rgb, 14, 165, 233), 0.1);
+    border-radius: 8px;
+    color: var(--v-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+}
+
+.ri-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.ri-title {
+    font-weight: 800;
+    color: var(--v-text-main);
+    font-size: 0.9rem;
+}
+
+.ri-type {
+    color: var(--v-text-muted);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-top: 2px;
+}
+
+/* --- NOTE INPUT FORM --- */
+.note-input-card {
+    margin-bottom: 2.5rem;
+    background: var(--v-surface);
+    padding: 2rem;
+    border-radius: 18px;
+    border: 1px solid var(--v-border);
+    box-shadow: var(--v-shadow-lg);
+}
+
+.note-textarea {
+    width: 100%;
+    min-height: 140px;
+    padding: 1.25rem;
+    border: 2px solid var(--v-border);
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+    font-family: inherit;
+    line-height: 1.6;
+    color: var(--v-text-main);
+    background: var(--v-bg);
+    outline: none;
+    transition: 0.2s;
+}
+
+.note-textarea:focus {
+    border-color: var(--v-primary);
+    background: white;
+    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.05);
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+/* --- NOTES GRID --- */
+.notes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+}
+
+.note-card {
+    background: var(--v-surface);
+    padding: 1.75rem;
+    border-radius: 18px;
+    border: 1px solid var(--v-border);
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+    position: relative;
+    overflow: hidden;
+}
+
+.note-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--v-primary);
+    opacity: 0.5;
+}
+
+.note-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--v-shadow-lg);
+    border-color: var(--v-primary-light);
+}
+
+.note-card:hover::before {
+    opacity: 1;
+}
+
+.note-content {
+    /* Line clamp equivalent */
+    flex: 1;
+    margin-bottom: 1.5rem;
+}
+
+.note-text-display {
+    white-space: pre-wrap;
+    color: var(--v-text-main);
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+.note-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px dashed var(--v-border);
+    padding-top: 1rem;
+}
+
+.note-date {
+    font-size: 0.75rem;
+    color: var(--v-text-muted);
+    font-weight: 700;
+}
+
+.note-actions {
+    display: flex;
+    gap: 1rem;
+    opacity: 0;
+    transition: 0.2s;
+}
+
+.note-card:hover .note-actions {
+    opacity: 1;
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.95rem;
+    color: var(--v-text-muted);
+    transition: 0.2s;
+}
+
+.icon-btn:hover {
+    transform: scale(1.2);
+}
+
+.icon-btn.danger:hover {
+    color: #ef4444;
+}
+
+.icon-btn.edit:hover {
+    color: var(--v-primary);
+}
+
+/* Empty States */
+.notes-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 300px;
+    color: var(--v-text-muted);
+}
+
+.notes-empty {
+    text-align: center;
+    padding: 6rem 2rem;
+    color: var(--v-text-muted);
+}
+
+.empty-emoji {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    filter: grayscale(100%);
+    opacity: 0.5;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (max-width: 1024px) {
+    .journal-container {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .journal-sidebar {
+        width: 100%;
+    }
+
+    .js-list {
+        flex-direction: row;
+        overflow-x: auto;
+        padding-bottom: 0;
+    }
+
+    .subject-btn {
+        width: auto;
+        white-space: nowrap;
+    }
+
+    .journal-main {
+        height: 600px;
+    }
+}

@@ -1,0 +1,531 @@
+/* ================================================================
+   ADMISSIONS MANAGER DASHBOARD  v5 — Premium Sentinel Design (Matches Admin/Faculty V5)
+================================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900;950&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+    --admd-primary: #059669;
+    /* Emerald for Admissions */
+    --admd-primary-light: #d1fae5;
+    --admd-accent: #10b981;
+    --admd-success: #10b981;
+    --admd-danger: #f43f5e;
+    --admd-warning: #f59e0b;
+    --admd-text: #0f172a;
+    --admd-muted: #64748b;
+    --admd-border: #e2e8f0;
+    --admd-bg: #f8fafc;
+    --admd-surface: #ffffff;
+    --admd-sidebar: #0f172a;
+
+    --admd-font: 'Plus Jakarta Sans', sans-serif;
+    --admd-title: 'Outfit', sans-serif;
+    --admd-radius: 16px;
+    --admd-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    --admd-ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.admd-shell {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    font-family: var(--admd-font);
+    background: var(--admd-bg);
+}
+
+/* ── Custom Scrollbar ── */
+.admd-shell ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+.admd-shell ::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.admd-shell ::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
+
+.admd-shell ::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* ── Sidebar ── */
+.admd-sidebar {
+    width: 280px;
+    min-width: 280px;
+    background: var(--admd-sidebar);
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem 1.25rem;
+    gap: 1rem;
+    position: relative;
+    overflow: hidden;
+    transition: width 0.3s var(--admd-ease);
+    z-index: 50;
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.admd-sidebar.collapsed {
+    width: 88px;
+    min-width: 88px;
+    padding: 1.5rem 0.75rem;
+}
+
+.admd-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    margin-bottom: 2rem;
+    white-space: nowrap;
+    overflow: hidden;
+    height: 48px;
+    padding: 0 0.5rem;
+}
+
+.admd-logo-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--admd-primary), #34d399);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.25rem;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    flex-shrink: 0;
+}
+
+.admd-logo-title {
+    color: white;
+    font-family: var(--admd-title);
+    font-weight: 800;
+    font-size: 1.1rem;
+    line-height: 1.2;
+}
+
+.admd-logo-sub {
+    color: #94a3b8;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.admd-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    flex: 1;
+}
+
+.admd-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.85rem 1rem;
+    border-radius: 12px;
+    background: transparent;
+    border: 1px solid transparent;
+    cursor: pointer;
+    color: #94a3b8;
+    font-weight: 700;
+    font-size: 0.88rem;
+    transition: all 0.2s var(--admd-ease);
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.admd-sidebar.collapsed .admd-nav-item {
+    justify-content: center;
+    padding: 0.85rem;
+}
+
+.admd-nav-icon {
+    font-size: 1.15rem;
+    min-width: 24px;
+    display: flex;
+    justify-content: center;
+}
+
+.admd-nav-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+}
+
+.admd-nav-item.active {
+    background: rgba(248, 250, 252, 0.1);
+    color: white;
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.admd-sidebar-footer {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.admd-user-card {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.85rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.admd-sidebar.collapsed .admd-user-card {
+    padding: 0.5rem;
+    justify-content: center;
+    border: none;
+    background: transparent;
+}
+
+.admd-user-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: #065f46;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-family: var(--admd-title);
+    font-weight: 900;
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+.admd-user-name {
+    color: white;
+    font-weight: 700;
+    font-size: 0.85rem;
+}
+
+.admd-user-role {
+    color: #10b981;
+    font-size: 0.7rem;
+    font-weight: 700;
+    margin-top: 2px;
+}
+
+.admd-logout-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    background: rgba(244, 63, 94, 0.1);
+    border: 1px solid rgba(244, 63, 94, 0.2);
+    border-radius: 12px;
+    color: #f43f5e;
+    font-weight: 700;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.admd-logout-btn:hover {
+    background: rgba(244, 63, 94, 0.2);
+    color: white;
+}
+
+/* ── Main content area ── */
+.admd-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+}
+
+.admd-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 2.5rem;
+    background: var(--admd-surface);
+    border-bottom: 1px solid var(--admd-border);
+    flex-shrink: 0;
+}
+
+.admd-header-left {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+}
+
+.admd-sidebar-toggle {
+    background: var(--admd-bg);
+    border: 1px solid var(--admd-border);
+    color: var(--admd-primary);
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.admd-sidebar-toggle:hover {
+    background: var(--admd-border);
+    color: var(--admd-text);
+}
+
+.admd-header-title {
+    font-family: var(--admd-title);
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: var(--admd-text);
+    margin: 0;
+    letter-spacing: -0.5px;
+}
+
+.admd-header-sub {
+    color: var(--admd-muted);
+    font-size: 0.75rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 4px;
+}
+
+.admd-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 2rem 2.5rem;
+}
+
+.admd-section-container {
+    background: var(--admd-surface);
+    border-radius: var(--admd-radius);
+    border: 1px solid var(--admd-border);
+    box-shadow: var(--admd-shadow);
+    overflow: hidden;
+    min-height: 400px;
+}
+
+.admd-section-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--admd-border);
+    background: #f8fafc;
+}
+
+.admd-section-title {
+    font-family: var(--admd-title);
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--admd-text);
+    margin: 0;
+}
+
+/* Blending nested components */
+.admd-section-container>.admin-section-container,
+.admd-section-container>.student-hub-wrapper,
+.admd-section-container>div {
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
+
+/* Specific to AdminDashboard AdmissionSection overriding if necessary */
+.admd-section-container .admission-registry-wrapper {
+    box-shadow: none;
+    border: none;
+    border-radius: 0;
+}
+
+/* ── Modals ── */
+.admd-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(15, 23, 42, 0.75);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 2rem;
+}
+
+.admd-modal {
+    background: var(--admd-surface);
+    border-radius: 20px;
+    width: 100%;
+    max-width: 650px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.admd-modal-header {
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid var(--admd-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.admd-modal-title {
+    font-family: var(--admd-title);
+    font-size: 1.25rem;
+    font-weight: 900;
+    color: var(--admd-text);
+    margin: 0;
+}
+
+.admd-modal-close {
+    background: var(--admd-bg);
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--admd-muted);
+    cursor: pointer;
+}
+
+.admd-form {
+    padding: 2rem;
+}
+
+.admd-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.admd-input {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.admd-input.full {
+    grid-column: span 2;
+}
+
+.admd-input label {
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: var(--admd-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.admd-input input,
+.admd-input select {
+    padding: 0.85rem 1rem;
+    border-radius: 12px;
+    border: 1.5px solid var(--admd-border);
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: 0.2s;
+    background: #f8fafc;
+}
+
+.admd-input input:focus {
+    border-color: var(--admd-primary);
+    background: white;
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.1);
+}
+
+.admd-modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.admd-btn-pri,
+.admd-btn-sec {
+    padding: 0.85rem 1.5rem;
+    border-radius: 12px;
+    font-weight: 800;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: 0.2s;
+    border: none;
+}
+
+.admd-btn-pri {
+    background: var(--admd-primary);
+    color: white;
+}
+
+.admd-btn-sec {
+    background: var(--admd-bg);
+    color: var(--admd-muted);
+}
+
+.admd-btn-pri:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ── Embedded Mode ── */
+.admissions-dashboard-container.embedded {
+    height: auto;
+    min-height: 100%;
+    background: transparent;
+}
+
+.admissions-dashboard-container.embedded .admissions-main-content {
+    padding: 0;
+}
+
+.tab-btn {
+    padding: 0.6rem 1.2rem;
+    border-radius: 10px;
+    background: rgba(15, 23, 42, 0.05);
+    border: 1px solid rgba(15, 23, 42, 0.1);
+    color: var(--admd-muted);
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.tab-btn:hover {
+    background: rgba(15, 23, 42, 0.08);
+    color: var(--admd-text);
+}
+
+.tab-btn.active {
+    background: var(--admd-primary);
+    color: white;
+    border-color: var(--admd-primary);
+    box-shadow: 0 4px 12px rgba(5, 150, 105, 0.2);
+}
+
+@keyframes admd-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.fa-spin {
+    animation: admd-spin 1s linear infinite;
+}
