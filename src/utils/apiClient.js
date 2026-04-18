@@ -1,9 +1,9 @@
 const getDiscoveryUrl = () => {
     if (typeof window !== 'undefined' && window.location) {
-        // If we are on a custom domain/remote IP, try port 5001 on that same host first
         const { protocol, hostname } = window.location;
+        // Production: Use the Render backend URL when hosted on Vercel or any non-localhost domain
         if (hostname !== 'localhost' && hostname !== '127.0.0.1') {
-            return `${protocol}//${hostname}:5001`;
+            return 'https://vu-universe-backend.onrender.com';
         }
     }
     return 'http://localhost:5001';
