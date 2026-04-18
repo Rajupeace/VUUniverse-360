@@ -90,6 +90,7 @@ export class StudentData {
         streak: number;
         aiUsageCount: number;
         tasksCompleted: number;
+        careerReadyScore: number;
         advancedProgress: number;
         weeklyActivity: any[];
         lastUpdated: Date;

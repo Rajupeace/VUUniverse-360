@@ -110,10 +110,10 @@ export class StudentDataService {
       overview: {
         ...(mongoData || {}),
         activity: {
-          streak: mongoData?.progress?.streak || student?.stats?.streak || 0,
-          aiUsage: mongoData?.progress?.aiUsageCount || student?.stats?.aiUsageCount || 0,
-          careerReadyScore: mongoData?.progress?.careerReadyScore || student?.stats?.careerReadyScore || 0,
-          cgpa: student?.stats?.cgpa || mongoData?.sections?.overview?.currentCGPA || 8.2
+          streak: (mongoData as any)?.progress?.streak || student?.stats?.streak || 0,
+          aiUsage: (mongoData as any)?.progress?.aiUsageCount || student?.stats?.aiUsageCount || 0,
+          careerReadyScore: (mongoData as any)?.progress?.careerReadyScore || student?.stats?.careerReadyScore || 0,
+          cgpa: student?.stats?.cgpa || (mongoData as any)?.sections?.overview?.currentCGPA || 8.2
         },
         attendance: {
           total: totalClasses,
