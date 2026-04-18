@@ -66,7 +66,32 @@ node run-all.js
 *   `/src`: Core React application and dashboard components.
 *   `/backend-nest`: NestJS API services and business logic.
 *   `/uploads`: Centralized asset storage for profile pictures and materials.
+*   `.github/workflows`: Continuous Integration and Deployment pipelines.
 *   `run-all.js`: Automated process manager for the full stack.
+
+## 💾 Database Architecture
+
+The system utilizes a **Hybrid Database Strategy** to balance speed, scalability, and transaction integrity:
+
+1.  **MongoDB (Primary Activity Cluster)**:
+    *   **Scope**: High-volume data including student stats, activity logs, roadmap progress, and messages.
+    *   **Benefit**: Flexible schema allows for rapid scaling of AI-driven features and real-time dashboard updates.
+    *   **Collections**: `students`, `studentData`, `messages`, `tasks`, `announcements`.
+
+2.  **MySQL / SQLite (Transactional Ledger)**:
+    *   **Scope**: Core identity management, enrollment records, and academic results.
+    *   **Benefit**: Ensures ACID compliance for critical academic and financial records.
+    *   **Entities**: `Student`, `Faculty`, `Course`, `Mark`, `Attendance`.
+
+## 🔄 Automated Workflow
+
+We have implemented a **GitHub Actions CI/CD Pipeline**:
+
+*   **Continuous Integration**: On every push to `main`, the system automatically:
+    1.  Validates and installs dependencies for both Frontend and Backend.
+    2.  Performs build checks for the NestJS distribution and React production bundle.
+    3.  Runs a "Smoke Test" integration launch to ensure all services (5001, 8000, 3000) are compatible.
+*   **Asset Management**: Automated resolution of image paths ensuring zero-downtime asset availability during deployments.
 
 ## 🔒 Security & Performance
 *   **JWT Authentication**: Secure stateless session management.
