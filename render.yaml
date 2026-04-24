@@ -3,7 +3,7 @@ services:
     name: vu-universe-backend
     runtime: node
     rootDir: backend-nest
-    buildCommand: npm install --legacy-peer-deps && npx nest build
+    buildCommand: npm install --legacy-peer-deps && npm run build
     startCommand: node dist/src/main.js
     envVars:
       - key: MONGO_URI

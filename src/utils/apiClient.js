@@ -1,8 +1,8 @@
 const getDiscoveryUrl = () => {
     if (typeof window !== 'undefined' && window.location) {
-        const { protocol, hostname } = window.location;
-        // Production: Use the Render backend URL when hosted on Vercel or any non-localhost domain
-        if (hostname !== 'localhost' && hostname !== '127.0.0.1') {
+        const { hostname } = window.location;
+        // If we are NOT on localhost, we MUST use the Render production backend
+        if (hostname !== 'localhost' && hostname !== '127.0.0.1' && hostname !== '') {
             return 'https://vu-universe-backend.onrender.com';
         }
     }
