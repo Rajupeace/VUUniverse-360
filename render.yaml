@@ -7,7 +7,7 @@ services:
     startCommand: node dist/src/main.js
     envVars:
       - key: MONGO_URI
-        value: mongodb+srv://bobbyteja4_db_user:4ZltK5qmHHCxuFt6@cluster0.im2uv.mongodb.net/fbn_xai_system?appName=Cluster0
+        value: mongodb+srv://bobbyteja4_db_user:Bobby123%2B@cluster0.im2uv.mongodb.net/fbn_xai_system?appName=Cluster0
       - key: JWT_SECRET
         value: vu-universe360-secure-jwt-secret-key-2026
       - key: NODE_ENV
