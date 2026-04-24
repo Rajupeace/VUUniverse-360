@@ -1,12 +1,12 @@
 import { DynamicModule, Module, Logger, OnModuleDestroy } from '@nestjs/common';
 import { MongooseModule, MongooseModuleOptions } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
-import { MongoMemoryServer } from 'mongodb-memory-server';
+// Dynamic require for MongoMemoryServer to avoid production build errors
 
 @Module({})
 export class DatabaseModule implements OnModuleDestroy {
   private static readonly logger = new Logger(DatabaseModule.name);
-  private static mongod: MongoMemoryServer | null = null;
+  private static mongod: any | null = null;
 
   static async forRootAsync(): Promise<DynamicModule> {
     const mongoUri = process.env.MONGODB_URI || process.env.MONGO_URI || 'mongodb+srv://bobbyteja4_db_user:4ZltK5qmHHCxuFt6@cluster0.im2uv.mongodb.net/fbn_xai_system?appName=Cluster0';
@@ -16,6 +16,7 @@ export class DatabaseModule implements OnModuleDestroy {
     
     if (useMemoryServer) {
       this.logger.log('🔄 Starting MongoDB Memory Server...');
+      const { MongoMemoryServer } = require('mongodb-memory-server');
       this.mongod = await MongoMemoryServer.create();
       const uri = this.mongod.getUri();
       this.logger.log(`✅ MongoDB Memory Server running at: ${uri}`);
