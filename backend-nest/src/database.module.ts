@@ -15,8 +15,8 @@ export class DatabaseModule implements OnModuleDestroy {
     const forceMemory = process.env.USE_MEMORY_DB === 'true';
     const hasAtlasUri = !!(process.env.MONGODB_URI || process.env.MONGO_URI);
 
-    // Try Memory Server if: forced, OR in production with no working Atlas
-    if (forceMemory || isProduction) {
+    // Try Memory Server if: explicitly forced via env
+    if (forceMemory) {
       try {
         this.logger.log('🔄 Starting MongoDB Memory Server...');
         const { MongoMemoryServer } = require('mongodb-memory-server');
