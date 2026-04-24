@@ -49,17 +49,21 @@ export class AuthService {
             });
         }
 
-        // 1. Try MySQL first
-        let admin: any = await this.adminRepo.findOne({ 
-            where: [{ adminId: adminId }] 
+        // 1. Try MongoDB first
+        let admin: any = await this.adminModel.findOne({ 
+            $or: [{ adminId: adminId }, { email: adminId }] 
         });
 
-        // 2. Fallback to MongoDB
+        // 2. Fallback to TypeORM
         if (!admin) {
-            admin = await this.adminModel.findOne({ 
-                $or: [{ adminId: adminId }, { email: adminId }] 
-            });
+            try {
+                admin = await this.adminRepo.findOne({ 
+                    where: [{ adminId: adminId }] 
+                });
+            } catch(e) { /* TypeORM MongoDB may not support this query */ }
         }
+
+
 
         if (!admin) throw new UnauthorizedException('Invalid Admin ID');
 
@@ -90,18 +94,19 @@ export class AuthService {
     }
 
 
-    // Faculty Login
     async facultyLogin(identifier: string, password: string) {
-        // Try MySQL
-        let faculty: any = await this.facultyRepo.findOne({
-            where: [{ facultyId: identifier }, { email: identifier.toLowerCase() }]
+        // Try MongoDB first (primary)
+        let faculty: any = await this.facultyModel.findOne({
+            $or: [{ facultyId: identifier }, { email: identifier.toLowerCase() }],
         });
 
-        // Fallback to MongoDB
+        // Fallback to TypeORM
         if (!faculty) {
-            faculty = await this.facultyModel.findOne({
-                $or: [{ facultyId: identifier }, { email: identifier.toLowerCase() }],
-            });
+            try {
+                faculty = await this.facultyRepo.findOne({
+                    where: [{ facultyId: identifier }, { email: identifier.toLowerCase() }]
+                });
+            } catch(e) { /* TypeORM MongoDB may not support this query */ }
         }
 
         if (!faculty) throw new UnauthorizedException('Invalid Faculty ID');
@@ -131,18 +136,19 @@ export class AuthService {
         };
     }
 
-    // Student Login
     async studentLogin(identifier: string, password: string) {
-        // Try MySQL
-        let student: any = await this.studentRepo.findOne({
-            where: [{ sid: identifier }, { email: identifier.toLowerCase() }]
+        // Try MongoDB first (primary)
+        let student: any = await this.studentModel.findOne({
+            $or: [{ sid: identifier }, { email: identifier.toLowerCase() }],
         });
 
-        // Fallback to MongoDB
+        // Fallback to TypeORM
         if (!student) {
-            student = await this.studentModel.findOne({
-                $or: [{ sid: identifier }, { email: identifier.toLowerCase() }],
-            });
+            try {
+                student = await this.studentRepo.findOne({
+                    where: [{ sid: identifier }, { email: identifier.toLowerCase() }]
+                });
+            } catch(e) { /* TypeORM MongoDB may not support this query */ }
         }
 
         if (!student) throw new UnauthorizedException('Invalid Student ID');
