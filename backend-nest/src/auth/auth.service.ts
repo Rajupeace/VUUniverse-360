@@ -283,6 +283,84 @@ export class AuthService {
         throw new UnauthorizedException('Invalid credentials: User not found in any role (Admin, Faculty, or Student)');
     }
 
+    // --- Student Registration ---
+    async registerStudent(data: any) {
+        console.log('[AUTH] Student registration attempt:', data?.sid);
+
+        // Validate required fields
+        const { studentName, sid, email, password, year, section, branch } = data;
+        if (!studentName || !sid || !email || !password || !year || !section || !branch) {
+            throw new BadRequestException('All fields are required: studentName, sid, email, password, year, section, branch');
+        }
+
+        // Check for duplicate SID
+        const existingBySid = await this.studentModel.findOne({ sid }).lean();
+        if (existingBySid) {
+            throw new BadRequestException('A student with this Student ID already exists');
+        }
+
+        // Check for duplicate email
+        const existingByEmail = await this.studentModel.findOne({ email: email.toLowerCase() }).lean();
+        if (existingByEmail) {
+            throw new BadRequestException('A student with this email already exists');
+        }
+
+        // Hash password
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        // Create student document
+        const newStudent = new this.studentModel({
+            studentName,
+            sid,
+            email: email.toLowerCase(),
+            password: hashedPassword,
+            year,
+            section,
+            branch,
+            avatar: data.avatar || 'Midnight',
+            profileImage: data.profileImage || null,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            stats: {
+                streak: 1,
+                lastLogin: new Date(),
+                aiUsageCount: 0,
+                tasksCompleted: 0,
+                advancedProgress: 0,
+                careerReadyScore: 0,
+                totalClasses: 0,
+                totalPresent: 0,
+                weeklyActivity: [],
+            },
+        });
+
+        const savedStudent = await newStudent.save();
+        console.log('[AUTH] ✅ Student registered successfully:', sid);
+
+        // Generate JWT token
+        const token = this.jwtService.sign({
+            id: savedStudent.sid,
+            role: 'student',
+        });
+
+        return {
+            success: true,
+            token,
+            studentData: {
+                id: savedStudent._id,
+                sid: savedStudent.sid,
+                studentName: savedStudent.studentName,
+                email: savedStudent.email,
+                branch: savedStudent.branch,
+                year: savedStudent.year,
+                section: savedStudent.section,
+                profileImage: savedStudent.profileImage,
+                avatar: savedStudent.avatar,
+                role: 'student',
+            },
+        };
+    }
+
     // --- Password Reset Logic ---
     async sendPasswordResetOtp(identifier: string, role: string) {
         let user: any = null;

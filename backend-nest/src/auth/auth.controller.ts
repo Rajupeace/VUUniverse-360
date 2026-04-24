@@ -33,6 +33,12 @@ export class AuthController {
     }
 
     @Public()
+    @Post('students/register')
+    studentRegister(@Body() body: any) {
+        return this.authService.registerStudent(body);
+    }
+
+    @Public()
     @Post('login')
     async unifiedLogin(@Body() body: { identifier: string; password: string }) {
         return this.authService.unifiedLogin(body.identifier, body.password);
@@ -49,3 +55,4 @@ export class AuthController {
         return this.authService.resetPassword(body.email, body.otp, body.newPassword);
     }
 }
+
