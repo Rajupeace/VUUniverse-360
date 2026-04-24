@@ -37,8 +37,6 @@ import AdminAnalyticsDashboard from './AdminAnalyticsDashboard';
 import AdminScheduleManager from './AdminScheduleManager';
 
 
-
-
 import AdmissionsManagerDashboard from '../AdmissionsManager/AdmissionsManagerDashboard';
 import EventsManagerDashboard from '../EventsManager/EventsManagerDashboard';
 import FinanceManagerDashboard from '../FinanceManager/FinanceManagerDashboard';
@@ -1186,6 +1184,8 @@ export default function AdminDashboard({ setIsAuthenticated, setIsAdmin, setStud
       console.error('Announcement Sending Failed:', err);
       alert('Error: ' + (err.message || 'Unknown error'));
     }
+  };
+
   // Helpers
   const openModal = async (type, item = null) => {
     setModalType(type);
@@ -2034,5 +2034,3 @@ export default function AdminDashboard({ setIsAuthenticated, setIsAdmin, setStud
     </div>
   );
 }
-
-export default AdminDashboard;
