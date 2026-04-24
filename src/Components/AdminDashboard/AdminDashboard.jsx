@@ -2034,3 +2034,5 @@ export default function AdminDashboard({ setIsAuthenticated, setIsAdmin, setStud
     </div>
   );
 }
+
+export default AdminDashboard;
