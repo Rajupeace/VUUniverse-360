@@ -22,7 +22,7 @@ import FacultyIntelligenceHub from './Sections/FacultyIntelligenceHub';
 import FacultyCurriculumArch from './Sections/FacultyCurriculumArch';
 import FacultyMessages from './Sections/FacultyMessages';
 import FacultyStudents from './Sections/FacultyStudents';
-import PersonalDetailsBall from '../PersonalDetailsBall/PersonalDetailsBall';
+
 
 // Styles
 import './FacultyDashboard.css';
@@ -813,7 +813,7 @@ const FacultyDashboard = ({ facultyData, setIsAuthenticated, setIsFaculty, isAch
         </div>
       </div>
 
-      <PersonalDetailsBall role="faculty" data={facultyData} />
+
       <div className="ai-fab" onClick={toggleAiModal} title="AI Assistant">
         <FaRobot />
         <span className="fab-label">Ask AI</span>

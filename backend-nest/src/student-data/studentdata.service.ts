@@ -105,6 +105,7 @@ export class StudentDataService {
 
     const result = {
       profile: student || mongoData || {},
+      student: student || mongoData || {},
       attendance: {
         total: totalClasses,
         present: presentClasses,
@@ -137,32 +138,32 @@ export class StudentDataService {
           percentage: totalClasses > 0 ? Math.round((presentClasses / totalClasses) * 100) : 0,
         }
       },
-        materials: materials.map(m => {
-          const rawType = m.type || 'notes';
-          let normalizedType = rawType.toLowerCase();
-          if (normalizedType === 'video') normalizedType = 'videos';
-          if (normalizedType === 'note') normalizedType = 'notes';
-          if (normalizedType === 'model_paper' || normalizedType === 'modelpaper') normalizedType = 'modelPapers';
+      materials: materials.map(m => {
+        const rawType = m.type || 'notes';
+        let normalizedType = rawType.toLowerCase();
+        if (normalizedType === 'video') normalizedType = 'videos';
+        if (normalizedType === 'note') normalizedType = 'notes';
+        if (normalizedType === 'model_paper' || normalizedType === 'modelpaper') normalizedType = 'modelPapers';
 
-          return {
-            id: m._id.toString(),
-            _id: m._id.toString(),
-            title: m.title,
-            description: m.description,
-            url: m.fileUrl || m.url,
-            type: normalizedType,
-            semester: m.semester,
-            subject: m.subject,
-            year: m.year,
-            section: m.section,
-            module: m.module,
-            unit: m.unit,
-            topic: m.topic,
-            videoAnalysis: m.videoAnalysis,
-            uploadedAt: (m as any).uploadedAt || (m as any).createdAt,
-            uploaderName: (m as any).uploadedBy?.name || m.uploadedBy || m.facultyName || 'Faculty'
-          };
-        }),
+        return {
+          id: m._id.toString(),
+          _id: m._id.toString(),
+          title: m.title,
+          description: m.description,
+          url: m.fileUrl || m.url,
+          type: normalizedType,
+          semester: m.semester,
+          subject: m.subject,
+          year: m.year,
+          section: m.section,
+          module: m.module,
+          unit: m.unit,
+          topic: m.topic,
+          videoAnalysis: m.videoAnalysis,
+          uploadedAt: (m as any).uploadedAt || (m as any).createdAt,
+          uploaderName: (m as any).uploadedBy?.name || m.uploadedBy || m.facultyName || 'Faculty'
+        };
+      }),
       faculties: mongoData?.sections?.faculty?.facultyList || [],
       source: 'mysql',
     };
