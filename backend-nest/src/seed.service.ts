@@ -38,93 +38,63 @@ export class SeedService implements OnModuleInit {
     }
 
     private async seedAdmin() {
-        const count = await this.adminRepo.count();
-        if (count === 0) {
-            console.log('[SEED] Creating default admin...');
-            const hashedPassword = await bcrypt.hash('admin123', 10);
-            
-            const admin = this.adminRepo.create({
-                adminId: 'admin',
-                name: 'Master Administrator',
-                password: hashedPassword,
-                role: 'admin',
-                isAdmin: true,
-            });
-            await this.adminRepo.save(admin);
-            
-            // Also add to MongoDB
-            await this.adminModel.create({
-                adminId: 'admin',
-                name: 'Master Administrator',
-                email: 'admin@vignan.ac.in',
-                password: hashedPassword,
-                role: 'admin',
-            });
-            
-            console.log('[SEED] Admin created: admin / admin123');
-        }
+        try {
+            const mongoCount = await this.adminModel.countDocuments();
+            if (mongoCount === 0) {
+                console.log('[SEED] Creating default admin...');
+                const hashedPassword = await bcrypt.hash('admin123', 10);
+                await this.adminModel.create({
+                    adminId: 'admin',
+                    name: 'Master Administrator',
+                    email: 'admin@vignan.ac.in',
+                    password: hashedPassword,
+                    role: 'admin',
+                });
+                try { await this.adminRepo.save(this.adminRepo.create({ adminId: 'admin', name: 'Master Administrator', password: hashedPassword, role: 'admin', isAdmin: true })); } catch(e) { /* TypeORM optional */ }
+                console.log('[SEED] Admin created: admin / admin123');
+            }
+        } catch(err) { console.warn('[SEED] Admin seed error:', err.message); }
     }
 
     private async seedStudent() {
-        const count = await this.studentRepo.count();
-        if (count === 0) {
-            console.log('[SEED] Creating default student...');
-            const hashedPassword = await bcrypt.hash('student123', 10);
-            
-            const student = this.studentRepo.create({
-                sid: '231fa04A17',
-                studentName: 'Test Student',
-                email: 'student@test.com',
-                password: hashedPassword,
-                branch: 'CSE',
-                year: '3',
-                section: '13',
-            });
-            await this.studentRepo.save(student);
-            
-            // Also add to MongoDB
-            await this.studentModel.create({
-                sid: '231fa04A17',
-                studentName: 'Test Student',
-                email: 'student@test.com',
-                password: hashedPassword,
-                branch: 'CSE',
-                year: 3,
-                section: 13,
-                stats: { streak: 0, lastLogin: new Date() },
-            });
-            
-            console.log('[SEED] Student created: 231fa04A17 / student123');
-        }
+        try {
+            const mongoCount = await this.studentModel.countDocuments();
+            if (mongoCount === 0) {
+                console.log('[SEED] Creating default student...');
+                const hashedPassword = await bcrypt.hash('student123', 10);
+                await this.studentModel.create({
+                    sid: '231fa04A17',
+                    studentName: 'Test Student',
+                    email: 'student@test.com',
+                    password: hashedPassword,
+                    branch: 'CSE',
+                    year: 3,
+                    section: 13,
+                    stats: { streak: 0, lastLogin: new Date() },
+                });
+                try { await this.studentRepo.save(this.studentRepo.create({ sid: '231fa04A17', studentName: 'Test Student', email: 'student@test.com', password: hashedPassword, branch: 'CSE', year: '3', section: '13' })); } catch(e) { /* TypeORM optional */ }
+                console.log('[SEED] Student created: 231fa04A17 / student123');
+            }
+        } catch(err) { console.warn('[SEED] Student seed error:', err.message); }
     }
 
     private async seedFaculty() {
-        const count = await this.facultyRepo.count();
-        if (count === 0) {
-            console.log('[SEED] Creating default faculty...');
-            const hashedPassword = await bcrypt.hash('faculty123', 10);
-            
-            const faculty = this.facultyRepo.create({
-                facultyId: 'FAC001',
-                facultyName: 'Test Faculty',
-                email: 'faculty@test.com',
-                password: hashedPassword,
-                department: 'CSE',
-                designation: 'Assistant Professor',
-            });
-            await this.facultyRepo.save(faculty);
-            
-            // Also add to MongoDB (uses 'name' not 'facultyName')
-            await this.facultyModel.create({
-                facultyId: 'FAC001',
-                name: 'Test Faculty',
-                email: 'faculty@test.com',
-                password: hashedPassword,
-                department: 'CSE',
-                designation: 'Assistant Professor',
-            });
-            
-            console.log('[SEED] Faculty created: FAC001 / faculty123');
-        }
+        try {
+            const mongoCount = await this.facultyModel.countDocuments();
+            if (mongoCount === 0) {
+                console.log('[SEED] Creating default faculty...');
+                const hashedPassword = await bcrypt.hash('faculty123', 10);
+                await this.facultyModel.create({
+                    facultyId: 'FAC001',
+                    name: 'Test Faculty',
+                    email: 'faculty@test.com',
+                    password: hashedPassword,
+                    department: 'CSE',
+                    designation: 'Assistant Professor',
+                });
+                try { await this.facultyRepo.save(this.facultyRepo.create({ facultyId: 'FAC001', facultyName: 'Test Faculty', email: 'faculty@test.com', password: hashedPassword, department: 'CSE', designation: 'Assistant Professor' })); } catch(e) { /* TypeORM optional */ }
+                console.log('[SEED] Faculty created: FAC001 / faculty123');
+            }
+        } catch(err) { console.warn('[SEED] Faculty seed error:', err.message); }
     }
 }
