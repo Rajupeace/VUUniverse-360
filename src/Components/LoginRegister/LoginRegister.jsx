@@ -34,7 +34,7 @@ const LoginRegister = ({
     setResearchManagerData,
 }) => {
     const navigate = useNavigate();
-    const [formToShow, setFormToShow] = useState('unifiedLogin'); // Single unified login form
+    const [formToShow, setFormToShow] = useState('selection'); // Default to role selection screen
     const [showPassword, setShowPassword] = useState(false);
     const [selectedAvatar, setSelectedAvatar] = useState('Midnight');
     const [loading, setLoading] = useState(false);

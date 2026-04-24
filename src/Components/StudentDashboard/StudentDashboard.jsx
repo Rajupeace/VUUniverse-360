@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { apiGet } from '../../utils/apiClient';
 import sseClient from '../../utils/sseClient';
 import {
-    FaChartBar, FaLayerGroup, FaRobot, FaBriefcase
+    FaChartBar, FaLayerGroup, FaRobot, FaBriefcase, FaBars
 } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 import VuAiAgent from '../VuAiAgent/VuAiAgent';
@@ -629,7 +629,7 @@ export default function StudentDashboard({ studentData, onLogout }) {
             {!focusMode && (
                 <>
                     <button className="mobile-sidebar-toggle" onClick={() => setMobileSidebarOpen(true)} aria-label="Open menu">
-                        ☰
+                        <FaBars />
                     </button>
                     {mobileSidebarOpen && (
                         <div className="mobile-overlay" onClick={() => setMobileSidebarOpen(false)}></div>

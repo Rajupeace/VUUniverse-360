@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
-import { FaUniversity, FaBullhorn, FaFileAlt, FaEye, FaTrash, FaDownload, FaFilter, FaRobot, FaVideo, FaChevronRight, FaSatellite } from 'react-icons/fa';
+import { FaUniversity, FaBullhorn, FaFileAlt, FaEye, FaTrash, FaDownload, FaFilter, FaRobot, FaVideo, FaChevronRight, FaSatellite, FaBars } from 'react-icons/fa';
 import sseClient from '../../utils/sseClient';
 import MaterialManager from './MaterialManager';
 import FacultySettings from './FacultySettings';
@@ -273,7 +273,7 @@ const FacultyDashboard = ({ facultyData, setIsAuthenticated, setIsFaculty, isAch
 
   return (
     <div className={`faculty-dashboard-layout loaded ${mobileSidebarOpen ? 'mobile-open' : ''}`}>
-      <button className="mobile-sidebar-toggle" onClick={() => setMobileSidebarOpen(true)}>☰</button>
+      <button className="mobile-sidebar-toggle" onClick={() => setMobileSidebarOpen(true)}><FaBars /></button>
       {mobileSidebarOpen && <div className="mobile-overlay" onClick={() => setMobileSidebarOpen(false)}></div>}
 
       <FacultySidebar
