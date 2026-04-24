@@ -18,3 +18,5 @@ services:
         value: "true"
       - key: USE_MYSQL
         value: "false"
+      - key: USE_MEMORY_DB
+        value: "true"

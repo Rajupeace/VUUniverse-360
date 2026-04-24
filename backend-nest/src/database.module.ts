@@ -20,6 +20,7 @@ export class DatabaseModule implements OnModuleDestroy {
       this.mongod = await MongoMemoryServer.create();
       const uri = this.mongod.getUri();
       this.logger.log(`✅ MongoDB Memory Server running at: ${uri}`);
+      process.env.MONGODB_URI = uri;
       
       return {
         module: DatabaseModule,
