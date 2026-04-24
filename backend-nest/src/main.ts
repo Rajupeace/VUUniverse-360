@@ -17,6 +17,8 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 
+import * as cluster from 'cluster';
+
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     bufferLogs: true,
@@ -96,4 +98,17 @@ async function bootstrap() {
   console.log(`✅ Worker ${process.pid} started on port ${PORT}`);
 }
 
-bootstrap();
+const Cluster = cluster as any;
+if (Cluster.isPrimary) {
+  const numCPUs = os.cpus().length;
+  console.log(`Primary ${process.pid} is running. Starting ${numCPUs} workers...`);
+  for (let i = 0; i < numCPUs; i++) {
+    Cluster.fork();
+  }
+  Cluster.on('exit', (worker: any, code: any, signal: any) => {
+    console.log(`Worker ${worker.process.pid} died. Restarting...`);
+    Cluster.fork();
+  });
+} else {
+  bootstrap();
+}

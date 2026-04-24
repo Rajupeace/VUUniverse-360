@@ -56,12 +56,14 @@
 
 .App {
   min-height: 100vh;
+  min-height: 100dvh; /* Support for iPhone dynamic toolbar */
   display: flex;
   flex-direction: column;
   background: var(--bg-primary);
   color: var(--text-main);
   transition: background 0.3s ease, color 0.3s ease;
   font-family: var(--font-main);
+  padding-bottom: env(safe-area-inset-bottom); /* iPhone notch/home bar protection */
 }
 
 /* Global Transition for glass panels */

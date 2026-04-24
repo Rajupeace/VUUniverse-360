@@ -486,3 +486,80 @@
     color: #475569;
     cursor: not-allowed;
 }
+
+/* ==========================================================================
+   ACADEMIC BROWSER MOBILE RESPONSIVE
+   ========================================================================== */
+
+@media (max-width: 1024px) {
+    .nexus-browser-container {
+        padding: 1.5rem 1rem;
+    }
+
+    .browser-hub-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .subject-summary-card {
+        padding: 1rem;
+        gap: 0.75rem;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .view-pdf-btn {
+        grid-column: span 2;
+        margin-top: 0.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .ac-browser-layout {
+        flex-direction: column;
+    }
+
+    .browser-nav-column {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--v-border);
+        height: auto;
+        max-height: 40vh;
+    }
+
+    .browser-content-column {
+        padding: 1.5rem 0;
+    }
+
+    .res-grid-v2 {
+        grid-template-columns: 1fr;
+    }
+
+    .nav-search-box {
+        margin: 1rem;
+    }
+
+    .nav-list-v2 {
+        padding: 0 1rem 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .browser-hub-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .subject-summary-card {
+        grid-template-columns: 1fr;
+    }
+
+    .view-pdf-btn {
+        grid-column: span 1;
+    }
+
+    .node-item-v2 {
+        padding: 0.8rem;
+    }
+
+    .res-card-v2 {
+        padding: 1rem;
+    }
+}

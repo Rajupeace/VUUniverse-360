@@ -9,7 +9,7 @@ const getDiscoveryUrl = () => {
     return 'http://localhost:5001';
 };
 
-const API_URL = 'https://vu-universe-backend.onrender.com';
+const API_URL = getDiscoveryUrl();
 export const API_BASE = API_URL;
 console.log(`[NETWORK 🛰️] Pulse discovered API at: ${API_BASE}`);
 

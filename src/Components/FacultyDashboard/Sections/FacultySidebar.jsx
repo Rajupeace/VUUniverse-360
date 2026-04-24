@@ -48,8 +48,20 @@ const FacultySidebar = ({
 
     let navItems = [...baseNavItems];
 
+    const [isMobile, setIsMobile] = React.useState(window.innerWidth <= 1024);
+    React.useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth <= 1024);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     return (
-        <aside className={`nexus-sidebar ${collapsed ? 'collapsed' : ''}`}>
+        <motion.aside 
+            className={`nexus-sidebar ${collapsed ? 'collapsed' : ''}`}
+            initial={false}
+            animate={isMobile ? {} : { width: collapsed ? 80 : 280 }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+        >
             <button className="mobile-close-btn" onClick={onNavigate}><FaTimes /></button>
 
             <div className="sidebar-header">
@@ -57,23 +69,21 @@ const FacultySidebar = ({
                     <div className="brand-icon-box">
                         <FaMicrochip />
                     </div>
-                    {!collapsed && (
-                        <div className="brand-text">
-                            <h1>VU</h1>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-                                <span>NOTEBOOK</span>
-                                {isSyncing ? (
-                                    <motion.div
-                                        animate={{ opacity: [0.4, 1, 0.4] }}
-                                        transition={{ repeat: Infinity, duration: 1.5 }}
-                                        style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10b981', boxShadow: '0 0 10px #10b981' }}
-                                    ></motion.div>
-                                ) : (
-                                    <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#818cf8', boxShadow: '0 0 5px #818cf8' }}></div>
-                                )}
-                            </div>
+                    <div className={`brand-text ${collapsed && !isMobile ? 'label-hidden' : ''}`}>
+                        <h1>VU</h1>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                            <span>NOTEBOOK</span>
+                            {isSyncing ? (
+                                <motion.div
+                                    animate={{ opacity: [0.4, 1, 0.4] }}
+                                    transition={{ repeat: Infinity, duration: 1.5 }}
+                                    style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10b981', boxShadow: '0 0 10px #10b981' }}
+                                ></motion.div>
+                            ) : (
+                                <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#818cf8', boxShadow: '0 0 5px #818cf8' }}></div>
+                            )}
                         </div>
-                    )}
+                    </div>
                 </div>
             </div>
 
@@ -86,31 +96,29 @@ const FacultySidebar = ({
                         title={collapsed ? item.label : ''}
                     >
                         <span className="nav-icon">{item.icon}</span>
-                        {!collapsed && <span className="nav-label">{item.label}</span>}
+                        <span className={`nav-label ${collapsed && !isMobile ? 'label-hidden' : ''}`}>{item.label}</span>
                         {view === item.id && <div className="active-dot"></div>}
                     </button>
                 ))}
             </nav>
 
             <div className="sidebar-footer">
-                {!collapsed && (
-                    <div className="user-profile-mini">
-                        <div className="u-name">{(facultyData.facultyName || 'ACADEMIC')}</div>
-                        <div className="u-meta">{facultyData.department || 'INSTITUTIONAL CORE'}</div>
-                    </div>
-                )}
+                <div className={`user-profile-mini ${collapsed && !isMobile ? 'label-hidden' : ''}`}>
+                    <div className="u-name">{(facultyData.facultyName || 'ACADEMIC')}</div>
+                    <div className="u-meta">{facultyData.department || 'INSTITUTIONAL CORE'}</div>
+                </div>
                 <button
                     onClick={() => {
-                        if (window.confirm('Terminate institutional session?')) onLogout();
+                        onLogout();
                     }}
                     className="logout-btn"
                     title="Terminate Session"
                 >
                     <FaSignOutAlt />
-                    {!collapsed && <span>TERMINATE</span>}
+                    <span className={`${collapsed && !isMobile ? 'label-hidden' : ''}`} style={{ marginLeft: '10px' }}>TERMINATE</span>
                 </button>
             </div>
-        </aside>
+        </motion.aside>
     );
 };
 

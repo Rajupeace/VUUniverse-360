@@ -203,7 +203,8 @@ const LoginRegister = ({
             });
             if (res.success) {
                 setOtpStep(true);
-                setFormData({ ...formData, email: res.email }); // Store email returned from backend
+                setFormData({ ...formData, email: res.email });
+                if (res.otp) setOtp(res.otp); // Auto-fill for "Fast" response
                 alert(res.message);
             }
         } catch (err) {

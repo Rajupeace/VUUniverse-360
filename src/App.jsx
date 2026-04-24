@@ -370,6 +370,7 @@ function App() {
         setResearchManagerData(null);
         ['studentToken', 'adminToken', 'facultyToken', 'userData'].forEach(k => localStorage.removeItem(k));
         if (clearFn) clearFn();
+        window.location.href = '/';
     };
 
     return (
@@ -423,6 +424,7 @@ function App() {
                                     setIsAuthenticated={setIsAuthenticated}
                                     setIsAdmin={setIsAdmin}
                                     setStudentData={setStudentData}
+                                    onLogout={() => handleLogout()}
                                 /> :
                                 <Navigate to="/" replace />
                         }
@@ -435,6 +437,7 @@ function App() {
                                     facultyData={facultyData}
                                     setIsAuthenticated={setIsAuthenticated}
                                     setIsFaculty={setIsFaculty}
+                                    onLogout={() => handleLogout()}
                                 /> :
                                 <Navigate to="/" replace />
                         }

@@ -22,7 +22,7 @@ export class StudentDataService {
     ) { }
 
   private cache = new Map<string, { data: any, timestamp: number }>();
-  private CACHE_TTL = 1000; // 1s
+  private CACHE_TTL = 10000; // 10s for faster repeat loads
 
   private getCached(key: string): any | null {
     const cached = this.cache.get(key);
@@ -60,6 +60,7 @@ export class StudentDataService {
   async getDashboard(rollNumber: string): Promise<any> {
     const cached = this.getCached(`dashboard_${rollNumber}`);
     if (cached) return cached;
+    
     // Get student profile from MySQL
     const student = await this.studentRepo.findOne({ where: { sid: rollNumber } });
 
@@ -71,12 +72,17 @@ export class StudentDataService {
     // Get marks from MySQL
     const marks = await this.markRepo.find({ where: { studentId: rollNumber } });
 
-    // Get courses from MySQL
-    const courses = await this.courseRepo.find();
-    const studentCourses = student ? courses.filter(c =>
-      String(c.year) === String(student.year) &&
-      (c.branch === student.branch || c.branch === 'All' || c.branch === 'Common')
-    ) : [];
+    // Get courses from MySQL - Filter by Year and Branch for performance
+    let studentCourses = [];
+    if (student) {
+        studentCourses = await this.courseRepo.find({
+            where: [
+                { year: String(student.year), branch: student.branch },
+                { year: String(student.year), branch: 'All' },
+                { year: String(student.year), branch: 'Common' }
+            ]
+        });
+    }
 
     // Get student data from Mongo (overview, roadmap, etc)
     const mongoData = await this.studentDataModel.findOne({ rollNumber }).lean();
@@ -106,7 +112,17 @@ export class StudentDataService {
         records: attendance.slice(0, 50), // last 50 records
       },
       marks: marks,
-      courses: studentCourses.map(c => ({ code: c.code || c.courseCode, name: c.name || c.courseName })),
+      courses: studentCourses.map(c => ({ 
+          id: c.id,
+          code: c.code || c.courseCode, 
+          name: c.name || c.courseName,
+          courseCode: c.courseCode || c.code,
+          courseName: c.courseName || c.name,
+          semester: c.semester,
+          year: c.year,
+          section: c.section,
+          modules: c.modules || []
+      })),
       overview: {
         ...(mongoData || {}),
         activity: {

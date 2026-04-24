@@ -33,14 +33,12 @@ const AdminHeader = ({
     adminData = adminData || { name: 'System Administrator', role: 'Administrator' };
 
     const localHandleLogout = (e) => {
-        e.preventDefault();
-        if (window.confirm('Are you sure you want to log out?')) {
-            if (onLogout) {
-                onLogout();
-            } else {
-                localStorage.clear();
-                window.location.reload();
-            }
+        if (e) e.preventDefault();
+        if (onLogout) {
+            onLogout();
+        } else {
+            localStorage.clear();
+            window.location.reload();
         }
     };
 
@@ -214,13 +212,6 @@ const AdminHeader = ({
                 </motion.div>
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                    <motion.button
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        className="admin-btn admin-btn-outline"
-                        style={{ width: '100%', borderRadius: '12px', height: '42px', fontSize: '0.75rem' }}
-                    >
-                    </motion.button>
 
                     <motion.button
                         onClick={localHandleLogout}

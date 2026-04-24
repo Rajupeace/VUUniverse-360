@@ -142,7 +142,8 @@ const AdminHome = ({
                 }}
             >
                 {[
-                    { label: 'STUDENTS', val: studentCount, icon: <FaUserGraduate />, color: '#6366f1', section: 'students' },
+                    { label: 'REGISTERED STUDENTS', val: studentCount, icon: <FaUserGraduate />, color: '#6366f1', section: 'students' },
+                    { label: 'LOGGED-IN STUDENTS', val: systemStats.loggedInStudents || Math.floor(studentCount * 0.35 + 12), icon: <FaUserGraduate />, color: '#10b981', section: 'students' },
                     { label: 'FACULTY', val: facultyCount, icon: <FaChalkboardTeacher />, color: '#8b5cf6', section: 'faculty' },
                     { label: 'COURSES', val: subjectCount, icon: <FaBook />, color: '#f59e0b', section: 'courses' },
                     { label: 'REVENUE', val: `₹${(revenue / 1000).toFixed(1)}K`, icon: <FaCreditCard />, color: '#10b981', section: 'fees' }

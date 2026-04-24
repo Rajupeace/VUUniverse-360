@@ -216,6 +216,10 @@
     animation: fadeIn 0.3s ease-out;
 }
 
+.label-hidden {
+    display: none !important;
+}
+
 @keyframes fadeIn {
     from {
         opacity: 0;

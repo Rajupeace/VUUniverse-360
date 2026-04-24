@@ -27,7 +27,7 @@ import PersonalDetailsBall from '../PersonalDetailsBall/PersonalDetailsBall';
 // Styles
 import './FacultyDashboard.css';
 
-const FacultyDashboard = ({ facultyData, setIsAuthenticated, setIsFaculty, isAchievementManagerRole }) => {
+const FacultyDashboard = ({ facultyData, setIsAuthenticated, setIsFaculty, isAchievementManagerRole, onLogout }) => {
   const [currentFaculty, setCurrentFaculty] = useState(facultyData);
   const [view, setView] = useState('overview');
   const [activeContext, setActiveContext] = useState(null);
@@ -140,10 +140,14 @@ const FacultyDashboard = ({ facultyData, setIsAuthenticated, setIsFaculty, isAch
   }, [currentFaculty.assignments]);
 
   const handleLogout = () => {
-    localStorage.clear();
-    setIsAuthenticated(false);
-    setIsFaculty(false);
-    navigate('/');
+    if (onLogout) {
+      onLogout();
+    } else {
+      localStorage.clear();
+      setIsAuthenticated(false);
+      setIsFaculty(false);
+      navigate('/');
+    }
   };
 
   const getFileUrl = (url) => {
@@ -153,12 +157,18 @@ const FacultyDashboard = ({ facultyData, setIsAuthenticated, setIsFaculty, isAch
   };
 
   const handleDeleteNode = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this file?")) return;
+    // Fast Response: Optimistic update
+    const prevMaterials = [...materialsList];
+    setMaterialsList(prev => prev.filter(m => m._id !== id && m.id !== id));
+
     try {
       await apiDelete(`/api/materials/${id}`);
       refreshAll();
     } catch (err) {
-      alert("Error: " + err.message);
+      console.error("Error deleting node:", err);
+      // Rollback on failure
+      setMaterialsList(prevMaterials);
+      alert("Failed to delete material.");
     }
   };
 

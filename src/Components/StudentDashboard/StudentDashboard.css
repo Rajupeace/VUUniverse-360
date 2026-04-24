@@ -596,21 +596,23 @@ body {
 .mobile-sidebar-toggle {
     display: none;
     position: fixed;
-    bottom: 1.5rem;
-    left: 1.5rem;
-    width: 56px;
-    height: 56px;
+    bottom: 2rem;
+    bottom: calc(2rem + env(safe-area-inset-bottom));
+    left: 2rem;
+    width: 64px;
+    height: 64px;
     background: linear-gradient(135deg, var(--v-primary), var(--v-primary-dark));
     color: white;
-    border: 3px solid rgba(255, 255, 255, 0.2);
+    border: 3px solid rgba(255, 255, 255, 0.3);
     border-radius: 50%;
-    z-index: 100;
-    box-shadow: 0 10px 30px rgba(79, 70, 229, 0.5);
-    font-size: 1.5rem;
+    z-index: 2001; /* Above EVERYTHING */
+    box-shadow: 0 15px 35px rgba(79, 70, 229, 0.4);
+    font-size: 1.8rem;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    -webkit-tap-highlight-color: transparent;
 }
 
 .mobile-sidebar-toggle:active {
@@ -726,6 +728,7 @@ body {
         width: 50px;
         height: 50px;
         bottom: 1rem;
+        bottom: calc(1rem + env(safe-area-inset-bottom));
         left: 1rem;
         font-size: 1.3rem;
     }

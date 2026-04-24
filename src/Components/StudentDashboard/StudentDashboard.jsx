@@ -36,7 +36,6 @@ import ClassBoards from './Sections/ClassBoards';
 import './StudentDashboard.css';
 import SkillsRadar from './Sections/SkillsRadar';
 import GlobalNotifications from '../GlobalNotifications/GlobalNotifications';
-import PersonalDetailsBall from '../PersonalDetailsBall/PersonalDetailsBall';
 import StudentTasks from './Sections/StudentTasks';
 import CareerReadiness from './Sections/CareerReadiness';
 import CommandPalette from '../CommandPalette/CommandPalette';
@@ -1048,7 +1047,6 @@ export default function StudentDashboard({ studentData, onLogout }) {
             />
 
             {/* 🏗️ Core Global Components */}
-            <PersonalDetailsBall userData={userData} />
             <GlobalNotifications />
         </div >
     );

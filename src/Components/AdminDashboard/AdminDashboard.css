@@ -1681,4 +1681,43 @@ body {
   }
 }
 
+.admin-mobile-toggle {
+  display: none;
+  position: fixed;
+  bottom: 2rem;
+  bottom: calc(2rem + env(safe-area-inset-bottom));
+  left: 2rem;
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  color: white;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  z-index: 2001; /* Above EVERYTHING */
+  box-shadow: 0 15px 35px rgba(79, 70, 229, 0.4);
+  font-size: 1.8rem;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (max-width: 1024px) {
+  .admin-mobile-toggle {
+    display: flex;
+  }
+  
+  .admin-dashboard-v2.mobile-open .admin-sidebar {
+    transform: translateX(0) !important;
+    display: block !important;
+    z-index: 2002 !important;
+  }
+}
+
+.label-hidden {
+  display: none !important;
+}
+
 /* --- END SENTINEL ADMIN SYSTEM --- */
+

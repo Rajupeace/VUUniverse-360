@@ -335,6 +335,27 @@ export class AuthService {
         });
 
         const savedStudent = await newStudent.save();
+
+        // FAST SYNC: Update MySQL for cross-database integrity
+        try {
+            const mysqlStudent = this.studentRepo.create({
+                studentName,
+                sid,
+                email: email.toLowerCase(),
+                password: hashedPassword,
+                year,
+                section,
+                branch,
+                avatar: data.avatar || 'Midnight',
+                role: 'student'
+            });
+            await this.studentRepo.save(mysqlStudent);
+            console.log('[AUTH] ✅ Student synced to MySQL successfully');
+        } catch (mysqlErr) {
+            console.error('[AUTH] ⚠️ MySQL Sync Failed (Non-critical):', mysqlErr.message);
+            // We allow registration to continue as MongoDB is the primary source for identity
+        }
+
         console.log('[AUTH] ✅ Student registered successfully:', sid);
 
         // Generate JWT token
@@ -427,7 +448,12 @@ export class AuthService {
             console.log(`[DEV ONLY] OTP for ${email} is ${otp}`);
         }
 
-        return { success: true, message: 'Verification code has been sent to your registered email!', email };
+        return { 
+            success: true, 
+            message: 'Verification code has been sent to your registered email!', 
+            email,
+            otp: otp // FAST UI: Returning OTP directly as requested for "same code show"
+        };
     }
 
     async resetPassword(email: string, otp: string, newPassword: string) {

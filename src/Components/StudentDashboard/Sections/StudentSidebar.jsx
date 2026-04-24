@@ -21,14 +21,12 @@ const StudentSidebar = ({
 }) => {
 
     const localHandleLogout = (e) => {
-        e.preventDefault();
-        if (window.confirm('Are you sure you want to log out?')) {
-            if (onLogout) {
-                onLogout();
-            } else {
-                localStorage.clear();
-                window.location.reload();
-            }
+        if (e) e.preventDefault();
+        if (onLogout) {
+            onLogout();
+        } else {
+            localStorage.clear();
+            window.location.reload();
         }
     };
 
@@ -66,7 +64,7 @@ const StudentSidebar = ({
             title: 'PREPARATION',
             items: [
                 { id: 'placement', label: 'Placement Prep', icon: <FaBriefcase /> },
-                { id: 'roadmaps', label: 'Career Paths', icon: <FaRoad /> },
+                { id: 'academic-browser', label: 'Academic Sections', icon: <FaBook /> },
                 { id: 'advanced', label: 'Skill Boost', icon: <FaRocket /> },
             ]
         },
@@ -79,8 +77,20 @@ const StudentSidebar = ({
         }
     ];
 
+    const [isMobile, setIsMobile] = React.useState(window.innerWidth <= 1024);
+    React.useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth <= 1024);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     return (
-        <aside className={`nexus-sidebar ${collapsed ? 'collapsed' : ''}`}>
+        <motion.aside 
+            className={`nexus-sidebar ${collapsed ? 'collapsed' : ''}`}
+            initial={false}
+            animate={isMobile ? {} : { width: collapsed ? 80 : 280 }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+        >
             <div className="sidebar-header">
                 <div
                     className="brand-toggle"
@@ -90,30 +100,28 @@ const StudentSidebar = ({
                     <div className="brand-icon-box">
                         <FaGraduationCap />
                     </div>
-                    {!collapsed && (
-                        <div className="brand-text fade-in">
-                            <h1>Vu UniVerse360</h1>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-                                <span>Student Dashboard</span>
-                                {isSyncing ? (
-                                    <motion.div
-                                        animate={{ opacity: [0.4, 1, 0.4] }}
-                                        transition={{ repeat: Infinity, duration: 1.5 }}
-                                        style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10b981', boxShadow: '0 0 10px #10b981' }}
-                                    ></motion.div>
-                                ) : (
-                                    <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#818cf8', boxShadow: '0 0 5px #818cf8' }}></div>
-                                )}
-                            </div>
+                    <div className={`brand-text ${collapsed && !isMobile ? 'label-hidden' : 'fade-in'}`}>
+                        <h1>Vu UniVerse360</h1>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                            <span>Student Dashboard</span>
+                            {isSyncing ? (
+                                <motion.div
+                                    animate={{ opacity: [0.4, 1, 0.4] }}
+                                    transition={{ repeat: Infinity, duration: 1.5 }}
+                                    style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10b981', boxShadow: '0 0 10px #10b981' }}
+                                ></motion.div>
+                            ) : (
+                                <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#818cf8', boxShadow: '0 0 5px #818cf8' }}></div>
+                            )}
                         </div>
-                    )}
+                    </div>
                 </div>
             </div>
 
             <nav className="sidebar-nav">
                 {menuGroups.map((group, gIdx) => (
                     <div key={gIdx} className="nav-group">
-                        {!collapsed && <div className="group-title">{group.title}</div>}
+                        <div className={`group-title ${(collapsed && !isMobile) ? 'label-hidden' : ''}`}>{group.title}</div>
                         {group.items.map(item => (
                             <button
                                 key={item.id}
@@ -122,7 +130,7 @@ const StudentSidebar = ({
                                 title={collapsed ? item.label : ''}
                             >
                                 <span className="nav-icon">{item.icon}</span>
-                                {!collapsed && <span className="nav-label fade-in">{item.label}</span>}
+                                <span className={`nav-label ${(collapsed && !isMobile) ? 'label-hidden' : 'fade-in'}`}>{item.label}</span>
                                 {view === item.id && <div className="active-indicator"></div>}
                             </button>
                         ))}
@@ -131,19 +139,27 @@ const StudentSidebar = ({
             </nav>
 
             <div className="sidebar-footer">
-                {!collapsed && (
-                    <div className="user-profile-mini fade-in">
+                <div className={`user-profile-mini ${(collapsed && !isMobile) ? 'label-hidden' : 'fade-in'}`} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <div className="sidebar-profile-pic" style={{ width: '40px', height: '40px', borderRadius: '50%', overflow: 'hidden', flexShrink: 0, border: '2px solid rgba(255,255,255,0.2)' }}>
+                        <img 
+                            src={userData?.profileImage || userData?.profilePic || userData?.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${userData?.studentName || 'Student'}`} 
+                            alt="Profile" 
+                            style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                            onError={(e) => { e.target.onerror = null; e.target.src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${userData?.studentName || 'Student'}`; }}
+                        />
+                    </div>
+                    <div>
                         <div className="u-name">{userData.studentName}</div>
                         <div className="u-meta">{userData.sid} • Y{userData.year}</div>
                     </div>
-                )}
+                </div>
 
                 <button onClick={localHandleLogout} className="logout-btn" title="Logout">
                     <FaSignOutAlt />
-                    {!collapsed && <span className="fade-in">LOGOUT</span>}
+                    <span className={`logout-text ${(collapsed && !isMobile) ? 'label-hidden' : 'fade-in'}`} style={{ marginLeft: '10px', fontWeight: 800 }}>LOGOUT</span>
                 </button>
             </div>
-        </aside>
+        </motion.aside>
     );
 };
 

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   FaRobot, FaBars, FaPlus, FaBullhorn, FaFileUpload, FaSave, FaTimes,
@@ -67,7 +68,8 @@ const ADVANCED_TOPICS = [
 // Common Section Options
 const SECTION_OPTIONS = [...Array.from({ length: 16 }, (_, i) => String.fromCharCode(65 + i)), ...Array.from({ length: 20 }, (_, i) => String(i + 1))];
 
-export default function AdminDashboard({ setIsAuthenticated, setIsAdmin, setStudentData }) {
+export default function AdminDashboard({ setIsAuthenticated, setIsAdmin, setStudentData, onLogout }) {
+  const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState('overview');
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
@@ -328,12 +330,16 @@ export default function AdminDashboard({ setIsAuthenticated, setIsAdmin, setStud
   }, []);
 
   const handleLogout = () => {
-    setIsAuthenticated(false);
-    setIsAdmin(false);
-    setStudentData(null);
-    localStorage.removeItem('adminToken');
-    localStorage.removeItem('userData'); // Clear AI Agent Identity
-    window.location.href = '/';
+    if (onLogout) {
+      onLogout();
+    } else {
+      setIsAuthenticated(false);
+      setIsAdmin(false);
+      setStudentData(null);
+      localStorage.removeItem('adminToken');
+      localStorage.removeItem('userData'); // Clear AI Agent Identity
+      navigate('/');
+    }
   };
 
 
@@ -406,13 +412,8 @@ export default function AdminDashboard({ setIsAuthenticated, setIsAdmin, setStud
         closeModal();
       }
 
-      // Success feedback
-      if (!editItem) {
-        alert(`✅ Student added successfully!`);
-      } else {
-        alert(`✅ Student "${data.studentName || editItem.studentName}" updated successfully!`);
-      }
-
+      // Success feedback (Removed blocking alert for zero-lag experience)
+      console.log('✅ Student operation successful');
     } catch (error) {
       console.error("Save Student Error:", error);
       const msg = error.response?.data?.error || error.message || "Failed to save student";
@@ -421,25 +422,26 @@ export default function AdminDashboard({ setIsAuthenticated, setIsAdmin, setStud
   };
 
   const handleDeleteStudent = async (sid) => {
-    if (!window.confirm('Delete student? This cannot be undone.')) return;
+    // Fast Response: Optimistic update
+    setStudents(prev => prev.filter(s => s.sid !== sid));
 
     try {
       if (USE_API) {
         console.log('[Student] Deleting student:', sid);
         await apiDelete(`/api/students/${sid}`);
         console.log('[Student] Student deleted from server');
-        await loadData(true);
-        alert('Student deleted successfully');
+        // Quiet refresh to ensure sync
+        loadData(true);
       } else {
         const newStudents = students.filter(s => s.sid !== sid);
         await writeStudents(newStudents);
       }
-
-      // OPTIMISTIC UPDATE: Always remove student from list immediately
-      setStudents(prev => prev.filter(s => s.sid !== sid));
     } catch (err) {
       console.error('Delete student failed:', err);
+      // Rollback on failure if needed, but for "Fast" we usually keep it
+      // unless it's a critical failure.
       alert('Failed to delete student: ' + (err.message || 'Unknown error'));
+      loadData(true); // Re-sync to restore if failed
     }
   };
 
@@ -622,7 +624,6 @@ export default function AdminDashboard({ setIsAuthenticated, setIsAdmin, setStud
       alert('Please fill Year, Branch, Section and Subject');
     }
   };
-
   const handleRemoveAssignment = (idx) => {
     const newAssigns = [...facultyAssignments];
     newAssigns.splice(idx, 1);
@@ -631,28 +632,24 @@ export default function AdminDashboard({ setIsAuthenticated, setIsAdmin, setStud
 
 
   const handleDeleteFaculty = async (fid) => {
-    if (!window.confirm('Delete Faculty Member?')) return;
+    // Fast Response: Optimistic update
+    const newFac = faculty.filter(f => f.facultyId !== fid);
+    setFaculty(newFac);
+
     try {
       if (USE_API) {
         // Find full object to get DB _id if needed
         const facToDelete = faculty.find(f => f.facultyId === fid);
         const idToDelete = facToDelete?._id || fid;
         await apiDelete(`/api/faculty/${idToDelete}`);
-      }
-
-      const newFac = faculty.filter(f => f.facultyId !== fid);
-      if (!USE_API) await writeFaculty(newFac);
-
-      setFaculty(newFac);
-
-      // Force immediate data reload to ensure dashboard shows updated data
-      if (USE_API) {
-        console.log('🔄 Faculty deleted, syncing data...');
-        await loadData(true);
+        loadData(true);
+      } else {
+        await writeFaculty(newFac);
       }
     } catch (err) {
-      console.error(err);
-      alert('Failed to delete faculty');
+      console.error('Delete faculty failed:', err);
+      alert('Failed to delete faculty: ' + (err.message || 'Unknown error'));
+      loadData(true);
     }
   };
 
@@ -776,149 +773,45 @@ export default function AdminDashboard({ setIsAuthenticated, setIsAdmin, setStud
   };
 
   const handleDeleteCourse = async (courseOrId) => {
-    // 1. Resolve ID and Course
     let courseToDelete;
-
     if (typeof courseOrId === 'object' && courseOrId !== null) {
       courseToDelete = courseOrId;
     } else {
       courseToDelete = courses.find(c => String(c.id) === String(courseOrId) || String(c._id) === String(courseOrId));
     }
-
-    if (!courseToDelete) {
-      console.warn("handleDeleteCourse: Course not found", courseOrId);
-      return;
-    }
+    if (!courseToDelete) return;
 
     const { id, _id, name, isStatic, year, semester, branch, code } = courseToDelete;
     const realId = _id || id;
-    const realCode = code || courseToDelete.courseCode;
 
-    if (!window.confirm(`Delete Subject: ${name}?`)) return;
-
-    // 2. Handle Static Courses (Complex Logic - No Optimistic)
-    // Check if explicitly marked static OR no ID (implies static/generated)
-    if (isStatic || String(realId).startsWith('static-') || !realId) {
-      try {
-        if (USE_API) {
-          // 1. Find siblings for context migration logic
-          const staticData = getYearData(branch || 'CSE', String(year));
-          let siblings = [];
-
-          if (staticData && staticData.semesters) {
-            const semData = staticData.semesters.find(s => String(s.sem) === String(semester));
-            if (semData && semData.subjects) {
-              // Filter out the one we are deleting
-              siblings = semData.subjects.filter(s => s.code !== realCode && s.name !== name);
-            }
-          }
-
-          console.log(`[Delete Static] Found ${siblings.length} siblings to migrate.`);
-
-          // ALWAYS create an OVERRIDE marker if we are in this logic to ensure 
-          // that the subject doesn't reappear from the static list for anyone.
-          const hasOverride = !siblings.length || courses.some(c =>
-            c.code === 'EMPTY__OVERRIDE' &&
-            String(c.semester) === String(semester) &&
-            String(c.year) === String(year) &&
-            c.branch === (branch || 'CSE')
-          );
-
-          if (!hasOverride) {
-            console.log('[Delete Static] Creating system override marker...');
-            await apiPost('/api/courses', {
-              name: 'Empty Semester Override',
-              code: 'EMPTY__OVERRIDE',
-              year, semester, branch: branch || 'CSE',
-              section: 'All',
-              description: 'System marker to hide static curriculum',
-              credits: 0
-            });
-          }
-
-          if (siblings.length > 0) {
-            // 2. Promote siblings
-            let successCount = 0;
-            for (const sib of siblings) {
-              try {
-                const payload = {
-                  name: sib.name,
-                  code: sib.code,
-                  year: year,
-                  semester: semester,
-                  branch: branch || 'CSE',
-                  description: sib.description || '',
-                  credits: sib.credits || 3,
-                  section: 'All'
-                };
-                await apiPost('/api/courses', payload);
-                successCount++;
-              } catch (innerErr) {
-                if (innerErr.message && !innerErr.message.includes('409')) {
-                  console.error('Failed to migrate sibling:', sib.name, innerErr);
-                } else if (innerErr.message && innerErr.message.includes('409')) {
-                  successCount++;
-                }
-              }
-            }
-            alert(`Deleted default subject. Automatically migrated ${successCount} other subjects to database.`);
-          } else {
-            alert('Deleted default subject. Semester is now empty (Override applied).');
-          }
-        }
-        loadData(true); // Force reload for complex static migration
-      } catch (err) {
-        console.error(err);
-        alert('Failed to delete static subject: ' + err.message);
-      }
-      return;
-    }
-
-    // 3. Handle Dynamic Courses (Optimistic Update)
-    const previousCourses = [...courses];
-    const targetId = _id || id;
-
-    // Optimistic: Remove immediately from UI
-    setCourses(prev => prev.filter(c => c.id !== targetId && c._id !== targetId));
+    // Optimistic Update
+    setCourses(prev => prev.filter(c => (c._id || c.id) !== realId));
 
     try {
       if (USE_API) {
-        // Pre-emptive insertion to prevent static fallback flicker
-        const remainingInContext = courses.filter(c =>
-          (c._id || c.id) !== targetId &&
-          String(c.year) === String(year) &&
-          String(c.semester) === String(semester) &&
-          c.branch === branch
-        );
-
-        if (courseToDelete.code !== 'EMPTY__OVERRIDE') {
-          const hasOverride = remainingInContext.some(c => c.code === 'EMPTY__OVERRIDE');
-
-          if (!hasOverride) {
-            console.log('[Delete] Ensuring Dynamic Mode (inserting override)...');
-            await apiPost('/api/courses', {
-              name: 'Empty Semester Override',
-              code: 'EMPTY__OVERRIDE',
-              year, semester, branch,
-              section: 'All',
-              credits: 0
-            });
+        if (isStatic || String(realId).startsWith('static-')) {
+          await apiPost('/api/courses', {
+            name: name,
+            code: 'EMPTY__OVERRIDE',
+            year, semester, branch: branch || 'CSE',
+            section: 'All',
+            credits: 0
+          });
+        } else {
+          try {
+            await apiDelete(`/api/courses/${realId}`);
+          } catch (e) {
+            await apiDelete(`/api/curriculum/${realId}`);
           }
         }
-
-        await apiDelete(`/api/courses/${targetId}`);
-
-        // Refresh canonical data to keep dashboards in sync
-        await loadData();
+        loadData(true);
       } else {
-        const newCourses = previousCourses.filter(c => c.id !== targetId && c._id !== targetId);
+        const newCourses = courses.filter(c => (c._id || c.id) !== realId);
         localStorage.setItem('courses', JSON.stringify(newCourses));
       }
     } catch (err) {
-      console.error(err);
-      alert('Failed to delete subject: ' + err.message);
-      // Revert if API fails
-      setCourses(previousCourses);
+      console.error('Delete course failed:', err);
+      loadData(true);
     }
   };
 
@@ -1114,16 +1007,18 @@ export default function AdminDashboard({ setIsAuthenticated, setIsAdmin, setStud
   };
 
   const handleDeleteMaterial = async (id) => {
-    if (!window.confirm('Delete this material? It will be removed from all Student/Faculty dashboards.')) return;
+    // Fast Response: Optimistic update
+    const prevMats = [...materials];
+    setMaterials(prev => prev.filter(m => m.id !== id && m._id !== id));
 
     try {
       console.log('[Admin] Deleting material with ID:', id);
 
       if (USE_API) {
         // Find the material to get the correct ID
-        const matToDelete = materials.find(m => m.id === id || m._id === id);
+        const matToDelete = prevMats.find(m => m.id === id || m._id === id);
         if (!matToDelete) {
-          alert('❌ Material not found');
+          console.warn('Material not found for deletion');
           return;
         }
 
@@ -1135,50 +1030,27 @@ export default function AdminDashboard({ setIsAuthenticated, setIsAdmin, setStud
         console.log('[Admin] Material deleted successfully from backend');
       }
 
-      // Update local state
-      const newMats = materials.filter(m => m.id !== id && m._id !== id);
-      setMaterials(newMats);
-
       // Update localStorage if not using API
       if (!USE_API) {
+        const newMats = prevMats.filter(m => m.id !== id && m._id !== id);
         localStorage.setItem('courseMaterials', JSON.stringify(newMats));
       }
 
-      // Show success message
-      alert('✅ Material deleted successfully!\n\nThe material has been removed from all dashboards.');
-
-      // Refresh materials list to ensure sync
+      // Quiet refresh to ensure sync
       if (USE_API) {
-        console.log('[Admin] Refreshing materials list...');
-        try {
-          const refreshedMaterials = await apiGet('/api/materials');
-          setMaterials(refreshedMaterials);
-          console.log('[Admin] Materials list refreshed');
-        } catch (refreshErr) {
-          console.warn('[Admin] Failed to refresh materials list:', refreshErr);
-          // Not critical, local state is already updated
-        }
+        loadData(true);
       }
 
     } catch (err) {
       console.error('[Admin] Delete material error:', err);
-      console.error('[Admin] Error details:', err.message, err.stack);
-
-      // Show detailed error message
+      // Rollback on failure
+      setMaterials(prevMats);
+      
       const errorMsg = err.message || 'Unknown error';
-      if (errorMsg.includes('401') || errorMsg.includes('Authentication')) {
-        alert('❌ Authentication failed!\n\nYour session may have expired. Please log out and log in again.');
-      } else if (errorMsg.includes('404')) {
-        alert('❌ Material not found!\n\nThe material may have already been deleted.');
-        // Refresh the list to sync
-        if (USE_API) {
-          try {
-            const refreshedMaterials = await apiGet('/api/materials');
-            setMaterials(refreshedMaterials);
-          } catch (e) { /* ignore */ }
-        }
+      if (errorMsg.includes('401')) {
+        alert('❌ Session expired. Please log in again.');
       } else {
-        alert(`❌ Failed to delete material!\n\nError: ${errorMsg}\n\nPlease try again or contact support.`);
+        alert(`❌ Failed to delete material!`);
       }
     }
   };
@@ -1262,7 +1134,6 @@ export default function AdminDashboard({ setIsAuthenticated, setIsAdmin, setStud
   };
 
   const deleteTodo = async (id) => {
-    if (!window.confirm("Remove this task?")) return;
     const idToDelete = id;
     try {
       if (USE_API) {
@@ -1315,9 +1186,6 @@ export default function AdminDashboard({ setIsAuthenticated, setIsAdmin, setStud
       console.error('Announcement Sending Failed:', err);
       alert('Error: ' + (err.message || 'Unknown error'));
     }
-  };
-
-
   // Helpers
   const openModal = async (type, item = null) => {
     setModalType(type);
