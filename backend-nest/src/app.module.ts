@@ -60,14 +60,17 @@ import { FacultyStatsModule } from './faculty-stats/facultystats.module';
     // MongoDB (Primary Database) - Uses Memory Server if USE_MEMORY_DB=true
     DatabaseModule.forRootAsync(),
 
-    // SQLite fallback for TypeORM repository wiring
-    TypeOrmModule.forRoot({
-      type: 'sqlite',
-      database: './database.sqlite',
-      entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: true,
-      autoLoadEntities: true,
-      logging: false,
+    // Consolidate TypeORM into MongoDB to avoid SQLite binary dependency errors on Render
+    TypeOrmModule.forRootAsync({
+      useFactory: () => ({
+        type: 'mongodb',
+        url: process.env.MONGODB_URI || process.env.MONGO_URI || 'mongodb+srv://bobbyteja4_db_user:Bobby123%2B@cluster0.im2uv.mongodb.net/fbn_xai_system?appName=Cluster0',
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        synchronize: true,
+        autoLoadEntities: true,
+        logging: false,
+      }),
     }),
 
     // Rate Limiting (Permissive for high traffic internal usage)
