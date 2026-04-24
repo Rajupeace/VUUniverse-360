@@ -8,7 +8,7 @@ const getDiscoveryUrl = () => {
   return 'http://localhost:5001';
 };
 
-const API_URL = process.env.REACT_APP_API_URL || getDiscoveryUrl();
+const API_URL = 'https://vu-universe-backend.onrender.com';
 
 let es = null;
 const listeners = new Set();
