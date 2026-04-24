@@ -151,11 +151,8 @@
 
 /* Global responsive helpers for dashboards */
 @media (max-width: 1024px) {
-  .nexus-sidebar,
-  .sidebar-v2,
-  .nexus-sidebar.collapsed {
-    display: none !important;
-  }
+  /* Sidebars are handled by each dashboard's own CSS with proper toggle logic.
+     Do NOT use display:none here — it kills the mobile slide-in sidebar. */
 
   .dashboard-content-area {
     padding: 1rem !important;

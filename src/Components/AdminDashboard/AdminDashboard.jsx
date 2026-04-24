@@ -70,6 +70,7 @@ const SECTION_OPTIONS = [...Array.from({ length: 16 }, (_, i) => String.fromChar
 export default function AdminDashboard({ setIsAuthenticated, setIsAdmin, setStudentData }) {
   const [activeSection, setActiveSection] = useState('overview');
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [adminData, setAdminData] = useState({ name: 'System Admin', role: 'Main Administrator' });
 
   useEffect(() => {
@@ -1446,11 +1447,14 @@ export default function AdminDashboard({ setIsAuthenticated, setIsAdmin, setStud
   };
 
   return (
-    <div className="admin-dashboard-v2">
+    <div className={`admin-dashboard-v2 ${mobileSidebarOpen ? 'mobile-open' : ''}`}>
+      {mobileSidebarOpen && (
+        <div className="mobile-overlay" onClick={() => setMobileSidebarOpen(false)}></div>
+      )}
       <AdminHeader
         adminData={adminData}
         view={activeSection}
-        setView={setActiveSection}
+        setView={(section) => { setActiveSection(section); setMobileSidebarOpen(false); }}
         openModal={openModal}
         onLogout={handleLogout}
         collapsed={sidebarCollapsed}
@@ -1461,7 +1465,7 @@ export default function AdminDashboard({ setIsAuthenticated, setIsAdmin, setStud
       {/* Mobile Menu Toggle */}
       <button
         className="admin-mobile-toggle"
-        onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+        onClick={() => setMobileSidebarOpen(!mobileSidebarOpen)}
         title="Toggle Sidebar"
       >
         <FaBars />

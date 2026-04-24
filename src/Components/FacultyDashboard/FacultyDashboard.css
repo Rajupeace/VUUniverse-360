@@ -3021,3 +3021,115 @@
   gap: 1.5rem;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
 }
+
+/* ===================================================================
+   FACULTY MOBILE RESPONSIVENESS
+   =================================================================== */
+
+.mobile-close-btn {
+  display: none;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #f1f5f9;
+  border: none;
+  color: #64748b;
+  font-size: 1.2rem;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: all 0.2s;
+}
+
+.mobile-close-btn:hover {
+  background: #fee2e2;
+  color: #ef4444;
+}
+
+@media (max-width: 1024px) {
+  .mobile-close-btn {
+    display: flex;
+  }
+
+  .mobile-sidebar-toggle {
+    display: flex;
+  }
+
+  .nexus-glass-header {
+    padding: 0 1rem;
+    height: 60px;
+  }
+
+  .f-view-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .f-view-header h2 {
+    font-size: 1.6rem;
+  }
+
+  .view-content-layer {
+    padding: 0 1rem;
+  }
+
+  .f-grid-v2 {
+    grid-template-columns: 1fr;
+  }
+
+  .f-materials-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .f-node-card {
+    padding: 1.5rem;
+    border-radius: 20px;
+  }
+
+  .sd-header {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .f-view-header h2 {
+    font-size: 1.3rem;
+  }
+
+  .f-node-card {
+    padding: 1.25rem;
+    border-radius: 16px;
+  }
+
+  .nexus-glass-header {
+    padding: 0 0.75rem;
+    height: 54px;
+  }
+
+  .mobile-sidebar-toggle {
+    width: 50px;
+    height: 50px;
+    bottom: 1rem;
+    left: 1rem;
+  }
+
+  .f-context-select {
+    width: 100%;
+    font-size: 0.85rem;
+  }
+
+  .breadcrumb-box {
+    font-size: 0.8rem;
+  }
+
+  .f-attendance-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

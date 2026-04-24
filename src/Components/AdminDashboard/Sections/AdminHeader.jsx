@@ -118,6 +118,7 @@ const AdminHeader = ({
                                 initial={{ opacity: 0, x: -10 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 exit={{ opacity: 0, x: -10 }}
+                                className="admin-brand-text-block"
                             >
                                 <h1 style={{ margin: 0, fontSize: '1.2rem', fontWeight: 950, color: 'var(--admin-secondary)', letterSpacing: '-1px' }}>VU</h1>
                                 <span style={{ fontSize: '0.65rem', fontWeight: 900, color: 'var(--admin-primary)', letterSpacing: '2px', textTransform: 'uppercase' }}>UNIVERSE</span>
@@ -140,18 +141,12 @@ const AdminHeader = ({
             <nav className="admin-nav" style={{ padding: collapsed ? '1rem 0.75rem' : '1.5rem', overflowY: 'auto', flex: 1 }}>
                 {navGroups.map((group, idx) => (
                     <div key={idx} className="admin-nav-group" style={{ marginBottom: '2rem' }}>
-                        <AnimatePresence>
-                            {!collapsed && (
-                                <motion.span
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 0.5 }}
-                                    className="admin-nav-label"
-                                    style={{ fontSize: '0.6rem', fontWeight: 950, letterSpacing: '2px' }}
-                                >
-                                    {group.label}
-                                </motion.span>
-                            )}
-                        </AnimatePresence>
+                        <span
+                            className={`admin-nav-label ${collapsed ? 'label-hidden' : ''}`}
+                            style={{ fontSize: '0.6rem', fontWeight: 950, letterSpacing: '2px' }}
+                        >
+                            {group.label}
+                        </span>
                         <div style={{ marginTop: '0.75rem' }}>
                             {group.items.map(item => (
                                 <motion.div
@@ -169,16 +164,10 @@ const AdminHeader = ({
                                     }}
                                 >
                                     <div className="nav-icon" style={{ fontSize: '1.1rem' }}>{item.icon}</div>
-                                    {!collapsed && (
-                                        <motion.span
-                                            initial={{ opacity: 0, x: -5 }}
-                                            animate={{ opacity: 1, x: 0 }}
-                                            style={{ fontWeight: 800, fontSize: '0.85rem' }}
-                                        >
-                                            {item.label}
-                                        </motion.span>
-                                    )}
-                                    {!collapsed && item.id === 'ai-agent' && <div className="ai-pulse-dot" style={{ background: '#10b981', boxShadow: '0 0 10px #10b981' }}></div>}
+                                    <span className={`nav-item-label ${collapsed ? 'label-hidden' : ''}`} style={{ fontWeight: 800, fontSize: '0.85rem' }}>
+                                        {item.label}
+                                    </span>
+                                    {item.id === 'ai-agent' && <div className={`ai-pulse-dot ${collapsed ? 'label-hidden' : ''}`} style={{ background: '#10b981', boxShadow: '0 0 10px #10b981' }}></div>}
                                 </motion.div>
                             ))}
                         </div>

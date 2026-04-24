@@ -228,17 +228,65 @@
     }
 }
 
-@media (max-width: 768px) {
+/* ===== MOBILE SIDEBAR RESPONSIVE ===== */
+@media (max-width: 1024px) {
     .nexus-sidebar {
         position: fixed;
         top: 0;
         left: 0;
+        height: 100vh;
+        width: 300px;
+        max-width: 85vw;
         transform: translateX(-100%);
-        width: 100%;
+        z-index: 1001;
         border-right: none;
+        box-shadow: 20px 0 60px rgba(0, 0, 0, 0.15);
+        transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        padding: 1.5rem 1rem;
     }
 
-    .mobile-open .nexus-sidebar {
+    /* FORCE expanded state on mobile — always show labels */
+    .nexus-sidebar.collapsed {
+        width: 300px;
+        max-width: 85vw;
+        padding: 1.5rem 1rem;
+    }
+
+    .mobile-open .nexus-sidebar,
+    .mobile-open .nexus-sidebar.collapsed {
         transform: translateX(0);
+    }
+
+    /* Ensure labels are always visible on mobile sidebar */
+    .mobile-open .nexus-sidebar .nav-label,
+    .mobile-open .nexus-sidebar .brand-text,
+    .mobile-open .nexus-sidebar .group-title,
+    .mobile-open .nexus-sidebar .user-profile-mini,
+    .mobile-open .nexus-sidebar .u-name,
+    .mobile-open .nexus-sidebar .u-meta {
+        display: block !important;
+        opacity: 1 !important;
+    }
+
+    .mobile-open .nexus-sidebar .sidebar-header {
+        margin-bottom: 1.5rem;
+    }
+
+    .mobile-open .nexus-sidebar .nav-item {
+        gap: 0.75rem;
+        padding: 0.9rem 1rem;
+        font-size: 0.95rem;
+    }
+
+    .mobile-open .nexus-sidebar .logout-btn span {
+        display: inline !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .nexus-sidebar {
+        width: 100vw;
+        max-width: 100vw;
+        border-radius: 0;
     }
 }
