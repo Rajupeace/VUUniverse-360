@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     FaUserGraduate, FaChalkboardTeacher, FaBuilding, FaPlus, FaSearch, FaEye, FaEdit, FaTrash,
-    FaFilter, FaHome, FaSignOutAlt, FaBars, FaChevronLeft, FaChevronRight, FaRobot
+    FaFilter, FaHome, FaSignOutAlt, FaBars, FaBed, FaTools, FaWrench, FaMoneyBillWave, FaClipboardCheck,
+    FaWifi, FaUtensils, FaShieldAlt, FaRobot, FaCalendarCheck, FaBell, FaUserCog
 } from 'react-icons/fa';
 import VuAiAgent from '../VuAiAgent/VuAiAgent';
 import { apiGet, apiPost, apiPut, apiDelete } from '../../utils/apiClient';
@@ -22,13 +23,30 @@ const HostelManagerDashboard = ({ managerData, onLogout, isEmbedded }) => {
     const [editItem, setEditItem] = useState(null);
     const [formData, setFormData] = useState({});
     const [saving, setSaving] = useState(false);
+    
+    // New Hostel Features State
+    const [rooms, setRooms] = useState([]);
+    const [maintenanceRequests, setMaintenanceRequests] = useState([]);
+    const [attendanceRecords, setAttendanceRecords] = useState([]);
+    const [feeRecords, setFeeRecords] = useState([]);
+    const [showNotifications, setShowNotifications] = useState(false);
+    const [notifications, setNotifications] = useState([]);
+    const [stats, setStats] = useState({
+        totalResidents: 0,
+        occupiedRooms: 0,
+        availableRooms: 0,
+        pendingMaintenance: 0,
+        todayAttendance: 0,
+        feePending: 0
+    });
+    const isFetchingRef = useRef(false);
 
     useEffect(() => {
         loadData();
-        // 0.1s hyper-sync for high-velocity residency data
+        // 30s refresh interval to prevent backend overload
         const interval = setInterval(() => {
             if (document.visibilityState === 'visible') loadData();
-        }, 100);
+        }, 30000);
         return () => clearInterval(interval);
     }, []);
 
@@ -44,6 +62,8 @@ const HostelManagerDashboard = ({ managerData, onLogout, isEmbedded }) => {
     }, []);
 
     const loadData = async () => {
+        if (isFetchingRef.current) return; // Skip if already fetching
+        isFetchingRef.current = true;
         try {
             setLoading(true);
             const [studentsRes, facultyRes] = await Promise.all([
@@ -58,6 +78,7 @@ const HostelManagerDashboard = ({ managerData, onLogout, isEmbedded }) => {
             console.error('Error loading data:', error);
         } finally {
             setLoading(false);
+            isFetchingRef.current = false;
         }
     };
 

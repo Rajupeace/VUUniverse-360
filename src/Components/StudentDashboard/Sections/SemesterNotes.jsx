@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { FaPencilAlt, FaTrash, FaStickyNote, FaBook, FaPlus, FaFileAlt, FaSync, FaEye } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
-import { apiGet, apiPost, apiPut, apiDelete } from '../../../utils/apiClient';
+import { apiGet, apiPost, apiPut, apiDelete, API_BASE } from '../../../utils/apiClient';
 import sseClient from '../../../utils/sseClient';
 import './SemesterNotes.css';
 
@@ -155,7 +155,7 @@ const SemesterNotes = ({ semester, studentData, enrolledSubjects = [], serverMat
 
     const publishedMaterials = (() => {
         try {
-            const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:5001';
+            // Use centralized API_BASE
             const apiMaterials = (serverMaterials || []).map(m => ({ ...m, url: m.url && m.url.startsWith('http') ? m.url : `${API_BASE}${m.url}` }));
             const year = String(studentData.year || '1');
 

@@ -230,6 +230,53 @@ export class AuthService {
         };
     }
 
+    // Unified Login - Automatically detects user type
+    async unifiedLogin(identifier: string, password: string) {
+        console.log(`[AUTH] Unified login attempt for: ${identifier}`);
+        
+        // Try Admin first (dev backdoor + normal admin login)
+        try {
+            const adminResult = await this.adminLogin(identifier, password);
+            console.log('[AUTH] Identified as Admin');
+            return {
+                ...adminResult,
+                role: 'admin',
+                userType: 'admin',
+            };
+        } catch (e) {
+            console.log('[AUTH] Not an admin, trying faculty...');
+        }
+
+        // Try Faculty
+        try {
+            const facultyResult = await this.facultyLogin(identifier, password);
+            console.log('[AUTH] Identified as Faculty');
+            return {
+                ...facultyResult,
+                role: facultyResult.facultyData?.role || 'faculty',
+                userType: 'faculty',
+            };
+        } catch (e) {
+            console.log('[AUTH] Not a faculty, trying student...');
+        }
+
+        // Try Student
+        try {
+            const studentResult = await this.studentLogin(identifier, password);
+            console.log('[AUTH] Identified as Student');
+            return {
+                ...studentResult,
+                role: 'student',
+                userType: 'student',
+            };
+        } catch (e) {
+            console.log('[AUTH] Not a student either');
+        }
+
+        // If none matched
+        throw new UnauthorizedException('Invalid credentials: User not found in any role (Admin, Faculty, or Student)');
+    }
+
     // --- Password Reset Logic ---
     async sendPasswordResetOtp(identifier: string, role: string) {
         let user: any = null;

@@ -31,6 +31,12 @@ export class AuthController {
         const identifier = body.sid || body.email;
         return this.authService.studentLogin(identifier, body.password);
     }
+
+    @Public()
+    @Post('login')
+    async unifiedLogin(@Body() body: { identifier: string; password: string }) {
+        return this.authService.unifiedLogin(body.identifier, body.password);
+    }
     @Public()
     @Post('forgot-password')
     forgotPassword(@Body() body: { identifier: string; role: string }) {

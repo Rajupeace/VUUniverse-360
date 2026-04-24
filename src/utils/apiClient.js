@@ -214,6 +214,35 @@ export async function studentLogin(sid, password) {
     return data;
 }
 
+// Unified Login - Single form for all user types
+export async function unifiedLogin(identifier, password) {
+    const res = await fetch(`${API_URL.replace(/\/$/, '')}/api/login`, {
+        method: 'POST', headers: headersJson, body: JSON.stringify({ identifier, password })
+    });
+    const data = await parseResponse(res, '/api/login');
+    if (data.token) {
+        // Store token based on user type
+        const userType = data.userType || data.role;
+        if (userType === 'admin') {
+            window.localStorage.setItem('adminToken', data.token);
+            window.localStorage.setItem('adminData', JSON.stringify(data.adminData || data));
+        } else if (userType === 'faculty') {
+            window.localStorage.setItem('facultyToken', data.token);
+            window.localStorage.setItem('facultyData', JSON.stringify(data.facultyData || data));
+        } else if (userType === 'student') {
+            window.localStorage.setItem('studentToken', data.token);
+            window.localStorage.setItem('studentData', JSON.stringify(data.studentData || data));
+        }
+        // Also store unified user data
+        window.localStorage.setItem('userData', JSON.stringify({
+            ...(data.adminData || data.facultyData || data.studentData || {}),
+            role: userType,
+            token: data.token
+        }));
+    }
+    return data;
+}
+
 export async function studentRegister(studentData) {
     const res = await fetch(`${API_URL.replace(/\/$/, '')}/api/students/register`, {
         method: 'POST', headers: headersJson, body: JSON.stringify(studentData)
@@ -255,7 +284,7 @@ export function resolveImageUrl(path, fallbackSeed = 'User') {
 const client = {
     apiGet, apiPost, apiPut, apiDelete, apiPatch, apiUpload,
     adminLogin, adminLogout, facultyLogin, facultyLogout,
-    studentLogin, studentRegister, resolveImageUrl
+    studentLogin, studentRegister, unifiedLogin, resolveImageUrl
 };
 
 export default client;

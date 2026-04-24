@@ -37,16 +37,22 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         const { id, role } = payload;
         let user: any = null;
 
+        console.log(`[JWT] Validating token for id: ${id}, role: ${role}`);
+
         // Try Admin
         if (!user && (role === 'admin' || !role)) {
-            // SQL
-            user = await this.adminRepo.findOne({ where: { adminId: id } });
-            // MongoDB
+            try {
+                user = await this.adminRepo.findOne({ where: { adminId: id } });
+                console.log(`[JWT] Admin SQL lookup: ${user ? 'found' : 'not found'}`);
+            } catch (e) {
+                console.warn(`[JWT] Admin SQL error:`, e.message);
+            }
             if (!user) {
                 try {
-                    user = await this.adminModel.findOne({ $or: [{ adminId: id }, ...(id.length === 24 ? [{ _id: id }] : [])] }).lean();
-                } catch (e) {
                     user = await this.adminModel.findOne({ adminId: id }).lean();
+                    console.log(`[JWT] Admin Mongo lookup: ${user ? 'found' : 'not found'}`);
+                } catch (e) {
+                    console.warn(`[JWT] Admin Mongo error:`, e.message);
                 }
             }
             if (user) user.role = user.role || 'admin';
@@ -54,14 +60,18 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
         // Try Faculty
         if (!user && (role === 'faculty' || !role)) {
-            // SQL
-            user = await this.facultyRepo.findOne({ where: { facultyId: id } });
-            // MongoDB
+            try {
+                user = await this.facultyRepo.findOne({ where: { facultyId: id } });
+                console.log(`[JWT] Faculty SQL lookup: ${user ? 'found' : 'not found'}`);
+            } catch (e) {
+                console.warn(`[JWT] Faculty SQL error:`, e.message);
+            }
             if (!user) {
                 try {
-                    user = await this.facultyModel.findOne({ $or: [{ facultyId: id }, ...(id.length === 24 ? [{ _id: id }] : [])] }).lean();
-                } catch (e) {
                     user = await this.facultyModel.findOne({ facultyId: id }).lean();
+                    console.log(`[JWT] Faculty Mongo lookup: ${user ? 'found' : 'not found'}`);
+                } catch (e) {
+                    console.warn(`[JWT] Faculty Mongo error:`, e.message);
                 }
             }
             if (user) user.userType = 'faculty';
@@ -69,23 +79,29 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
         // Try Student
         if (!user && (role === 'student' || !role)) {
-            // SQL
-            user = await this.studentRepo.findOne({ where: { sid: id } });
-            // MongoDB
+            try {
+                user = await this.studentRepo.findOne({ where: { sid: id } });
+                console.log(`[JWT] Student SQL lookup: ${user ? 'found' : 'not found'}`);
+            } catch (e) {
+                console.warn(`[JWT] Student SQL error:`, e.message);
+            }
             if (!user) {
                 try {
-                    user = await this.studentModel.findOne({ $or: [{ sid: id }, ...(id.length === 24 ? [{ _id: id }] : [])] }).lean();
-                } catch (e) {
                     user = await this.studentModel.findOne({ sid: id }).lean();
+                    console.log(`[JWT] Student Mongo lookup: ${user ? 'found' : 'not found'}`);
+                } catch (e) {
+                    console.warn(`[JWT] Student Mongo error:`, e.message);
                 }
             }
             if (user) user.userType = 'student';
         }
 
         if (!user) {
+            console.error(`[JWT] User not found for id: ${id}, role: ${role}`);
             throw new UnauthorizedException('Not authorized: User not found or session expired');
         }
 
+        console.log(`[JWT] Token validated for ${user.userType || user.role}: ${id}`);
         return user;
     }
 }

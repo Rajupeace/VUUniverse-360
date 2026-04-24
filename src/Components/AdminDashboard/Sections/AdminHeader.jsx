@@ -25,7 +25,7 @@ const AdminHeader = ({
     const [currentTime, setCurrentTime] = React.useState(new Date());
 
     React.useEffect(() => {
-        const timer = setInterval(() => setCurrentTime(new Date()), 100);
+        const timer = setInterval(() => setCurrentTime(new Date()), 1000);
         return () => clearInterval(timer);
     }, []);
 

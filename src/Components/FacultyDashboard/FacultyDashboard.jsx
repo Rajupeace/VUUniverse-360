@@ -14,7 +14,7 @@ import FacultyMarks from './FacultyMarks';
 import FacultyAchievementManager from './FacultyAchievementManager';
 import VuAiAgent from '../VuAiAgent/VuAiAgent';
 import Whiteboard from '../Whiteboard/Whiteboard';
-import { apiGet, apiDelete, apiPost } from '../../utils/apiClient';
+import { apiGet, apiDelete, apiPost, API_BASE } from '../../utils/apiClient';
 
 // Sections
 import FacultySidebar from './Sections/FacultySidebar';
@@ -149,7 +149,7 @@ const FacultyDashboard = ({ facultyData, setIsAuthenticated, setIsFaculty, isAch
   const getFileUrl = (url) => {
     if (!url || url === '#') return '#';
     if (url.startsWith('http')) return url;
-    return `${process.env.REACT_APP_API_URL || 'http://localhost:5001'}${url.startsWith('/') ? '' : '/'}${url}`;
+    return `${API_BASE}${url.startsWith('/') ? '' : '/'}${url}`;
   };
 
   const handleDeleteNode = async (id) => {

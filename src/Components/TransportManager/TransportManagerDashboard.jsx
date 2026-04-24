@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     FaBus, FaPlus, FaEdit, FaTrash, FaRoute, FaUsers,
@@ -45,17 +45,20 @@ const TransportManagerDashboard = ({ managerData, onLogout, isEmbedded }) => {
     });
 
     const [personFormData, setPersonFormData] = useState({});
+    const isFetchingRef = useRef(false);
 
     useEffect(() => {
         loadAllData();
-        // 0.1s hyper-sync for tactical fleet mapping
+        // 30s refresh interval to prevent backend overload
         const interval = setInterval(() => {
             if (document.visibilityState === 'visible') loadAllData();
-        }, 100);
+        }, 30000);
         return () => clearInterval(interval);
     }, []);
 
     const loadAllData = async () => {
+        if (isFetchingRef.current) return; // Skip if already fetching
+        isFetchingRef.current = true;
         try {
             setLoading(true);
             const [transportRes, studentsRes, facultyRes] = await Promise.all([
@@ -72,6 +75,7 @@ const TransportManagerDashboard = ({ managerData, onLogout, isEmbedded }) => {
             console.error('Failed to fetch dashboard data', error);
         } finally {
             setLoading(false);
+            isFetchingRef.current = false;
         }
     };
 

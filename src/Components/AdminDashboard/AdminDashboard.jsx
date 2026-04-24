@@ -11,7 +11,7 @@ import AdminHeader from './Sections/AdminHeader';
 import AdminHome from './Sections/AdminHome';
 import './AdminDashboard.css';
 import { readFaculty, readStudents, writeStudents, writeFaculty } from '../../utils/localdb';
-import { apiGet, apiPost, apiPut, apiDelete, apiUpload } from '../../utils/apiClient';
+import { apiGet, apiPost, apiPut, apiDelete, apiUpload, API_BASE } from '../../utils/apiClient';
 import { getYearData } from '../StudentDashboard/branchData';
 // import AcademicPulse from '../StudentDashboard/AcademicPulse'; // Removed unused import
 import VuAiAgent from '../VuAiAgent/VuAiAgent';
@@ -2110,7 +2110,7 @@ export default function AdminDashboard({ setIsAuthenticated, setIsAdmin, setStud
         getFileUrl={(file) => {
           if (!file) return '#';
           if (file.startsWith('http') || file.startsWith('data:')) return file;
-          return `${process.env.REACT_APP_API_URL || 'http://localhost:5001'}${file.startsWith('/') ? '' : '/'}${file}`;
+          return `${API_BASE}${file.startsWith('/') ? '' : '/'}${file}`;
         }}
       />
 
@@ -2121,7 +2121,7 @@ export default function AdminDashboard({ setIsAuthenticated, setIsAdmin, setStud
         getFileUrl={(file) => {
           if (!file) return '#';
           if (file.startsWith('http') || file.startsWith('data:')) return file;
-          return `${process.env.REACT_APP_API_URL || 'http://localhost:5001'}${file.startsWith('/') ? '' : '/'}${file}`;
+          return `${API_BASE}${file.startsWith('/') ? '' : '/'}${file}`;
         }}
       />
 

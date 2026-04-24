@@ -1,7 +1,7 @@
 // src/Components/FacultyDashboard/FacultySettings.jsx
 import React, { useState, useEffect } from 'react';
 import { FaUser, FaShieldAlt, FaSave, FaChalkboardTeacher, FaPlus, FaTrash, FaCircle, FaExclamationTriangle, FaCamera, FaExpand, FaTimes } from 'react-icons/fa';
-import { apiPut, resolveImageUrl } from '../../utils/apiClient';
+import { apiPut, resolveImageUrl, API_BASE } from '../../utils/apiClient';
 import { motion, AnimatePresence } from 'framer-motion';
 import './FacultySettings.css';
 
@@ -95,7 +95,7 @@ const FacultySettings = ({ facultyData, onProfileUpdate }) => {
 
             try {
                 const token = localStorage.getItem('facultyToken') || localStorage.getItem('adminToken');
-                const API_URL = (process.env.REACT_APP_API_URL || 'http://localhost:5001').replace(/\/$/, '');
+        const API_URL = API_BASE.replace(/\/$/, '');
                 const response = await fetch(`${API_URL}/api/faculty/profile/upload-pic`, {
                     method: 'POST',
                     headers: token ? { 'Authorization': `Bearer ${token}` } : {},

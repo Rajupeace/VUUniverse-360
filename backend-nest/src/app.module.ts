@@ -3,6 +3,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { ConfigModule } from '@nestjs/config';
+import { DatabaseModule } from './database.module';
+import { SeedService } from './seed.service';
 
 // Auth (Global)
 import { AuthModule } from './auth/auth.module';
@@ -55,25 +57,8 @@ import { FacultyStatsModule } from './faculty-stats/facultystats.module';
       envFilePath: ['.env', '../.env', '../../.env'],
     }),
 
-    // MongoDB (Primary Database)
-    MongooseModule.forRootAsync({
-      useFactory: async () => {
-        const uri = process.env.MONGO_URI || 'mongodb+srv://bobbyteja4_db_user:4ZltK5qmHHCxuFt6@cluster0.im2uv.mongodb.net/fbn_xai_system?appName=Cluster0';
-        console.log(`📡 [DB] Initiating connection to: ${uri.split('@')[1] || 'hardcoded-cluster'}`);
-        return {
-          uri,
-          serverSelectionTimeoutMS: 5000,
-          socketTimeoutMS: 300000,
-          connectTimeoutMS: 5000,
-          maxPoolSize: parseInt(process.env.MONGO_MAX_POOL_SIZE || '500'),
-          minPoolSize: parseInt(process.env.MONGO_MIN_POOL_SIZE || '20'),
-          maxIdleTimeMS: 10000,
-          retryWrites: true,
-          family: 4,
-          onConnectionCreate: () => console.log('✅ [DB] Connection created'),
-        };
-      },
-    }),
+    // MongoDB (Primary Database) - Uses Memory Server if USE_MEMORY_DB=true
+    DatabaseModule.forRootAsync(),
 
     // SQLite fallback for TypeORM repository wiring
     TypeOrmModule.forRoot({
@@ -133,5 +118,6 @@ import { FacultyStatsModule } from './faculty-stats/facultystats.module';
     AdmissionsModule,
     FacultyStatsModule,
   ],
+  providers: [SeedService],
 })
 export class AppModule { }

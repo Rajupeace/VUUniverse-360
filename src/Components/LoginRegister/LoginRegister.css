@@ -1412,3 +1412,103 @@ body {
     opacity: 0;
   }
 }
+
+/* --- COMPREHENSIVE RESPONSIVE FIXES --- */
+
+@media (max-width: 1024px) {
+  .hero-title {
+    font-size: 3rem;
+  }
+  
+  .modern-role-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+  
+  .auth-card-container {
+    padding: 2rem 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.2rem;
+    letter-spacing: -1px;
+  }
+  
+  .hero-subtitle {
+    font-size: 0.7rem;
+    letter-spacing: 6px;
+    padding: 6px 15px;
+  }
+  
+  .modern-role-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .inner-glass-panel {
+    padding: 2rem 1.5rem;
+    width: 95%;
+  }
+  
+  .modern-auth-wrapper {
+    padding: 1.5rem 0.5rem;
+  }
+  
+  .auth-card-container {
+    border-radius: 25px;
+    padding: 1.5rem 1rem;
+  }
+
+  .back-circle-btn {
+    top: 1rem;
+    left: 1rem;
+    width: 40px;
+    height: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 1.8rem;
+  }
+  
+  .hero-subtitle {
+    letter-spacing: 3px;
+  }
+  
+  .role-icon-wrapper.live-avatar-canvas {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .live-avatar-core {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .core-icon {
+    font-size: 2.2rem;
+  }
+  
+  .track-1 { width: 100px; height: 100px; }
+  .track-2 { width: 130px; height: 130px; }
+  .track-3 { width: 160px; height: 160px; }
+  
+  .btn-primary-glow {
+    padding: 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .input-row {
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+  }
+  
+  .avatar-grid-v2 {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.5rem;
+    padding: 0.5rem;
+  }
+}

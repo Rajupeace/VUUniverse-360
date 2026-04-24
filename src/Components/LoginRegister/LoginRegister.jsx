@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaLock, FaEnvelope, FaUser, FaIdCard, FaGraduationCap, FaLayerGroup, FaUserGraduate, FaChalkboardTeacher, FaUserShield, FaArrowLeft, FaEye, FaEyeSlash, FaUserCircle, FaBook, FaLaptopCode, FaStar, FaChartLine, FaLightbulb, FaCog, FaDatabase } from 'react-icons/fa';
-import { adminLogin, facultyLogin, studentLogin, studentRegister } from '../../utils/apiClient';
+import { unifiedLogin, studentRegister } from '../../utils/apiClient';
 import './LoginRegister.css';
 
 const LoginRegister = ({
@@ -34,7 +34,7 @@ const LoginRegister = ({
     setResearchManagerData,
 }) => {
     const navigate = useNavigate();
-    const [formToShow, setFormToShow] = useState('selection');
+    const [formToShow, setFormToShow] = useState('unifiedLogin'); // Single unified login form
     const [showPassword, setShowPassword] = useState(false);
     const [selectedAvatar, setSelectedAvatar] = useState('Midnight');
     const [loading, setLoading] = useState(false);
@@ -157,15 +157,8 @@ const LoginRegister = ({
         setLoading(true);
         setError('');
         try {
-            const role = formToShow.replace('Login', '');
-            let res;
-            if (role === 'admin') {
-                res = await adminLogin(formData.sid || formData.email, formData.password);
-            } else if (role === 'faculty') {
-                res = await facultyLogin(formData.sid || formData.email, formData.password);
-            } else {
-                res = await studentLogin(formData.sid || formData.email, formData.password);
-            }
+            const res = await unifiedLogin(formData.email || formData.sid, formData.password);
+            const role = res.userType || res.role || 'student';
             handleAuthSuccess(res, role);
         } catch (err) {
             setError(err.message || 'Authentication failed');
@@ -245,6 +238,54 @@ const LoginRegister = ({
 
     const renderForm = () => {
         switch (formToShow) {
+            case 'unifiedLogin':
+                return (
+                    <div className="inner-glass-panel animate-slide-up unified-login">
+                        <div className="form-header">
+                            <div className="role-avatar-mini">
+                                <FaUserShield />
+                            </div>
+                            <h2>VU UniVerse360 Login</h2>
+                            <p>Student • Faculty • Admin - All in One Portal</p>
+                        </div>
+                        {error && <div className="auth-error">{error}</div>}
+                        <form className="auth-form" onSubmit={handleLogin}>
+                            <div className="input-group">
+                                <FaEnvelope className="input-icon" />
+                                <input
+                                    type="text"
+                                    name="email"
+                                    placeholder="ID / Email / Admin ID"
+                                    value={formData.email}
+                                    onChange={handleInputChange}
+                                    required
+                                />
+                            </div>
+                            <div className="input-group">
+                                <FaLock className="input-icon" />
+                                <input
+                                    type={showPassword ? 'text' : 'password'}
+                                    name="password"
+                                    placeholder="Secure Password"
+                                    value={formData.password}
+                                    onChange={handleInputChange}
+                                    required
+                                />
+                                <div className="pwd-toggle" onClick={() => setShowPassword(!showPassword)}>
+                                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                                </div>
+                            </div>
+                            <button type="submit" className="btn-primary-glow" disabled={loading}>
+                                {loading ? 'Authenticating...' : 'Login to Portal'}
+                            </button>
+                            <div className="form-links">
+                                <span onClick={() => setFormToShow('register')}>Create Student Account</span>
+                                <span onClick={() => setFormToShow('forgotPassword')}>Forgot Password?</span>
+                            </div>
+                        </form>
+                    </div>
+                );
+
             case 'studentLogin':
             case 'facultyLogin':
             case 'adminLogin': {

@@ -111,6 +111,7 @@
     "eslint": "^8.57.1",
     "eslint-config-react-app": "^7.0.1",
     "eslint-plugin-react-hooks": "^7.0.1",
+    "mongodb-memory-server": "^11.0.1",
     "webpack-manifest-plugin": "^6.0.1",
     "workbox-webpack-plugin": "^7.4.0"
   }

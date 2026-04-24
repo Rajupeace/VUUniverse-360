@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { FaDownload, FaArrowLeft, FaChevronRight, FaRegFolder, FaRegFileAlt, FaVideo, FaLightbulb, FaFileAlt, FaSync, FaFolderOpen, FaLayerGroup, FaBook } from 'react-icons/fa';
 import './AcademicBrowser.css';
-import { apiPost } from '../../../utils/apiClient';
+import { apiPost, API_BASE } from '../../../utils/apiClient';
 import { motion, AnimatePresence } from 'framer-motion';
 
 /**
@@ -202,7 +202,7 @@ const AcademicBrowser = ({ yearData, selectedYear, serverMaterials, userData, se
 
         // Level: Subject (Modules + Resources)
         if (current.type === 'subject') {
-            const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:5001';
+            // Use centralized API_BASE instead of hardcoded fallback
             const apiMaterials = serverMaterials.map(m => ({ ...m, url: m.url && m.url.startsWith('http') ? m.url : `${API_BASE}${m.url}` }));
 
             // ... (Resource Filtering Logic Preserved) ...
@@ -426,7 +426,7 @@ const AcademicBrowser = ({ yearData, selectedYear, serverMaterials, userData, se
         }
 
         if (current.type === 'topic') {
-            const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:5001';
+            // Use centralized API_BASE instead of hardcoded fallback
             const apiMaterials = serverMaterials.map(m => ({ ...m, url: m.url && m.url.startsWith('http') ? m.url : `${API_BASE}${m.url}` }));
 
             const subjectObj = navPath.find(item => item.type === 'subject');

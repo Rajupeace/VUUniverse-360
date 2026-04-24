@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { FaSearch, FaGraduationCap, FaCodeBranch, FaLayerGroup, FaRobot, FaEye, FaTrophy, FaCheckCircle, FaTimesCircle, FaCalendarAlt, FaBuilding, FaLink, FaArrowLeft, FaIdBadge, FaEnvelope, FaDownload } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
-import { apiGet, apiPut, resolveImageUrl } from '../../../utils/apiClient';
+import { apiGet, apiPut, resolveImageUrl, API_BASE } from '../../../utils/apiClient';
 import sseClient from '../../../utils/sseClient';
 import DocViewer from '../../DocViewer/DocViewer';
 import StudentProfileModal from '../../Shared/StudentProfileModal';
@@ -205,10 +205,7 @@ const FacultyStudents = ({ studentsList, openAiWithPrompt }) => {
                 student={studentOverview?.student || selectedStudent}
                 viewedAchievements={studentAchievements}
                 getFileUrl={(url) => {
-                    if (!url) return null;
-                    if (url.startsWith('data:') || url.startsWith('http')) return url;
-                    const backendUrl = process.env.REACT_APP_API_URL || 'http://localhost:5001';
-                    return `${backendUrl}${url.startsWith('/') ? '' : '/'}${url}`;
+                    return `${API_BASE}${url.startsWith('/') ? '' : '/'}${url}`;
                 }}
             />
 

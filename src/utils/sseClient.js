@@ -1,4 +1,14 @@
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5001';
+const getDiscoveryUrl = () => {
+  if (typeof window !== 'undefined' && window.location) {
+    const { hostname } = window.location;
+    if (hostname !== 'localhost' && hostname !== '127.0.0.1') {
+      return 'https://vu-universe-backend.onrender.com';
+    }
+  }
+  return 'http://localhost:5001';
+};
+
+const API_URL = process.env.REACT_APP_API_URL || getDiscoveryUrl();
 
 let es = null;
 const listeners = new Set();
