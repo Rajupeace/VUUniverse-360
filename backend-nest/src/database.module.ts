@@ -36,7 +36,6 @@ export class DatabaseModule implements OnModuleDestroy {
 
     // Try to connect to real MongoDB
     const mongooseOptions: MongooseModuleOptions = {
-      uri: mongoUri,
       serverSelectionTimeoutMS: 5000,
       socketTimeoutMS: 300000,
       connectTimeoutMS: 5000,
