@@ -1,6 +1,7 @@
 import { DynamicModule, Module, Logger, OnModuleDestroy } from '@nestjs/common';
 import { MongooseModule, MongooseModuleOptions } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
 // Dynamic require for MongoMemoryServer to avoid production build errors
 
 @Module({})
@@ -30,8 +31,15 @@ export class DatabaseModule implements OnModuleDestroy {
             serverSelectionTimeoutMS: 5000,
             connectTimeoutMS: 5000,
           }),
+          TypeOrmModule.forRoot({
+            type: 'mongodb',
+            url: uri,
+            synchronize: true,
+            autoLoadEntities: true,
+            logging: false,
+          }),
         ],
-        exports: [MongooseModule],
+        exports: [MongooseModule, TypeOrmModule],
       };
     }
 
@@ -52,8 +60,15 @@ export class DatabaseModule implements OnModuleDestroy {
       imports: [
         ConfigModule,
         MongooseModule.forRoot(mongoUri, mongooseOptions),
+        TypeOrmModule.forRoot({
+          type: 'mongodb',
+          url: mongoUri,
+          synchronize: true,
+          autoLoadEntities: true,
+          logging: false,
+        }),
       ],
-      exports: [MongooseModule],
+      exports: [MongooseModule, TypeOrmModule],
     };
   }
 
