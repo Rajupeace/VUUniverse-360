@@ -76,15 +76,23 @@ const AdminHeader = ({
         },
     ];
 
+    const [isMobile, setIsMobile] = React.useState(window.innerWidth <= 1024);
+    React.useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth <= 1024);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     return (
         <motion.aside
             className={`admin-sidebar ${collapsed ? 'collapsed' : ''}`}
             initial={false}
-            animate={{ width: collapsed ? 90 : 280 }}
+            animate={isMobile ? {} : { width: collapsed ? 90 : 280 }}
             transition={{ type: 'spring', stiffness: 400, damping: 30 }}
             style={{
                 background: 'rgba(255, 255, 255, 0.98)',
-                boxShadow: collapsed ? '4px 0 20px rgba(0,0,0,0.05)' : '10px 0 30px rgba(0,0,0,0.05)'
+                boxShadow: collapsed ? '4px 0 20px rgba(0,0,0,0.05)' : '10px 0 30px rgba(0,0,0,0.05)',
+                ...(isMobile ? { width: 'auto' } : {})
             }}
         >
             <div className="admin-sidebar-header" style={{ height: '100px', display: 'flex', alignItems: 'center', padding: '0 1.5rem' }}>
@@ -176,37 +184,34 @@ const AdminHeader = ({
             </nav>
 
             <div className="admin-sidebar-footer" style={{ padding: collapsed ? '1.5rem 0.5rem' : '1.5rem', borderTop: '1px solid #f1f5f9', background: '#fcfdfe' }}>
-                <AnimatePresence>
-                    {!collapsed && (
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            className="admin-user-profile"
-                            style={{
-                                marginBottom: '1.5rem',
-                                padding: '1rem',
-                                background: 'white',
-                                borderRadius: '16px',
-                                border: '1px solid #f1f5f9',
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '0.75rem'
-                            }}
-                        >
-                            <div style={{ width: '40px', height: '40px', background: '#eef2ff', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#4f46e5', fontWeight: 950, overflow: 'hidden' }}>
-                                <img
-                                    src={resolveImageUrl(adminData.profileImage || adminData.profilePic, adminData.name || 'Admin')}
-                                    alt="Admin Avatar"
-                                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                                />
-                            </div>
-                            <div>
-                                <div className="user-name" style={{ fontSize: '0.85rem', fontWeight: 900, color: 'var(--admin-secondary)' }}>{adminData.name}</div>
-                                <div className="user-role" style={{ fontSize: '0.65rem', fontWeight: 800, color: 'var(--admin-primary)' }}>{adminData.role}</div>
-                            </div>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
+                <motion.div
+                    className={`admin-user-profile ${collapsed ? 'label-hidden' : ''}`}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    style={{
+                        marginBottom: '1.5rem',
+                        padding: '1rem',
+                        background: 'white',
+                        borderRadius: '16px',
+                        border: '1px solid #f1f5f9',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.75rem'
+                    }}
+                >
+                    <div style={{ width: '40px', height: '40px', background: '#eef2ff', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#4f46e5', fontWeight: 950, overflow: 'hidden' }}>
+                        <img
+                            src={resolveImageUrl(adminData.profileImage || adminData.profilePic, adminData.name || 'Admin')}
+                            alt="Admin Avatar"
+                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                        />
+                    </div>
+                    <div>
+                        <div className="user-name" style={{ fontSize: '0.85rem', fontWeight: 900, color: 'var(--admin-secondary)' }}>{adminData.name}</div>
+                        <div className="user-role" style={{ fontSize: '0.65rem', fontWeight: 800, color: 'var(--admin-primary)' }}>{adminData.role}</div>
+                    </div>
+                </motion.div>
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                     <motion.button
@@ -224,7 +229,7 @@ const AdminHeader = ({
                         className="admin-btn admin-btn-danger"
                         style={{ width: '100%', borderRadius: '12px', height: '42px', fontSize: '0.75rem' }}
                     >
-                        <FaSignOutAlt /> {!collapsed && "TERMINATE"}
+                        <FaSignOutAlt /> <span className={`${collapsed ? 'label-hidden' : ''}`}>TERMINATE</span>
                     </motion.button>
                 </div>
             </div>
