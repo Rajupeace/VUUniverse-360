@@ -26,10 +26,15 @@ export class SeedService implements OnModuleInit {
 
     async onModuleInit() {
         console.log('[SEED] Checking database seed status...');
-        await this.seedAdmin();
-        await this.seedStudent();
-        await this.seedFaculty();
-        console.log('[SEED] Database seeding complete!');
+        try {
+            await this.seedAdmin();
+            await this.seedStudent();
+            await this.seedFaculty();
+            console.log('[SEED] Database seeding complete!');
+        } catch (err) {
+            console.warn('[SEED] Seeding failed (non-fatal):', err.message);
+            console.log('[SEED] Server will continue without seed data.');
+        }
     }
 
     private async seedAdmin() {

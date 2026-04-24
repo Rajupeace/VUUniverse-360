@@ -4,7 +4,7 @@ services:
     runtime: node
     rootDir: backend-nest
     buildCommand: npm install --legacy-peer-deps && node download-mongo.js && npx nest build
-    startCommand: node dist/src/main.js
+    startCommand: NODE_ENV=production USE_MEMORY_DB=true node dist/src/main.js
     envVars:
       - key: MONGO_URI
         value: mongodb+srv://bobbyteja4_db_user:4ZltK5qmHHCxuFt6@cluster0.im2uv.mongodb.net/fbn_xai_system?appName=Cluster0
@@ -14,9 +14,5 @@ services:
         value: production
       - key: PORT
         value: "10000"
-      - key: USE_MONGODB
-        value: "true"
-      - key: USE_MYSQL
-        value: "false"
       - key: USE_MEMORY_DB
         value: "true"
