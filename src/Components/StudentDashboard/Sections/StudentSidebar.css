@@ -258,7 +258,7 @@
 
     .mobile-open .nexus-sidebar,
     .mobile-open .nexus-sidebar.collapsed {
-        transform: translateX(0);
+        transform: translateX(0) !important;
     }
 
     /* Ensure labels are always visible on mobile sidebar */
