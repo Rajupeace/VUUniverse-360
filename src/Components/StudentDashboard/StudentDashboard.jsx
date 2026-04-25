@@ -66,6 +66,8 @@ export default function StudentDashboard({ studentData, onLogout }) {
         return params.get('view') || 'overview';
     });
     const [isDashboardLoaded, setIsDashboardLoaded] = useState(false);
+    const [feeStatus, setFeeStatus] = useState(null);
+    const [isSyncing, setIsSyncing] = useState(false);
     const [userData, setUserData] = useState(initialData);
     const [overviewData, setOverviewData] = useState(null);
     const [extraCourses, setExtraCourses] = useState([]);
@@ -89,7 +91,6 @@ export default function StudentDashboard({ studentData, onLogout }) {
     const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
     const [showCommandPalette, setShowCommandPalette] = useState(false);
     const [currentTime, setCurrentTime] = useState(new Date());
-    const [isSyncing, setIsSyncing] = useState(false);
     const [networkError, setNetworkError] = useState(false);
 
 
@@ -157,7 +158,13 @@ export default function StudentDashboard({ studentData, onLogout }) {
                     console.log('🛰️ StudentDashboard: aggregated dashboard payload:', agg);
                     if (agg.overview) setOverviewData(agg.overview);
                     if (agg.student) {
-                        setUserData(prev => {
+                    // Fetch fee status as well
+                    try {
+                        const feeData = await apiGet(`/api/fees/student/${userData.sid}`);
+                        if (feeData) setFeeStatus(feeData);
+                    } catch (e) { console.error("Fee fetch failed", e); }
+
+                    setUserData(prev => {
                             const newName = agg.student.name || agg.student.studentName || prev.studentName;
                             const newPic = agg.student.profilePic || agg.student.profileImage || prev.profilePic;
                             const newStats = agg.student.stats || prev.stats;
@@ -552,6 +559,12 @@ export default function StudentDashboard({ studentData, onLogout }) {
                         <div className="stat-label">Intelligence Score</div>
                         <div className="stat-value">{overviewData?.activity?.aiUsage || 94}</div>
                         <div className="stat-sub">AI Engagement High</div>
+                    </div>
+
+                    <div className="bento-card stat-card-premium animate-bento" style={{ animationDelay: '0.35s', '--accent': '#10b981', cursor: 'pointer' }} onClick={() => setView('fees')}>
+                        <div className="stat-label">Fee Status</div>
+                        <div className="stat-value">₹{(feeStatus?.dueAmount || 0).toLocaleString()}</div>
+                        <div className="stat-sub">{feeStatus?.dueAmount > 0 ? 'Payment Outstanding' : 'All Fees Paid'}</div>
                     </div>
 
                     {/* 💓 Main Data Pulse */}

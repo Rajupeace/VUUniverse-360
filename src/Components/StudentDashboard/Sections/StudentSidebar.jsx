@@ -36,6 +36,7 @@ const StudentSidebar = ({
             title: 'CORE',
             items: [
                 { id: 'overview', label: 'Dashboard', icon: <FaLayerGroup /> },
+                { id: 'fees', label: 'College Fees', icon: <FaUniversity /> },
                 { id: 'tasks', label: 'Task List', icon: <FaClipboardList /> },
                 { id: 'announcements', label: 'Announcements', icon: <FaBullhorn /> },
                 { id: 'ai-agent', label: 'AI Tutor', icon: <FaBolt /> },
@@ -53,12 +54,6 @@ const StudentSidebar = ({
                 { id: 'class-boards', label: 'Shared Boards', icon: <FaChalkboardTeacher /> },
                 { id: 'achievements', label: 'My Achievements', icon: <FaAward /> },
                 { id: 'exams', label: 'Exam Portal', icon: <FaShieldAlt /> },
-            ]
-        },
-        {
-            title: 'FINANCE',
-            items: [
-                { id: 'fees', label: 'College Fees', icon: <FaUniversity /> },
             ]
         },
         {
