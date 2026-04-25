@@ -22,7 +22,7 @@ export class StudentDataService {
     ) { }
 
   private cache = new Map<string, { data: any, timestamp: number }>();
-  private CACHE_TTL = 10000; // 10s for faster repeat loads
+  private CACHE_TTL = 1000; // 1s for real-time fetching without double-render spam
 
   private getCached(key: string): any | null {
     const cached = this.cache.get(key);

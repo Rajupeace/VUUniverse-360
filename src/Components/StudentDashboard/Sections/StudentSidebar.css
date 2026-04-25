@@ -83,6 +83,9 @@
     gap: 2rem;
     overflow-y: auto;
     scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    padding-bottom: 2rem;
     /* Firefox */
 }
 
@@ -239,6 +242,7 @@
         top: 0;
         left: 0;
         height: 100vh;
+        height: 100dvh;
         width: 300px;
         max-width: 85vw;
         transform: translateX(-100%);
