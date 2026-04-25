@@ -577,8 +577,17 @@ export default function StudentDashboard({ studentData, onLogout }) {
 
                     <div className="bento-card stat-card-premium animate-bento" style={{ animationDelay: '0.35s', '--accent': '#10b981', cursor: 'pointer' }} onClick={() => navigateToView('fees')}>
                         <div className="stat-label">Fee Status</div>
-                        <div className="stat-value">₹{(feeStatus?.dueAmount || 0).toLocaleString()}</div>
-                        <div className="stat-sub">{feeStatus?.dueAmount > 0 ? 'Payment Outstanding' : 'All Fees Paid'}</div>
+                        <div className="stat-value">
+                            ₹{(() => {
+                                if (!feeStatus) return '0';
+                                if (Array.isArray(feeStatus)) {
+                                    const total = feeStatus.reduce((acc, f) => acc + (f.balance || f.dueAmount || (f.amount - (f.paid || 0)) || 0), 0);
+                                    return total.toLocaleString();
+                                }
+                                return (feeStatus.dueAmount || 0).toLocaleString();
+                            })()}
+                        </div>
+                        <div className="stat-sub">Total Outstanding Due</div>
                     </div>
 
                     {/* 💓 Main Data Pulse */}
