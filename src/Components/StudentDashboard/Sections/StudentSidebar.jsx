@@ -88,8 +88,8 @@ const StudentSidebar = ({
     return (
         <motion.aside 
             className={`nexus-sidebar ${collapsed ? 'collapsed' : ''}`}
-            initial={false}
-            animate={isMobile ? { width: mobileOpen ? 300 : 300 } : { width: collapsed ? 80 : 280, x: 0 }}
+            initial={isMobile ? { x: "-100%" } : false}
+            animate={isMobile ? { x: mobileOpen ? 0 : "-100%", width: 300 } : { width: collapsed ? 80 : 280, x: 0 }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
         >
             <div className="sidebar-header">

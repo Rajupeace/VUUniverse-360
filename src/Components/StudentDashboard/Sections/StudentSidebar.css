@@ -11,7 +11,6 @@
     display: flex;
     flex-direction: column;
     padding: 2rem 1.25rem;
-    transition: width 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
     position: relative;
     /* Changed from fixed for flex logic */
     z-index: 1001;
@@ -245,11 +244,9 @@
         height: 100dvh;
         width: 300px;
         max-width: 85vw;
-        transform: translateX(-100%);
         z-index: 1001;
         border-right: none;
         box-shadow: 20px 0 60px rgba(0, 0, 0, 0.15);
-        transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
         padding: 1.5rem 1rem;
     }
 
@@ -262,7 +259,7 @@
 
     .mobile-open .nexus-sidebar,
     .mobile-open .nexus-sidebar.collapsed {
-        transform: translateX(0) !important;
+        /* Handled by Framer Motion */
     }
 
     /* Ensure labels are always visible on mobile sidebar */
