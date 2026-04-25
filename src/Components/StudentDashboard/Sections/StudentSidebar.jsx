@@ -10,7 +10,7 @@ import './StudentSidebar.css';
  * Collapsible sidebar for streamlined navigation.
  */
 const StudentSidebar = ({
-    userData,
+    userData = {},
     view,
     setView,
     collapsed,
@@ -20,141 +20,111 @@ const StudentSidebar = ({
     isSyncing = false,
     mobileOpen = false
 }) => {
+    const [currentTime, setCurrentTime] = React.useState(new Date());
+
+    React.useEffect(() => {
+        const timer = setInterval(() => setCurrentTime(new Date()), 1000);
+        return () => clearInterval(timer);
+    }, []);
 
     const localHandleLogout = (e) => {
         if (e) e.preventDefault();
-        if (onLogout) {
-            onLogout();
-        } else {
+        if (onLogout) onLogout();
+        else {
             localStorage.clear();
             window.location.reload();
         }
     };
 
-    const menuGroups = [
-        {
-            title: 'CORE',
-            items: [
-                { id: 'overview', label: 'Dashboard', icon: <FaLayerGroup /> },
-                { id: 'fees', label: 'College Fees', icon: <FaUniversity /> },
-                { id: 'tasks', label: 'Task List', icon: <FaClipboardList /> },
-                { id: 'announcements', label: 'Announcements', icon: <FaBullhorn /> },
-                { id: 'ai-agent', label: 'AI Tutor', icon: <FaBolt /> },
-            ]
-        },
-        {
-            title: 'ACADEMICS',
-            items: [
-                { id: 'semester', label: 'Classroom', icon: <FaChalkboardTeacher /> },
-                { id: 'journal', label: 'My Notes', icon: <FaPen /> },
-                { id: 'marks', label: 'Grades & Results', icon: <FaChartBar /> },
-                { id: 'attendance', label: 'Attendance Intel', icon: <FaClipboardList /> },
-                { id: 'schedule', label: 'Daily Schedule', icon: <FaClipboardList /> },
-                { id: 'faculty', label: 'My Faculty', icon: <FaGraduationCap /> },
-                { id: 'class-boards', label: 'Shared Boards', icon: <FaChalkboardTeacher /> },
-                { id: 'achievements', label: 'My Achievements', icon: <FaAward /> },
-                { id: 'exams', label: 'Exam Portal', icon: <FaShieldAlt /> },
-            ]
-        },
-        {
-            title: 'PREPARATION',
-            items: [
-                { id: 'placement', label: 'Placement Prep', icon: <FaBriefcase /> },
-                { id: 'academic-browser', label: 'Academic Sections', icon: <FaBook /> },
-                { id: 'advanced', label: 'Skill Boost', icon: <FaRocket /> },
-            ]
-        },
-        {
-            title: 'ACCOUNT',
-            items: [
-                { id: 'settings', label: 'Settings', icon: <FaShieldAlt /> },
-                { id: 'support', label: 'Support', icon: <FaHeadset /> },
-            ]
-        }
+    const menuItems = [
+        { id: 'overview', label: 'Dashboard', icon: <FaLayerGroup /> },
+        { id: 'semester', label: 'Classroom', icon: <FaChalkboardTeacher /> },
+        { id: 'schedule', label: 'Schedule', icon: <FaClipboardList /> },
+        { id: 'marks', label: 'Grades', icon: <FaChartBar /> },
+        { id: 'attendance', label: 'Attendance', icon: <FaClipboardList /> },
+        { id: 'placement', label: 'Placements', icon: <FaBriefcase /> },
+        { id: 'advanced', label: 'Skill Forge', icon: <FaRocket /> },
+        { id: 'announcements', label: 'Broadcasts', icon: <FaBullhorn /> },
+        { id: 'ai-agent', label: 'VU AI', icon: <FaBolt /> },
     ];
 
-    const [isMobile, setIsMobile] = React.useState(window.innerWidth <= 1024);
+    const [isMobile, setIsMobile] = React.useState(window.innerWidth <= 1100);
     React.useEffect(() => {
-        const handleResize = () => setIsMobile(window.innerWidth <= 1024);
+        const handleResize = () => setIsMobile(window.innerWidth <= 1100);
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
+    const sidebarVariants = {
+        expanded: { width: 280, x: 0 },
+        collapsed: { width: 85, x: 0 },
+        mobileOpen: { x: 0, width: '280px' },
+        mobileClosed: { x: '-100%', width: '280px' }
+    };
+
+    const activeState = isMobile ? (mobileOpen ? 'mobileOpen' : 'mobileClosed') : (collapsed ? 'collapsed' : 'expanded');
+
     return (
         <motion.aside 
-            className={`nexus-sidebar ${collapsed ? 'collapsed' : ''}`}
-            initial={isMobile ? { x: "-100%" } : false}
-            animate={isMobile ? { x: mobileOpen ? 0 : "-100%" } : { width: collapsed ? 80 : 280, x: 0 }}
-            style={isMobile ? { width: 300, position: 'fixed', left: 0, top: 0, bottom: 0 } : {}}
-            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            className={`glass-minimal-sidebar ${collapsed ? 'is-collapsed' : ''} ${mobileOpen ? 'is-open' : ''}`}
+            initial={false}
+            animate={activeState}
+            variants={sidebarVariants}
+            transition={{ type: "tween", duration: 0.3, ease: "easeInOut" }}
         >
-            <div className="sidebar-header">
-                <div
-                    className="brand-toggle"
-                    onClick={() => setCollapsed(!collapsed)}
-                    title={collapsed ? "Expand" : "Collapse"}
-                >
-                    <div className="brand-icon-box">
-                        <FaGraduationCap />
-                    </div>
-                    <div className={`brand-text ${collapsed && !isMobile ? 'label-hidden' : 'fade-in'}`}>
-                        <h1>Vu UniVerse360</h1>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-                            <span>Student Dashboard</span>
-                            {isSyncing ? (
-                                <motion.div
-                                    animate={{ opacity: [0.4, 1, 0.4] }}
-                                    transition={{ repeat: Infinity, duration: 1.5 }}
-                                    style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10b981', boxShadow: '0 0 10px #10b981' }}
-                                ></motion.div>
-                            ) : (
-                                <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#818cf8', boxShadow: '0 0 5px #818cf8' }}></div>
-                            )}
-                        </div>
-                    </div>
+            <div className="sidebar-branding-minimal">
+                <div className="minimal-logo-orb" onClick={() => !isMobile && setCollapsed(!collapsed)}>
+                    <FaGraduationCap />
                 </div>
+                {(!collapsed || isMobile) && (
+                    <div className="minimal-brand-text">
+                        <span className="v-main">VU</span>
+                        <span className="v-sub">Universe</span>
+                    </div>
+                )}
             </div>
 
-            <nav className="sidebar-nav">
-                {menuGroups.map((group, gIdx) => (
-                    <div key={gIdx} className="nav-group">
-                        <div className={`group-title ${(collapsed && !isMobile) ? 'label-hidden' : ''}`}>{group.title}</div>
-                        {group.items.map(item => (
-                            <button
-                                key={item.id}
-                                onClick={() => { setView(item.id); if (onNavigate) onNavigate(); }}
-                                className={`nav-item ${view === item.id ? 'active' : ''}`}
-                                title={collapsed ? item.label : ''}
-                            >
-                                <span className="nav-icon">{item.icon}</span>
-                                <span className={`nav-label ${(collapsed && !isMobile) ? 'label-hidden' : 'fade-in'}`}>{item.label}</span>
-                                {view === item.id && <div className="active-indicator"></div>}
-                            </button>
-                        ))}
-                    </div>
+            <div className="minimal-nav-list">
+                {menuItems.map(item => (
+                    <motion.div
+                        key={item.id}
+                        className={`minimal-nav-link ${view === item.id ? 'is-active' : ''} ${item.id === 'ai-agent' ? 'ai-glow-link' : ''}`}
+                        onClick={() => {
+                            setView(item.id);
+                            if (isMobile && onNavigate) onNavigate();
+                        }}
+                        whileTap={{ scale: 0.95 }}
+                    >
+                        <div className="link-icon-minimal">{item.icon}</div>
+                        {(!collapsed || isMobile) && <span className="link-label-minimal">{item.label}</span>}
+                    </motion.div>
                 ))}
-            </nav>
+            </div>
 
-            <div className="sidebar-footer">
-                <div className={`user-profile-mini ${(collapsed && !isMobile) ? 'label-hidden' : 'fade-in'}`} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <div className="sidebar-profile-pic" style={{ width: '40px', height: '40px', borderRadius: '50%', overflow: 'hidden', flexShrink: 0, border: '2px solid rgba(255,255,255,0.2)' }}>
+            <div className="sidebar-footer-minimal">
+                {(!collapsed || isMobile) && (
+                    <div className="footer-user-minimal">
                         <img 
-                            src={userData?.profileImage || userData?.profilePic || userData?.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${userData?.studentName || 'Student'}`} 
-                            alt="Profile" 
-                            style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
-                            onError={(e) => { e.target.onerror = null; e.target.src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${userData?.studentName || 'Student'}`; }}
+                            src={userData?.profileImage || userData?.profilePic || `https://api.dicebear.com/7.x/avataaars/svg?seed=${userData?.studentName || 'Student'}`} 
+                            alt="Student" 
                         />
+                        <div className="user-meta-minimal">
+                            <span className="u-name-min">{userData.studentName?.split(' ')[0]}</span>
+                            <span className="u-id-min">{userData.sid}</span>
+                        </div>
                     </div>
-                    <div>
-                        <div className="u-name">{userData.studentName}</div>
-                        <div className="u-meta">{userData.sid} • Y{userData.year}</div>
-                    </div>
-                </div>
+                )}
 
-                <button onClick={localHandleLogout} className="logout-btn" title="Logout">
+                <button className="minimal-logout-btn" onClick={localHandleLogout}>
                     <FaSignOutAlt />
-                    <span className={`logout-text ${(collapsed && !isMobile) ? 'label-hidden' : 'fade-in'}`} style={{ marginLeft: '10px', fontWeight: 800 }}>LOGOUT</span>
+                    {(!collapsed || isMobile) && <span>Logout</span>}
                 </button>
+                
+                {(!collapsed || isMobile) && (
+                    <div className="minimal-time">
+                        {currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    </div>
+                )}
             </div>
         </motion.aside>
     );

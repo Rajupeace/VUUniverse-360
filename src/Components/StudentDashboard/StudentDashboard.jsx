@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { apiGet } from '../../utils/apiClient';
 import sseClient from '../../utils/sseClient';
 import {
-    FaChartBar, FaLayerGroup, FaRobot, FaBriefcase, FaBars
+    FaChartBar, FaLayerGroup, FaRobot, FaBriefcase, FaBars, FaTimes
 } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 import VuAiAgent from '../VuAiAgent/VuAiAgent';
@@ -682,12 +682,24 @@ export default function StudentDashboard({ studentData, onLogout }) {
 
             {!focusMode && (
                 <>
-                    <button className="mobile-sidebar-toggle" onClick={() => setMobileSidebarOpen(true)} aria-label="Open menu">
-                        <FaBars />
-                    </button>
-                    {mobileSidebarOpen && (
-                        <div className="mobile-overlay" onClick={() => setMobileSidebarOpen(false)}></div>
-                    )}
+                    <motion.button 
+                        className="mobile-sidebar-toggle-premium" 
+                        onClick={() => setMobileSidebarOpen(!mobileSidebarOpen)}
+                        whileTap={{ scale: 0.9 }}
+                    >
+                        {mobileSidebarOpen ? <FaTimes /> : <FaBars />}
+                    </motion.button>
+                    <AnimatePresence>
+                        {mobileSidebarOpen && (
+                            <motion.div 
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                className="mobile-blur-overlay" 
+                                onClick={() => setMobileSidebarOpen(false)}
+                            ></motion.div>
+                        )}
+                    </AnimatePresence>
                     <StudentSidebar
                         userData={userData}
                         view={view}
@@ -702,7 +714,10 @@ export default function StudentDashboard({ studentData, onLogout }) {
                 </>
             )}
 
-            <div className="dashboard-content-area">
+            <div 
+                className="dashboard-content-area" 
+                style={{ marginLeft: (window.innerWidth <= 1100 ? '0' : (sidebarCollapsed ? '85px' : '280px')), transition: 'margin 0.3s ease' }}
+            >
                 {/* 🌌 Ambient Background Layer */}
                 <div className="nexus-mesh-bg content-bg-fixed"></div>
 

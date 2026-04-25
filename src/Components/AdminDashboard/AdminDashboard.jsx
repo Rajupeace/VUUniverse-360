@@ -1316,9 +1316,18 @@ export default function AdminDashboard({ setIsAuthenticated, setIsAdmin, setStud
 
   return (
     <div className={`admin-dashboard-v2 ${mobileSidebarOpen ? 'mobile-open' : ''}`}>
-      {mobileSidebarOpen && (
-        <div className="mobile-overlay" onClick={() => setMobileSidebarOpen(false)}></div>
-      )}
+      <AnimatePresence>
+          {mobileSidebarOpen && (
+              <motion.div 
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="minimal-mobile-overlay" 
+                  onClick={() => setMobileSidebarOpen(false)}
+              />
+          )}
+      </AnimatePresence>
+      
       <AdminHeader
         adminData={adminData}
         view={activeSection}
@@ -1328,18 +1337,19 @@ export default function AdminDashboard({ setIsAuthenticated, setIsAdmin, setStud
         collapsed={sidebarCollapsed}
         setCollapsed={setSidebarCollapsed}
         isSyncing={isSyncing}
+        mobileOpen={mobileSidebarOpen}
+        setMobileOpen={setMobileSidebarOpen}
       />
 
-      {/* Mobile Menu Toggle */}
-      <button
-        className="admin-mobile-toggle"
+      <motion.button
+        className="admin-mobile-toggle-minimal"
         onClick={() => setMobileSidebarOpen(!mobileSidebarOpen)}
-        title="Toggle Sidebar"
+        whileTap={{ scale: 0.9 }}
       >
-        <FaBars />
-      </button>
+        {mobileSidebarOpen ? <FaTimes /> : <FaBars />}
+      </motion.button>
 
-      <main className="admin-viewport">
+      <main className="admin-viewport" style={{ marginLeft: (window.innerWidth <= 1100 ? '0' : (sidebarCollapsed ? '85px' : '280px')), transition: 'margin 0.3s ease' }}>
         <AnimatePresence mode="wait">
           <motion.div
             key={activeSection}
