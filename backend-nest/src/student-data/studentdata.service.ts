@@ -61,16 +61,16 @@ export class StudentDataService {
     const cached = this.getCached(`dashboard_${rollNumber}`);
     if (cached) return cached;
     
-    // Get student profile from MySQL
-    const student = await this.studentRepo.findOne({ where: { sid: rollNumber } });
+    // FETCH ALL DATA IN PARALLEL FOR MAXIMUM PERFORMANCE
+    const [student, attendance, marks, mongoData] = await Promise.all([
+        this.studentRepo.findOne({ where: { sid: rollNumber } }),
+        this.attendanceRepo.find({ where: { studentId: rollNumber } }),
+        this.markRepo.find({ where: { studentId: rollNumber } }),
+        this.studentDataModel.findOne({ rollNumber }).lean()
+    ]);
 
-    // Get attendance from MySQL
-    const attendance = await this.attendanceRepo.find({ where: { studentId: rollNumber } });
-    let totalClasses = attendance.length;
-    let presentClasses = attendance.filter(a => a.status === 'Present').length;
-
-    // Get marks from MySQL
-    const marks = await this.markRepo.find({ where: { studentId: rollNumber } });
+    let totalClasses = attendance?.length || 0;
+    let presentClasses = attendance?.filter(a => a.status === 'Present').length || 0;
 
     // Get courses from MySQL - Filter by Year and Branch for performance
     let studentCourses = [];
@@ -83,9 +83,6 @@ export class StudentDataService {
             ]
         });
     }
-
-    // Get student data from Mongo (overview, roadmap, etc)
-    const mongoData = await this.studentDataModel.findOne({ rollNumber }).lean();
 
     const materialQuery: any = {
       year: String(student?.year || '1'),

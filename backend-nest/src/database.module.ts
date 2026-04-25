@@ -56,8 +56,8 @@ export class DatabaseModule implements OnModuleDestroy {
       serverSelectionTimeoutMS: 10000,
       socketTimeoutMS: 300000,
       connectTimeoutMS: 10000,
-      maxPoolSize: parseInt(process.env.MONGO_MAX_POOL_SIZE || '50'),
-      minPoolSize: parseInt(process.env.MONGO_MIN_POOL_SIZE || '5'),
+      maxPoolSize: parseInt(process.env.MONGO_MAX_POOL_SIZE || '100'),
+      minPoolSize: parseInt(process.env.MONGO_MIN_POOL_SIZE || '10'),
       maxIdleTimeMS: 10000,
       retryWrites: true,
     };

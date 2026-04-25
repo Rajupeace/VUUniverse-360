@@ -162,18 +162,19 @@ export default function StudentDashboard({ studentData, onLogout }) {
         try {
             setIsSyncing(true);
             try {
-                const agg = await apiGet(`/api/student-data/${userData.sid}/dashboard`);
+                // Fetch Dashboard and Fees in parallel for speed
+                const [agg, feeData] = await Promise.all([
+                    apiGet(`/api/student-data/${userData.sid}/dashboard`),
+                    apiGet(`/api/fees/student/${userData.sid}`).catch(() => null)
+                ]);
+
                 if (agg) {
                     console.log('🛰️ StudentDashboard: aggregated dashboard payload:', agg);
                     if (agg.overview) setOverviewData(agg.overview);
-                    if (agg.student) {
-                    // Fetch fee status as well
-                    try {
-                        const feeData = await apiGet(`/api/fees/student/${userData.sid}`);
-                        if (feeData) setFeeStatus(feeData);
-                    } catch (e) { console.error("Fee fetch failed", e); }
+                    if (feeData) setFeeStatus(feeData);
 
-                    setUserData(prev => {
+                    if (agg.student) {
+                        setUserData(prev => {
                             const newName = agg.student.name || agg.student.studentName || prev.studentName;
                             const newPic = agg.student.profilePic || agg.student.profileImage || prev.profilePic;
                             const newStats = agg.student.stats || prev.stats;
