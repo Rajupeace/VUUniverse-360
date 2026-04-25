@@ -714,9 +714,9 @@ export default function StudentDashboard({ studentData, onLogout }) {
                     {isNavigating && (
                         <motion.div
                             key="navigating"
-                            initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
-                            animate={{ opacity: 1, backdropFilter: "blur(12px)" }}
-                            exit={{ opacity: 0, backdropFilter: "blur(0px)" }}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
                             transition={{ duration: 0.5 }}
                             className="navigating-overlay"
                         >

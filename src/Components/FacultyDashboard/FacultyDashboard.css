@@ -3166,8 +3166,7 @@
 .mobile-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.5);
-  backdrop-filter: blur(8px);
+  background: rgba(15, 23, 42, 0.3);
   z-index: 1500;
   animation: fadeIn 0.3s ease-out;
 }
