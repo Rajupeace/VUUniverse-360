@@ -2487,15 +2487,16 @@
 @media (max-width: 1000px) {
   .nexus-sidebar {
     position: fixed;
-    left: -280px;
+    transform: translateX(-100%);
     top: 0;
     bottom: 0;
     box-shadow: 50px 0 100px rgba(0, 0, 0, 0.2);
     height: 100vh;
+    left: 0;
   }
 
-  .nexus-sidebar.mobile-open {
-    left: 0;
+  .mobile-open .nexus-sidebar {
+    transform: translateX(0) !important;
   }
 
   .mobile-close-btn {

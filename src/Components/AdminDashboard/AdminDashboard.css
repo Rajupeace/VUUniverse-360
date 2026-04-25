@@ -793,9 +793,37 @@ body {
   font-weight: 800;
   color: var(--admin-secondary);
 }
+.admin-mobile-toggle {
+  display: none;
+  position: fixed;
+  bottom: 2rem;
+  left: 2rem;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--admin-primary);
+  color: white;
+  border: none;
+  font-size: 1.5rem;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 25px rgba(79, 70, 229, 0.4);
+  z-index: 1000;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.admin-mobile-toggle:hover {
+  background: var(--admin-primary-dark);
+  transform: scale(1.05);
+}
 
 /* Mobile Responsiveness */
 @media (max-width: 1024px) {
+  .admin-mobile-toggle {
+    display: flex;
+  }
+
   .admin-sidebar {
     position: fixed;
     top: 0;
@@ -817,7 +845,7 @@ body {
 
   .mobile-open .admin-sidebar,
   .mobile-open .admin-sidebar.collapsed {
-    transform: translateX(0);
+    transform: translateX(0) !important;
   }
 
   /* Ensure all nav labels are visible on mobile */
