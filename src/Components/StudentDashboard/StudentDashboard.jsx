@@ -102,7 +102,7 @@ export default function StudentDashboard({ studentData, onLogout }) {
     const openAiWithDoc = (title, url, videoAnalysis = null) => {
         setAiDocumentContext({ title, url, videoAnalysis });
         setAiInitialPrompt(`I have questions about this video/document: ${title}`);
-        setView('ai-agent');
+        navigateToView('ai-agent');
     };
 
     const toggleAiModal = () => {
@@ -123,13 +123,6 @@ export default function StudentDashboard({ studentData, onLogout }) {
     useEffect(() => {
         const timer = setTimeout(() => setIsDashboardLoaded(true), 100);
 
-        // Sync view with search params if present
-        const params = new URLSearchParams(location.search);
-        const viewParam = params.get('view');
-        if (viewParam) {
-            setView(viewParam);
-        }
-
         const handleOpenAi = () => setShowAiModal(true);
         window.addEventListener('open-ai-modal', handleOpenAi);
 
@@ -146,7 +139,23 @@ export default function StudentDashboard({ studentData, onLogout }) {
             window.removeEventListener('open-ai-modal', handleOpenAi);
             window.removeEventListener('keydown', handleKeyDown);
         };
-    }, [location.search]);
+    }, []);
+
+    // 🔄 Sync view state with URL Search Params
+    useEffect(() => {
+        const params = new URLSearchParams(location.search);
+        const viewParam = params.get('view');
+        if (viewParam && viewParam !== view) {
+            navigateToView(viewParam);
+        }
+    }, [location.search, view]);
+
+    // 🚀 Custom navigate that updates URL
+    const navigateToView = (v) => {
+        if (v === view) return;
+        navigateToView(v);
+        navigate(`/dashboard?view=${v}`, { replace: true });
+    };
 
     // --- Data Fetching ---
     const fetchData = useCallback(async () => {
@@ -492,7 +501,7 @@ export default function StudentDashboard({ studentData, onLogout }) {
         });
 
         setTimeout(() => {
-            setView(matchedView);
+            navigateToView(matchedView);
             setIsNavigating(false);
             if (showAiModal) setShowAiModal(false);
         }, 800);
@@ -526,7 +535,7 @@ export default function StudentDashboard({ studentData, onLogout }) {
                             <p>You have <strong>{todayClassesCount} lectures</strong> today. Your current focus area is <strong>{activeFocus}</strong>.</p>
                         </div>
                         <div className="hero-actions">
-                            <button className="quick-btn" onClick={() => setView('ai-agent')}>Ask VU AI</button>
+                            <button className="quick-btn" onClick={() => navigateToView('ai-agent')}>Ask VU AI</button>
                             <button className="quick-btn outline" onClick={() => handleAiNavigate('tasks')}>Today's Agenda</button>
                         </div>
                     </div>
@@ -561,7 +570,7 @@ export default function StudentDashboard({ studentData, onLogout }) {
                         <div className="stat-sub">AI Engagement High</div>
                     </div>
 
-                    <div className="bento-card stat-card-premium animate-bento" style={{ animationDelay: '0.35s', '--accent': '#10b981', cursor: 'pointer' }} onClick={() => setView('fees')}>
+                    <div className="bento-card stat-card-premium animate-bento" style={{ animationDelay: '0.35s', '--accent': '#10b981', cursor: 'pointer' }} onClick={() => navigateToView('fees')}>
                         <div className="stat-label">Fee Status</div>
                         <div className="stat-value">₹{(feeStatus?.dueAmount || 0).toLocaleString()}</div>
                         <div className="stat-sub">{feeStatus?.dueAmount > 0 ? 'Payment Outstanding' : 'All Fees Paid'}</div>
@@ -603,7 +612,7 @@ export default function StudentDashboard({ studentData, onLogout }) {
                                 <h4 className="s-subject">{currentUpcomingClass.subject}</h4>
                                 <p className="s-meta">{currentUpcomingClass.time} | Room {currentUpcomingClass.room}</p>
                                 <span className="s-faculty">with Prof. {currentUpcomingClass.faculty?.split(' ')[0]}</span>
-                                <button className="s-action" onClick={() => setView('schedule')}>GO TO SCHEDULE</button>
+                                <button className="s-action" onClick={() => navigateToView('schedule')}>GO TO SCHEDULE</button>
                             </div>
                         ) : (
                             <div className="session-empty">No active classes today</div>
@@ -614,7 +623,7 @@ export default function StudentDashboard({ studentData, onLogout }) {
                     <div className="bento-card span-grid-2 animate-bento" style={{ animationDelay: '0.6s' }}>
                         <div className="bento-card-header">
                             <h3><FaBriefcase /> Career Readiness</h3>
-                            <button onClick={() => setView('placement')}>Track Prep</button>
+                            <button onClick={() => navigateToView('placement')}>Track Prep</button>
                         </div>
                         <CareerReadiness
                             score={overviewData?.activity?.careerReadyScore || 0}
@@ -635,7 +644,7 @@ export default function StudentDashboard({ studentData, onLogout }) {
                     <div className="bento-card span-grid-2 animate-bento" style={{ animationDelay: '0.8s' }}>
                         <StudentProfileCard 
                             userData={userData} 
-                            setView={setView} 
+                            setView={navigateToView} 
                             onProfileUpdate={(updated) => {
                                 setUserData(prev => {
                                     const combined = { ...prev, ...updated };
@@ -668,7 +677,7 @@ export default function StudentDashboard({ studentData, onLogout }) {
                     <StudentSidebar
                         userData={userData}
                         view={view}
-                        setView={setView}
+                        setView={navigateToView}
                         collapsed={sidebarCollapsed}
                         setCollapsed={setSidebarCollapsed}
                         onLogout={onLogout}
@@ -779,7 +788,7 @@ export default function StudentDashboard({ studentData, onLogout }) {
                                 selectedYear={userData.year}
                                 serverMaterials={serverMaterials}
                                 userData={userData}
-                                setView={setView}
+                                setView={navigateToView}
                                 branch={userData.branch}
                                 assignedFaculty={assignedFaculty}
                                 onRefresh={fetchData}
@@ -867,7 +876,7 @@ export default function StudentDashboard({ studentData, onLogout }) {
                             <SubjectAttendanceMarks
                                 overviewData={overviewData}
                                 enrolledSubjects={enrolledSubjects}
-                                setView={setView}
+                                setView={navigateToView}
                                 openAiWithPrompt={openAiWithPrompt}
                             />
                         </motion.div>

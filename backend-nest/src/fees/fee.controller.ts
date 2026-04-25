@@ -1,6 +1,7 @@
-﻿import { Controller, Get, Post, Body, Param, Put, Query, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Put, Query, UseGuards } from '@nestjs/common';
 import { FeeService } from './fee.service';
 import { JwtAuthGuard, StaffGuard } from '../auth/guards';
+import { Public } from '../auth/decorators/public.decorator';
 
 @Controller('fees')
 @UseGuards(JwtAuthGuard)
@@ -13,6 +14,7 @@ export class FeeController {
     return this.feeService.findAll(query);
   }
 
+  @Public()
   @Get('student/:id')
   async findByStudent(@Param('id') id: string): Promise<any[]> {
     return this.feeService.findByStudent(id);
