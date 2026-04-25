@@ -158,12 +158,30 @@ export default function StudentDashboard({ studentData, onLogout }) {
                     if (agg.overview) setOverviewData(agg.overview);
                     if (agg.student) {
                         setUserData(prev => {
+                            const newName = agg.student.name || agg.student.studentName || prev.studentName;
+                            const newPic = agg.student.profilePic || agg.student.profileImage || prev.profilePic;
+                            const newStats = agg.student.stats || prev.stats;
+
+                            let hasChanges = false;
+                            if (prev.studentName !== newName) hasChanges = true;
+                            if (prev.profilePic !== newPic) hasChanges = true;
+                            if (JSON.stringify(prev.stats) !== JSON.stringify(newStats)) hasChanges = true;
+
+                            for (const key of Object.keys(agg.student)) {
+                                if (key !== 'stats' && JSON.stringify(prev[key]) !== JSON.stringify(agg.student[key])) {
+                                    hasChanges = true;
+                                    break;
+                                }
+                            }
+
+                            if (!hasChanges) return prev; // Break the infinite loop!
+
                             const updatedUser = {
                                 ...prev,
                                 ...agg.student,
-                                studentName: agg.student.name || agg.student.studentName || prev.studentName,
-                                profilePic: agg.student.profilePic || agg.student.profileImage || prev.profilePic,
-                                stats: agg.student.stats || prev.stats
+                                studentName: newName,
+                                profilePic: newPic,
+                                stats: newStats
                             };
                             // Persist to local storage for refresh safety
                             localStorage.setItem('userData', JSON.stringify(updatedUser));
