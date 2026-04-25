@@ -643,6 +643,7 @@ export default function StudentDashboard({ studentData, onLogout }) {
                         onLogout={onLogout}
                         onNavigate={() => setMobileSidebarOpen(false)}
                         isSyncing={isSyncing}
+                        mobileOpen={mobileSidebarOpen}
                     />
                 </>
             )}
