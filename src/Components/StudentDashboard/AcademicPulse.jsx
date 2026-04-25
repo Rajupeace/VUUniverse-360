@@ -71,22 +71,6 @@ const AcademicPulse = ({ data, enrolledSubjects = [] }) => {
 
     return (
         <div className="nexus-pulse-v2">
-            <div className="pulse-card-header">
-                <div className="pulse-brand-box">
-                    <div className="pulse-brand-logo">
-                        <FaWaveSquare />
-                    </div>
-                    <div className="pulse-brand-text">
-                        <h3 className="pulse-title">Vu UniVerse360</h3>
-                        <span className="pulse-subtitle">ACADEMIC SUMMARY</span>
-                    </div>
-                </div>
-                <div className="pulse-badge">
-                    <span className="pulse-dot"></span>
-                    <span className="pulse-badge-text">LIVE UPDATES</span>
-                </div>
-            </div>
-
             <div className="pulse-main-content">
                 <div className="pulse-rings-container">
                     <div className="nexus-ring-box">
@@ -165,7 +149,6 @@ const AcademicPulse = ({ data, enrolledSubjects = [] }) => {
             {/* Matrix Strip */}
             {filteredAcademics.length > 0 && (
                 <div className="pulse-matrix-strip">
-                    <div className="strip-label">SUBJECT PERFORMANCE MATRIX</div>
                     <div className="strip-grid">
                         {filteredAcademics.slice(0, 4).map(([subject, stats]) => (
                             <div key={subject} className="strip-item">
@@ -181,11 +164,6 @@ const AcademicPulse = ({ data, enrolledSubjects = [] }) => {
                     </div>
                 </div>
             )}
-
-            <div className="pulse-footer-status">
-                <span><FaShieldAlt /> SYSTEM READY</span>
-                <span><FaClock /> LAST UPDATED: {new Date().toLocaleTimeString()}</span>
-            </div>
         </div>
     );
 };

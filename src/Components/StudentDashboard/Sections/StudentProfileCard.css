@@ -1,184 +1,105 @@
-/* ==========================================================================
-   STUDENT PROFILE CARD (SENTINEL THEME)
-   Theme: Vu UniVerse360 Premium
-   ========================================================================== */
-
-.profile-card {
-    background: white;
-    border: 1px solid var(--v-border);
-    border-radius: 24px;
-    padding: 2.5rem 1.5rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    box-shadow: var(--v-shadow);
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+.profile-card-minimal {
     position: relative;
     overflow: hidden;
+    transition: all 0.3s ease;
 }
 
-.profile-card:hover {
-    box-shadow: var(--v-shadow-lg);
-    transform: translateY(-5px);
-    border-color: var(--v-primary-light);
-}
-
-.profile-avatar-container {
+.profile-avatar-wrapper {
     position: relative;
-    width: 100px;
-    height: 100px;
+    width: 90px;
+    height: 90px;
     margin-bottom: 1.5rem;
     cursor: pointer;
 }
 
-.profile-avatar {
+.profile-avatar-inner {
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    border: 4px solid white;
-    box-shadow: var(--v-shadow-lg);
     overflow: hidden;
-    background: var(--v-bg);
+    background: rgba(255, 255, 255, 0.1);
+    border: 3px solid rgba(255, 255, 255, 0.2);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .profile-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.5s;
 }
 
-.profile-avatar:hover .profile-img {
-    transform: scale(1.1);
-}
-
-.avatar-edit-overlay {
-    background: rgba(0,0,0,0.4);
-}
-
-.profile-avatar:hover .avatar-edit-overlay {
-    opacity: 1 !important;
-}
-
-.spinner {
-    animation: rotate 1s linear infinite;
-    color: #4f46e5;
-    font-size: 1.5rem;
-}
-
-@keyframes rotate {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
-.profile-avatar-fallback {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 3rem;
-    color: var(--v-text-muted);
-}
-
-.profile-status-dot {
-    position: absolute;
-    bottom: 5px;
-    right: 5px;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    background: var(--v-accent);
-    border: 3px solid white;
-}
-
-/* Info */
-.profile-info h3 {
-    font-size: 1.25rem;
+.profile-name-minimal {
+    font-size: 1.4rem;
     font-weight: 950;
-    color: var(--v-text-main);
-    margin: 0 0 0.5rem;
-    letter-spacing: -0.5px;
+    color: #0f172a;
+    margin: 0;
+    letter-spacing: -0.02em;
 }
 
-.profile-id {
-    font-size: 0.85rem;
-    color: var(--v-text-muted);
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    background: var(--v-bg);
-    padding: 0.4rem 1rem;
-    border-radius: 100px;
-    width: fit-content;
-    margin: 0 auto 2rem;
+.profile-id-minimal {
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: #64748b;
+    letter-spacing: 0.05em;
+    background: rgba(15, 23, 42, 0.03);
+    padding: 2px 10px;
+    border-radius: 20px;
+    display: inline-block;
+    margin-top: 0.4rem;
 }
 
-/* Pills */
-.profile-info-grid {
-    display: flex;
-    flex-direction: column;
+.profile-grid-minimal {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 1rem;
     width: 100%;
-    margin-bottom: 1rem;
+    margin-top: 2rem;
 }
 
-.nexus-info-pill {
+.minimal-pill {
+    background: rgba(255, 255, 255, 0.3);
+    padding: 0.8rem;
+    border-radius: 18px;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
-    background: var(--v-bg);
-    padding: 1rem 1.25rem;
-    border-radius: 16px;
-    border: 1px solid transparent;
-    transition: 0.2s;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.nexus-info-pill:hover {
-    background: white;
-    border-color: var(--v-primary-light);
-    box-shadow: var(--v-shadow-sm);
-    transform: translateX(4px);
-}
-
-.pill-label {
-    font-size: 0.7rem;
+.minimal-label {
+    font-size: 0.6rem;
     font-weight: 800;
-    color: var(--v-text-muted);
-    letter-spacing: 0.5px;
+    color: #94a3b8;
+    letter-spacing: 0.05em;
+    margin-bottom: 2px;
 }
 
-.pill-value {
-    font-weight: 900;
-    color: var(--v-text-main);
+.minimal-value {
     font-size: 0.95rem;
-    margin-left: auto;
-    margin-right: 0.75rem;
+    font-weight: 900;
+    color: #334155;
 }
 
-.pill-icon {
-    color: var(--v-primary);
-    opacity: 0.8;
-}
-
-/* Logout / Edit Btn */
-.nexus-logout-btn {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.8rem 1.5rem;
-    border-radius: 12px;
+.minimal-edit-btn {
+    width: 100%;
+    margin-top: 1.5rem;
+    padding: 0.75rem;
+    border-radius: 14px;
+    background: #0f172a;
+    color: white;
+    font-size: 0.75rem;
     font-weight: 800;
-    font-size: 0.9rem;
+    border: none;
     cursor: pointer;
-    transition: all 0.2s;
+    letter-spacing: 0.05em;
+    transition: all 0.2s ease;
 }
 
-.nexus-logout-btn:hover {
-    background: black !important;
-    color: white !important;
-    border-color: black !important;
+.minimal-edit-btn:hover {
+    background: #1e293b;
+    transform: translateY(-2px);
 }
+

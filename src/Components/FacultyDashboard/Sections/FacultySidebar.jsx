@@ -8,8 +8,7 @@ import {
 } from 'react-icons/fa';
 
 /**
- * PREMIUM NEXUS SIDEBAR (FACULTY) V6
- * Specialized interface for academic Command & Control.
+ * MINIMALIST GLASS SIDEBAR (FACULTY)
  */
 const FacultySidebar = ({
     facultyData,
@@ -18,8 +17,7 @@ const FacultySidebar = ({
     collapsed,
     setCollapsed,
     onLogout,
-    onNavigate,
-    isSyncing = false
+    onNavigate
 }) => {
     facultyData = facultyData || { facultyName: 'Faculty', department: 'Academic' };
 
@@ -28,98 +26,116 @@ const FacultySidebar = ({
         if (onNavigate) onNavigate();
     };
 
-    const baseNavItems = [
-        { id: 'overview', label: 'Intelligence Hub', icon: <FaThLarge /> },
-        { id: 'materials', label: 'Resource Hub', icon: <FaBook /> },
-        { id: 'assignments', label: 'Coursework Hub', icon: <FaClipboardList /> },
-        { id: 'marks', label: 'Grading Control', icon: <FaPencilAlt /> },
-        { id: 'attendance', label: 'Attendance logs', icon: <FaUserCheck /> },
-        { id: 'mark-attendance', label: 'Launch Attendance', icon: <FaClipboardList /> },
-        { id: 'exams', label: 'Assessment Hub', icon: <FaShieldAlt /> },
-        { id: 'schedule', label: 'Academic Schedule', icon: <FaCalendarAlt /> },
-        { id: 'students', label: 'Student Registry', icon: <FaUserGraduate /> },
-        { id: 'curriculum', label: 'Curriculum Arch', icon: <FaLayerGroup /> },
-        { id: 'broadcast', label: 'Global Directives', icon: <FaBullhorn /> },
-        { id: 'messages', label: 'Academic Board', icon: <FaEnvelope /> },
-        { id: 'whiteboard', label: 'Creative Canvas', icon: <FaPencilAlt /> },
-        { id: 'ai-agent', label: 'AI Assistant', icon: <FaRobot /> },
-        { id: 'settings', label: 'System Config', icon: <FaCog /> }
+    const navItems = [
+        { id: 'overview', label: 'Overview', icon: <FaThLarge /> },
+        { id: 'materials', label: 'Resources', icon: <FaBook /> },
+        { id: 'assignments', label: 'Assignments', icon: <FaClipboardList /> },
+        { id: 'marks', label: 'Grading', icon: <FaPencilAlt /> },
+        { id: 'attendance', label: 'Attendance', icon: <FaUserCheck /> },
+        { id: 'exams', label: 'Assessments', icon: <FaShieldAlt /> },
+        { id: 'schedule', label: 'Schedule', icon: <FaCalendarAlt /> },
+        { id: 'students', label: 'Students', icon: <FaUserGraduate /> },
+        { id: 'curriculum', label: 'Curriculum', icon: <FaLayerGroup /> },
+        { id: 'broadcast', label: 'Broadcast', icon: <FaBullhorn /> },
+        { id: 'messages', label: 'Messages', icon: <FaEnvelope /> },
+        { id: 'ai-agent', label: 'AI Agent', icon: <FaRobot /> },
+        { id: 'settings', label: 'Settings', icon: <FaCog /> }
     ];
 
-    let navItems = [...baseNavItems];
-
-    const [isMobile, setIsMobile] = React.useState(window.innerWidth <= 1024);
+    const [isMobile, setIsMobile] = React.useState(window.innerWidth <= 1100);
     React.useEffect(() => {
-        const handleResize = () => setIsMobile(window.innerWidth <= 1024);
+        const handleResize = () => setIsMobile(window.innerWidth <= 1100);
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    return (
-        <motion.aside 
-            className={`nexus-sidebar ${collapsed ? 'collapsed' : ''}`}
-            initial={false}
-            animate={isMobile ? {} : { width: collapsed ? 80 : 280 }}
-            transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        >
-            <button className="mobile-close-btn" onClick={onNavigate}><FaTimes /></button>
+    const sidebarStyle = {
+        width: isMobile ? '100%' : (collapsed ? '85px' : '280px'),
+        background: 'rgba(255, 255, 255, 0.05)',
+        backdropFilter: 'blur(35px)',
+        WebkitBackdropFilter: 'blur(35px)',
+        borderRight: '1px solid rgba(255, 255, 255, 0.1)',
+        height: '100vh',
+        position: isMobile ? 'fixed' : 'sticky',
+        top: 0,
+        left: 0,
+        zIndex: 1000,
+        display: 'flex',
+        flexDirection: 'column',
+        padding: '1.5rem 1rem',
+        transition: 'width 0.4s cubic-bezier(0.4, 0, 0.2, 1)'
+    };
 
-            <div className="sidebar-header">
-                <div className="brand-box" onClick={() => setCollapsed(!collapsed)}>
-                    <div className="brand-icon-box">
+    return (
+        <aside style={sidebarStyle} className={`faculty-sidebar-minimal ${collapsed ? 'collapsed' : ''}`}>
+            {isMobile && (
+                <button 
+                    onClick={onNavigate}
+                    style={{ position: 'absolute', top: '1.5rem', right: '1rem', background: 'none', border: 'none', color: '#0f172a', fontSize: '1.2rem' }}
+                >
+                    <FaTimes />
+                </button>
+            )}
+
+            <div className="sidebar-header" style={{ marginBottom: '2.5rem', padding: '0 0.5rem' }}>
+                <div 
+                    onClick={() => !isMobile && setCollapsed(!collapsed)}
+                    style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '1rem' }}
+                >
+                    <div style={{ width: '40px', height: '40px', background: '#0f172a', color: 'white', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.2rem', flexShrink: 0 }}>
                         <FaMicrochip />
                     </div>
-                    <div className={`brand-text ${collapsed && !isMobile ? 'label-hidden' : ''}`}>
-                        <h1>VU</h1>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-                            <span>NOTEBOOK</span>
-                            {isSyncing ? (
-                                <motion.div
-                                    animate={{ opacity: [0.4, 1, 0.4] }}
-                                    transition={{ repeat: Infinity, duration: 1.5 }}
-                                    style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10b981', boxShadow: '0 0 10px #10b981' }}
-                                ></motion.div>
-                            ) : (
-                                <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#818cf8', boxShadow: '0 0 5px #818cf8' }}></div>
-                            )}
-                        </div>
-                    </div>
+                    {(!collapsed || isMobile) && (
+                        <h1 style={{ margin: 0, fontSize: '1.2rem', fontWeight: 950, color: '#0f172a', letterSpacing: '-1px' }}>
+                            VU <span style={{ color: '#6366f1' }}>UNI</span>
+                        </h1>
+                    )}
                 </div>
             </div>
 
-            <nav className="sidebar-nav">
+            <nav style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.4rem', overflowY: 'auto', paddingRight: '4px' }}>
                 {navItems.map(item => (
                     <button
                         key={item.id}
                         onClick={() => handleItemClick(item.id)}
-                        className={`nav-item ${view === item.id ? 'active' : ''}`}
-                        title={collapsed ? item.label : ''}
+                        style={{
+                            display: 'flex', alignItems: 'center', gap: '1rem', padding: '0.8rem 1rem',
+                            borderRadius: '14px', border: 'none', 
+                            background: view === item.id ? 'rgba(15, 23, 42, 0.05)' : 'transparent',
+                            color: view === item.id ? '#0f172a' : '#64748b',
+                            fontWeight: view === item.id ? 800 : 700,
+                            fontSize: '0.85rem', cursor: 'pointer', transition: 'all 0.2s ease',
+                            width: '100%', textAlign: 'left', position: 'relative'
+                        }}
                     >
-                        <span className="nav-icon">{item.icon}</span>
-                        <span className={`nav-label ${collapsed && !isMobile ? 'label-hidden' : ''}`}>{item.label}</span>
-                        {view === item.id && <div className="active-dot"></div>}
+                        <span style={{ fontSize: '1.1rem', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '24px' }}>{item.icon}</span>
+                        {(!collapsed || isMobile) && <span>{item.label}</span>}
+                        {view === item.id && !collapsed && (
+                            <motion.div layoutId="active-pill-f" style={{ position: 'absolute', right: '12px', width: '6px', height: '6px', borderRadius: '50%', background: '#6366f1' }} />
+                        )}
                     </button>
                 ))}
             </nav>
 
-            <div className="sidebar-footer">
-                <div className={`user-profile-mini ${collapsed && !isMobile ? 'label-hidden' : ''}`}>
-                    <div className="u-name">{(facultyData.facultyName || 'ACADEMIC')}</div>
-                    <div className="u-meta">{facultyData.department || 'INSTITUTIONAL CORE'}</div>
-                </div>
+            <div className="sidebar-footer" style={{ marginTop: 'auto', paddingTop: '1.5rem', borderTop: '1px solid rgba(0,0,0,0.05)' }}>
                 <button
-                    onClick={() => {
-                        onLogout();
+                    onClick={onLogout}
+                    style={{
+                        display: 'flex', alignItems: 'center', gap: '1rem', padding: '0.8rem 1rem',
+                        borderRadius: '14px', border: 'none', background: 'rgba(239, 68, 68, 0.05)',
+                        color: '#ef4444', fontWeight: 800, fontSize: '0.85rem', cursor: 'pointer',
+                        width: '100%', transition: 'all 0.2s ease'
                     }}
-                    className="logout-btn"
-                    title="Terminate Session"
                 >
-                    <FaSignOutAlt />
-                    <span className={`${collapsed && !isMobile ? 'label-hidden' : ''}`} style={{ marginLeft: '10px' }}>TERMINATE</span>
+                    <FaSignOutAlt style={{ width: '24px' }} />
+                    {(!collapsed || isMobile) && <span>LOGOUT</span>}
                 </button>
             </div>
-        </motion.aside>
+        </aside>
     );
 };
+
+export default FacultySidebar;
+
 
 export default FacultySidebar;
