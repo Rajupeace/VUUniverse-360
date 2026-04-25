@@ -1,6 +1,7 @@
 import { Controller, Get, Post, Body, Param, Delete, Query, UseGuards } from '@nestjs/common';
 import { FastService } from './fast.service';
 import { JwtAuthGuard, StaffGuard } from '../auth/guards';
+import { Public } from '../auth/decorators/public.decorator';
 
 @Controller(['fast', 'teaching-assignments'])
 @UseGuards(JwtAuthGuard)
@@ -12,6 +13,7 @@ export class FastController {
     return this.fastService.findAll(query);
   }
 
+  @Public()
   @Get('student-feed')
   async getStudentFeed(
     @Query('branch') branch: string,

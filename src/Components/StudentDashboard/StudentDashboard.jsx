@@ -152,8 +152,12 @@ export default function StudentDashboard({ studentData, onLogout }) {
 
     // 🚀 Custom navigate that updates URL
     const navigateToView = (v) => {
-        if (v === view) return;
-        navigateToView(v);
+        if (v === view) {
+            setMobileSidebarOpen(false);
+            return;
+        }
+        setView(v);
+        setMobileSidebarOpen(false);
         navigate(`/dashboard?view=${v}`, { replace: true });
     };
 

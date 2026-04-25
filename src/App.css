@@ -120,8 +120,7 @@
   align-items: center;
   gap: 0.4rem;
   padding: 0.5rem 0.8rem;
-  background: rgba(255, 255, 255, 0.6);
-  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.9);
   border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 50px;
   font-size: 0.8rem;
@@ -289,8 +288,7 @@
 .admin-modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.6);
-  backdrop-filter: blur(8px);
+  background: rgba(15, 23, 42, 0.85);
   z-index: 2000;
   display: flex;
   align-items: center;
