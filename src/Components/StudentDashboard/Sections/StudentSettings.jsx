@@ -290,25 +290,44 @@ const StudentSettings = ({ userData, onProfileUpdate }) => {
                                     </div>
 
                                     <div className="settings-form-section">
-                                        <h4>Academic Details (Read Only)</h4>
+                                        <h4>Academic Details</h4>
                                         <div className="form-row">
                                             <div className="settings-group">
                                                 <label>Branch</label>
-                                                <input className="settings-input" value={formData.branch} disabled />
+                                                <select className="settings-input" value={formData.branch} onChange={e => setFormData({ ...formData, branch: e.target.value })} disabled={!isEditing}>
+                                                    <option value="CSE">CSE</option>
+                                                    <option value="ECE">ECE</option>
+                                                    <option value="AIML">AIML</option>
+                                                    <option value="IT">IT</option>
+                                                    <option value="EEE">EEE</option>
+                                                    <option value="MECH">MECH</option>
+                                                    <option value="CIVIL">CIVIL</option>
+                                                </select>
                                             </div>
                                             <div className="settings-group">
-                                                <label>Year / Section</label>
-                                                <input className="settings-input" value={`${formData.year} / ${formData.section}`} disabled />
+                                                <label>Year</label>
+                                                <select className="settings-input" value={formData.year} onChange={e => setFormData({ ...formData, year: e.target.value })} disabled={!isEditing}>
+                                                    <option value="1">1st Year</option>
+                                                    <option value="2">2nd Year</option>
+                                                    <option value="3">3rd Year</option>
+                                                    <option value="4">4th Year</option>
+                                                </select>
                                             </div>
                                         </div>
                                         <div className="form-row">
                                             <div className="settings-group">
-                                                <label>Batch</label>
-                                                <input className="settings-input" value={formData.batch} disabled />
+                                                <label>Section</label>
+                                                <input className="settings-input" value={formData.section} onChange={e => setFormData({ ...formData, section: e.target.value })} disabled={!isEditing} placeholder="e.g. A, B, C" />
                                             </div>
                                             <div className="settings-group">
+                                                <label>Batch</label>
+                                                <input className="settings-input" value={formData.batch} onChange={e => setFormData({ ...formData, batch: e.target.value })} disabled={!isEditing} placeholder="e.g. 2023-2027" />
+                                            </div>
+                                        </div>
+                                        <div className="form-row">
+                                            <div className="settings-group">
                                                 <label>Admission Mode</label>
-                                                <input className="settings-input" value={formData.admissionMode} disabled />
+                                                <input className="settings-input" value={formData.admissionMode} onChange={e => setFormData({ ...formData, admissionMode: e.target.value })} disabled={!isEditing} placeholder="e.g. EAMCET, Management" />
                                             </div>
                                         </div>
                                     </div>

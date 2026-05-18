@@ -22,6 +22,9 @@ export class DatabaseModule implements OnModuleDestroy {
       minPoolSize: parseInt(process.env.MONGO_MIN_POOL_SIZE || '10'),
       maxIdleTimeMS: 10000,
       retryWrites: true,
+      autoIndex: true,                  // Auto-build schema indexes on connect
+      heartbeatFrequencyMS: 5000,       // Faster failover detection
+      compressors: ['zlib'],            // Compress wire traffic for speed
     };
 
     if (!useMemory) {

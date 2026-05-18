@@ -694,8 +694,7 @@ export default function StudentDashboard({ studentData, onLogout }) {
             )}
 
             <div 
-                className="dashboard-content-area" 
-                style={{ marginLeft: (window.innerWidth <= 1100 ? '0' : (sidebarCollapsed ? '85px' : '280px')), transition: 'margin 0.3s ease' }}
+                className={`dashboard-content-area ${sidebarCollapsed ? 'sidebar-is-collapsed' : 'sidebar-is-expanded'}`}
             >
                 {/* 🌌 Ambient Background Layer */}
                 <div className="nexus-mesh-bg content-bg-fixed"></div>

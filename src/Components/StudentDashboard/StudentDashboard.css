@@ -153,10 +153,27 @@ body {
         linear-gradient(rgba(79, 70, 229, 0.03) 1px, transparent 1px),
         linear-gradient(90deg, rgba(79, 70, 229, 0.03) 1px, transparent 1px);
     background-size: 40px 40px;
+    transition: margin-left 0.3s ease;
 
     /* Custom Scrollbar for Content Area */
     scrollbar-width: thin;
     scrollbar-color: var(--v-primary) transparent;
+}
+
+/* Desktop: sync content margin with fixed sidebar */
+@media (min-width: 1101px) {
+    .dashboard-content-area.sidebar-is-expanded {
+        margin-left: 280px;
+    }
+    .dashboard-content-area.sidebar-is-collapsed {
+        margin-left: 85px;
+    }
+}
+
+@media (max-width: 1100px) {
+    .dashboard-content-area {
+        margin-left: 0 !important;
+    }
 }
 
 .dashboard-content-area::-webkit-scrollbar {

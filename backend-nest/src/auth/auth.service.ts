@@ -37,42 +37,56 @@ export class AuthService {
     }
 
     private async initializeEmailTransport() {
-        // Step 1: Try Gmail first
-        this.transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                user: process.env.SMTP_USER || 'vuuniverse360@gmail.com',
-                pass: process.env.SMTP_PASS || ''
-            }
-        });
+        const smtpUser = process.env.SMTP_USER || 'vuuniverse360@gmail.com';
+        const smtpPass = process.env.SMTP_PASS || '';
 
-        try {
-            await this.transporter.verify();
-            this.gmailWorking = true;
-            console.log('✅ Gmail SMTP is ready — emails will be sent via vuuniverse360@gmail.com');
-        } catch (gmailError) {
-            console.warn('⚠️  Gmail SMTP rejected credentials (App Password required). Setting up Ethereal fallback...');
-            
-            // Step 2: Auto-create Ethereal test account (guaranteed to work)
+        // Gmail requires a 16-char App Password (not your regular Google password)
+        // Generate at: https://myaccount.google.com/apppasswords
+        if (smtpPass && smtpPass.length >= 10) {
+            this.transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: smtpUser,
+                    pass: smtpPass,
+                },
+                pool: true,            // Reuse connections for speed
+                maxConnections: 5,     // Multiple emails at once
+                maxMessages: 100,      // Per connection
+                rateLimit: 14,         // Gmail rate limit
+            });
+
             try {
-                this.etherealAccount = await nodemailer.createTestAccount();
-                this.fallbackTransporter = nodemailer.createTransport({
-                    host: 'smtp.ethereal.email',
-                    port: 587,
-                    secure: false,
-                    auth: {
-                        user: this.etherealAccount.user,
-                        pass: this.etherealAccount.pass,
-                    },
-                });
-                console.log('✅ Ethereal Email fallback ready!');
-                console.log('   📧 Ethereal User:', this.etherealAccount.user);
-                console.log('   🔗 View sent emails at: https://ethereal.email/login');
-                console.log('      Login: ' + this.etherealAccount.user + ' / ' + this.etherealAccount.pass);
-                console.log('   💡 To send REAL emails, add a Gmail App Password to SMTP_PASS in .env');
-            } catch (etherealError) {
-                console.error('❌ Both Gmail and Ethereal failed. OTP will be logged to console only.');
+                await this.transporter.verify();
+                this.gmailWorking = true;
+                console.log(`✅ Gmail SMTP verified — emails will be sent via ${smtpUser}`);
+            } catch (gmailError) {
+                console.warn(`⚠️  Gmail SMTP rejected: ${gmailError.message}`);
+                console.warn('   💡 SOLUTION: Generate a Gmail App Password at https://myaccount.google.com/apppasswords');
+                console.warn('   💡 Then set SMTP_PASS=your16charapppassword in .env');
+                this.gmailWorking = false;
             }
+        } else {
+            console.warn('⚠️  SMTP_PASS not configured or too short. Gmail sending disabled.');
+        }
+
+        // Always set up Ethereal as guaranteed fallback
+        try {
+            this.etherealAccount = await nodemailer.createTestAccount();
+            this.fallbackTransporter = nodemailer.createTransport({
+                host: 'smtp.ethereal.email',
+                port: 587,
+                secure: false,
+                auth: {
+                    user: this.etherealAccount.user,
+                    pass: this.etherealAccount.pass,
+                },
+            });
+            console.log('✅ Ethereal Email fallback ready');
+            if (!this.gmailWorking) {
+                console.log('   📧 OTPs will be saved to Website Inbox + Ethereal preview');
+            }
+        } catch (etherealError) {
+            console.error('❌ Both Gmail and Ethereal failed. OTP will be logged to console only.');
         }
     }
 

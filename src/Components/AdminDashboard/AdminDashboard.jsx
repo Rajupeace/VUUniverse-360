@@ -1315,7 +1315,7 @@ export default function AdminDashboard({ setIsAuthenticated, setIsAdmin, setStud
   };
 
   return (
-    <div className={`admin-dashboard-v2 ${mobileSidebarOpen ? 'mobile-open' : ''}`}>
+    <div className={`admin-dashboard-v2 ${mobileSidebarOpen ? 'mobile-open' : ''} ${sidebarCollapsed ? 'sidebar-collapsed' : ''}`}>
       <AnimatePresence>
           {mobileSidebarOpen && (
               <motion.div 

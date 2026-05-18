@@ -3,7 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
     FaEnvelope, FaClipboardList, FaSignOutAlt,
     FaChartLine, FaUserGraduate, FaChalkboardTeacher, FaLayerGroup, FaBullhorn, FaRobot, FaCog, FaCalendarAlt, FaFileAlt, FaShieldAlt,
-    FaGem, FaTerminal, FaChartBar, FaCreditCard, FaBook, FaUserCheck, FaBuilding
+    FaGem, FaTerminal, FaChartBar, FaCreditCard, FaBook, FaUserCheck, FaBuilding,
+    FaBars, FaChevronLeft
 } from 'react-icons/fa';
 import { resolveImageUrl } from '../../../utils/apiClient';
 
@@ -97,7 +98,7 @@ const AdminHeader = ({
             transition={{ type: "tween", duration: 0.3, ease: "easeInOut" }}
         >
             <div className="sidebar-branding-minimal">
-                <div className="minimal-logo-orb" onClick={(e) => { e.stopPropagation(); !isMobile && setCollapsed(!collapsed); }}>
+                <div className="minimal-logo-orb" onClick={(e) => { e.stopPropagation(); setView('overview'); }}>
                     <FaTerminal />
                 </div>
                 {(!collapsed || isMobile) && (
@@ -105,6 +106,11 @@ const AdminHeader = ({
                         <span className="v-main">ADMIN</span>
                         <span className="v-sub">Universe</span>
                     </div>
+                )}
+                {!isMobile && (
+                    <button className="sidebar-collapse-toggle" onClick={() => setCollapsed(!collapsed)} title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}>
+                        {collapsed ? <FaBars /> : <FaChevronLeft />}
+                    </button>
                 )}
             </div>
 
