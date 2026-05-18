@@ -587,6 +587,21 @@ body {
     animation: fadeIn 0.3s ease-out;
 }
 
+@media (max-width: 1400px) and (min-width: 1025px) {
+    .bento-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .span-grid-4 {
+        grid-column: span 3;
+    }
+    
+    .nexus-bento-viewport,
+    .nexus-page-container {
+        padding: 1.5rem;
+    }
+}
+
 @media (max-width: 1024px) {
     .bento-grid {
         grid-template-columns: repeat(2, 1fr);

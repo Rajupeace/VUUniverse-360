@@ -9,6 +9,8 @@ const StudentSettings = ({ userData, onProfileUpdate }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [activeTab, setActiveTab] = useState('profile');
     const [notification, setNotification] = useState(null);
+    const [currentPassword, setCurrentPassword] = useState('');
+    const [newPassword, setNewPassword] = useState('');
     const fileInputRef = useRef(null);
 
     const [formData, setFormData] = useState({
@@ -139,7 +141,28 @@ const StudentSettings = ({ userData, onProfileUpdate }) => {
     };
 
     const handlePasswordUpdate = async () => {
-        alert('Password update functionality will be available in the security patch.');
+        if (!currentPassword || !newPassword) {
+            showNotification('error', 'Please fill in both password fields.');
+            return;
+        }
+        setLoading(true);
+        try {
+            const res = await apiPut(`/api/students/security/${formData.sid}`, {
+                currentPassword,
+                newPassword
+            });
+            if (res.success) {
+                showNotification('success', 'Credentials updated successfully across database clusters!');
+                setCurrentPassword('');
+                setNewPassword('');
+            } else {
+                showNotification('error', res.message || 'Credential verification failed');
+            }
+        } catch (error) {
+            showNotification('error', error.message || 'Failed to update credentials');
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -389,14 +412,26 @@ const StudentSettings = ({ userData, onProfileUpdate }) => {
                                         <h4>Credential Management</h4>
                                         <div className="settings-group" style={{ marginBottom: '1.5rem' }}>
                                             <label>Current Password</label>
-                                            <input className="settings-input" type="password" placeholder="••••••••" />
+                                            <input 
+                                                className="settings-input" 
+                                                type="password" 
+                                                placeholder="••••••••" 
+                                                value={currentPassword}
+                                                onChange={e => setCurrentPassword(e.target.value)}
+                                            />
                                         </div>
                                         <div className="settings-group" style={{ marginBottom: '1.5rem' }}>
                                             <label>New Password</label>
-                                            <input className="settings-input" type="password" placeholder="••••••••" />
+                                            <input 
+                                                className="settings-input" 
+                                                type="password" 
+                                                placeholder="••••••••" 
+                                                value={newPassword}
+                                                onChange={e => setNewPassword(e.target.value)}
+                                            />
                                         </div>
-                                        <button className="settings-btn-primary" onClick={handlePasswordUpdate}>
-                                            <FaLock /> Update Credentials
+                                        <button className="settings-btn-primary" onClick={handlePasswordUpdate} disabled={loading}>
+                                            {loading ? <FaSpinner className="fa-spin" /> : <FaLock />} Update Credentials
                                         </button>
                                     </div>
                                 </div>

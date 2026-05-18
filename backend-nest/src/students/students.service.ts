@@ -270,10 +270,14 @@ export class StudentsService {
                 }
                 dataUpdate.profileUpdatedAt = new Date();
                 
+                // CRITICAL FIX: Populate required fields for upsert validation
+                dataUpdate.studentId = student._id;
+                dataUpdate.rollNumber = sid;
+                
                 await this.studentDataModel.findOneAndUpdate(
                     { rollNumber: sid }, 
                     { $set: dataUpdate },
-                    { upsert: true } // Changed to true to ensure doc exists
+                    { upsert: true, new: true, runValidators: false } // Avoid validator checks during partial update
                 );
 
                 // Trigger background sync to refresh the entire StudentData aggregated payload

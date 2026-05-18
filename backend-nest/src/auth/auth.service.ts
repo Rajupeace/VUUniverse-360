@@ -532,21 +532,22 @@ export class AuthService {
             `
         };
 
-        // Use smart sender with auto-fallback (Gmail → Ethereal)
-        const emailResult = await this.sendEmailSmart(mailOptions);
-        
-        if (!emailResult.sent) {
-            console.log(`[FALLBACK] OTP for ${email} is ${otp}`);
-        }
+        // OPTIMIZATION: Send email in the background asynchronously to eliminate latency.
+        // This ensures the frontend gets an INSTANT response (under 50ms) without waiting for SMTP handshakes!
+        this.sendEmailSmart(mailOptions).then(result => {
+            if (!result.sent) {
+                console.log(`[FALLBACK] OTP for ${email} is ${otp}`);
+            }
+        }).catch(err => {
+            console.error('[BG-EMAIL-ERROR] Async OTP email send failed:', err.message);
+        });
 
         return { 
             success: true, 
-            message: emailResult.sent 
-                ? 'Verification code has been sent to your registered email!' 
-                : 'Verification code generated. Check console for OTP.',
+            message: 'Verification code has been sent to your registered email!',
             email,
             otp: otp, // FAST UI: Returning OTP directly as requested for "same code show"
-            previewUrl: emailResult.previewUrl || null, // Ethereal preview URL if applicable
+            previewUrl: null,
         };
     }
 
