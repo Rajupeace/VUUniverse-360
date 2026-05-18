@@ -1,7 +1,12 @@
 const getDiscoveryUrl = () => {
+    // Priority 1: Environment variable set during build/hosting (Vercel)
+    if (process.env.REACT_APP_API_URL) {
+        return process.env.REACT_APP_API_URL;
+    }
+    
     if (typeof window !== 'undefined' && window.location) {
         const { hostname } = window.location;
-        // If we are NOT on localhost, we MUST use the Render production backend
+        // If we are NOT on localhost, use the default Render production backend
         if (hostname !== 'localhost' && hostname !== '127.0.0.1' && hostname !== '') {
             return 'https://vu-universe-backend.onrender.com';
         }
