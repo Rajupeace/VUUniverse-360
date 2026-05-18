@@ -1,4 +1,4 @@
-﻿import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -20,9 +20,13 @@ export class AchievementsService {
   ) { }
 
   async findAll(query: any): Promise<any[]> {
-    const sqlAchievements = await this.achievementRepo.find({ where: query, order: { createdAt: 'DESC' } });
-    if (sqlAchievements.length > 0) {
-      return sqlAchievements.map(a => ({ ...a, id: a.id, source: 'mysql' }));
+    try {
+      const sqlAchievements = await this.achievementRepo.find({ where: query, order: { createdAt: 'DESC' } });
+      if (sqlAchievements.length > 0) {
+        return sqlAchievements.map(a => ({ ...a, id: a.id, source: 'mysql' }));
+      }
+    } catch (e) {
+      // Ignore MySQL errors and fallback to MongoDB
     }
     return this.achievementModel.find(query).sort({ submittedAt: -1 }).lean();
   }
@@ -30,8 +34,10 @@ export class AchievementsService {
   async findOne(id: string): Promise<any> {
     // SQL first
     if (!isNaN(Number(id))) {
-      const sqlA = await this.achievementRepo.findOneBy({ id: Number(id) });
-      if (sqlA) return { ...sqlA, source: 'mysql' };
+      try {
+        const sqlA = await this.achievementRepo.findOneBy({ id: Number(id) });
+        if (sqlA) return { ...sqlA, source: 'mysql' };
+      } catch (e) { }
     }
 
     if (Types.ObjectId.isValid(id)) {
@@ -44,15 +50,16 @@ export class AchievementsService {
 
   async findByStudent(studentId: string): Promise<any[]> {
     // SQL first
-    const sqlAchievements = await this.achievementRepo.find({
-      where: [
-        { studentId: studentId },
-        { rollNumber: studentId }
-      ],
-      order: { achievementDate: 'DESC' }
-    });
-
-    if (sqlAchievements.length > 0) return sqlAchievements;
+    try {
+      const sqlAchievements = await this.achievementRepo.find({
+        where: [
+          { studentId: studentId },
+          { rollNumber: studentId }
+        ],
+        order: { achievementDate: 'DESC' }
+      });
+      if (sqlAchievements.length > 0) return sqlAchievements;
+    } catch (e) { }
 
     const query = Types.ObjectId.isValid(studentId)
       ? { studentId: new Types.ObjectId(studentId) }
@@ -121,7 +128,9 @@ export class AchievementsService {
   async updateStatus(id: string, status: string, approvedBy: string, approvedByType: string): Promise<any> {
     // Update MySQL
     if (!isNaN(Number(id))) {
-      await this.achievementRepo.update(Number(id), { status });
+      try {
+        await this.achievementRepo.update(Number(id), { status });
+      } catch (e) { }
     }
 
     // Update MongoDB
@@ -153,8 +162,10 @@ export class AchievementsService {
     let deleted = false;
 
     if (!isNaN(Number(id))) {
-      const res = await this.achievementRepo.delete(Number(id));
-      if (res.affected > 0) deleted = true;
+      try {
+        const res = await this.achievementRepo.delete(Number(id));
+        if (res.affected > 0) deleted = true;
+      } catch (e) { }
     }
 
     if (Types.ObjectId.isValid(id)) {
