@@ -3,9 +3,7 @@ import { FaLock, FaArrowLeft, FaUser, FaEnvelope, FaIdCard, FaCalendarAlt, FaUse
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import './PasswordSettings.css';
-import { resolveImageUrl } from '../../utils/apiClient';
-
-const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:5001';
+import { resolveImageUrl, API_BASE } from '../../utils/apiClient';
 
 // Standard Section Options
 const alphaSections = Array.from({ length: 16 }, (_, i) => String.fromCharCode(65 + i)); // A-P

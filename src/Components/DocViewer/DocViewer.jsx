@@ -6,7 +6,7 @@ import {
 } from 'react-icons/fa';
 import './DocViewer.css';
 
-const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:5001';
+import { API_BASE } from '../../utils/apiClient';
 
 /**
  * Resolve a relative fileUrl to an absolute URL using the backend base

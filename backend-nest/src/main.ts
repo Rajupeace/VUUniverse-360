@@ -99,7 +99,15 @@ async function bootstrap() {
 }
 
 const Cluster = cluster as any;
-if (Cluster.isPrimary) {
+const disableCluster = 
+  process.env.NODE_ENV === 'production' || 
+  process.env.RENDER === 'true' || 
+  process.env.DISABLE_CLUSTER === 'true';
+
+if (disableCluster) {
+  console.log(`[CLUSTER 🛰️] Running single process (Clustering bypassed in production/Render)`);
+  bootstrap();
+} else if (Cluster.isPrimary) {
   const numCPUs = os.cpus().length;
   console.log(`Primary ${process.pid} is running. Starting ${numCPUs} workers...`);
   for (let i = 0; i < numCPUs; i++) {

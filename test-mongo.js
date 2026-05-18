@@ -4,7 +4,7 @@
 const { MongoClient } = require('mongodb');
 require('dotenv').config();
 
-const MONGO_URI = "mongodb+srv://bobbyteja4_db_user:4ZltK5qmHHCxuFt6@cluster0.im2uv.mongodb.net/fbn_xai_system?appName=Cluster0";
+const MONGO_URI = "mongodb://bobbytej4_db_user:4ZltK5qmHHCxuFt6@cluster0-shard-00-00.im2uv.mongodb.net:27017,cluster0-shard-00-01.im2uv.mongodb.net:27017,cluster0-shard-00-02.im2uv.mongodb.net:27017/fbn_xai_system?ssl=true&replicaSet=atlas-nonq57-shard-0&authSource=admin";
 
 async function testConnection() {
     console.log('Testing MongoDB connection...');

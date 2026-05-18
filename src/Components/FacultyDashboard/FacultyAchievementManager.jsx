@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { apiGet, apiPut, apiPatch } from '../../utils/apiClient';
+import { apiGet, apiPut, apiPatch, API_BASE as API } from '../../utils/apiClient';
 import {
     FaTrophy, FaCheck, FaTimes, FaSearch, FaExternalLinkAlt, FaSpinner,
     FaEye, FaDownload, FaFilter, FaUsers, FaFileExcel,
@@ -83,7 +83,6 @@ const CAT_ICONS = {
 };
 const LEVEL_CLR = { 'International Level': '#7c3aed', 'National Level': '#2563eb', 'State Level': '#0891b2', 'Inter-College': '#059669', 'College Level': '#d97706' };
 
-const API = process.env.REACT_APP_API_URL || 'http://localhost:5001';
 const fileUrl = (u) => !u ? '' : u.startsWith('http') ? u : `${API}${u.startsWith('/') ? u : '/' + u}`;
 
 // ─── HELPERS ──────────────────────────────────────────────────────────────────

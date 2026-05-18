@@ -1,12 +1,12 @@
 const getDiscoveryUrl = () => {
-  if (process.env.REACT_APP_API_URL) {
-    return process.env.REACT_APP_API_URL;
-  }
   if (typeof window !== 'undefined' && window.location) {
     const { hostname } = window.location;
-    if (hostname !== 'localhost' && hostname !== '127.0.0.1') {
+    if (hostname && hostname !== 'localhost' && hostname !== '127.0.0.1' && hostname !== '') {
       return 'https://vu-universe-backend.onrender.com';
     }
+  }
+  if (process.env.REACT_APP_API_URL) {
+    return process.env.REACT_APP_API_URL;
   }
   return 'http://localhost:5001';
 };

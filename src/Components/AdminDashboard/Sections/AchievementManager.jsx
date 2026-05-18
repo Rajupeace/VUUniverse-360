@@ -9,7 +9,7 @@ import {
 } from 'react-icons/fa';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement } from 'chart.js';
 import { Doughnut, Pie, Bar } from 'react-chartjs-2';
-import { apiGet, apiPut, apiPatch } from '../../../utils/apiClient';
+import { apiGet, apiPut, apiPatch, API_BASE as API } from '../../../utils/apiClient';
 import sseClient from '../../../utils/sseClient';
 import './AchievementManager.css';
 import DocViewer from '../../DocViewer/DocViewer';
@@ -83,7 +83,6 @@ const LEVEL_CLR = {
     'College Level': '#d97706'
 };
 
-const API = process.env.REACT_APP_API_URL || 'http://localhost:5001';
 const fileUrl = (u) => !u ? '' : u.startsWith('http') ? u : `${API}${u.startsWith('/') ? u : '/' + u}`;
 
 // ─── HELPERS ──────────────────────────────────────────────────────────────────

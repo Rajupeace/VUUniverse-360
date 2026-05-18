@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import useS3Upload from '../../../hooks/useS3Upload';
 
-const API = process.env.REACT_APP_API_URL || 'http://localhost:5001';
+import { API_BASE as API } from '../../../utils/apiClient';
 
 // ── tiny helpers ──────────────────────────────────────────────
 const fmt = (bytes) => {
