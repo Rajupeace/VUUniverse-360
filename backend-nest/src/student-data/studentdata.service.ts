@@ -45,11 +45,17 @@ export class StudentDataService {
   }
 
   async findByStudent(rollNumber: string): Promise<any> {
-    const data = await this.studentDataModel.findOne({ rollNumber }).lean();
+    const data = await this.studentDataModel.findOne({ rollNumber }).lean().catch(err => {
+      console.warn(`[STUDENT-DATA] studentDataModel findOne failed: ${err.message}`);
+      return null;
+    });
     if (!data) return null;
 
     // Try to get updated info from SQL
-    const student = await this.studentRepo.findOne({ where: { sid: rollNumber } });
+    const student = await this.studentRepo.findOne({ where: { sid: rollNumber } }).catch(err => {
+      console.warn(`[STUDENT-DATA] studentRepo findOne failed: ${err.message}`);
+      return null;
+    });
     if (student) {
       data.name = student.studentName;
       data.email = student.email;
@@ -65,27 +71,50 @@ export class StudentDataService {
     const cached = this.getCached(`dashboard_${rollNumber}`);
     if (cached) return cached;
     
-    // FETCH ALL DATA IN PARALLEL FOR MAXIMUM PERFORMANCE
+    // FETCH ALL DATA IN PARALLEL FOR MAXIMUM PERFORMANCE - WITH INDIVIDUAL FAIL-SAFES
     const [student, attendance, marks, mongoData] = await Promise.all([
-        this.studentRepo.findOne({ where: { sid: rollNumber } }),
-        this.attendanceModel.find({ studentId: rollNumber }).lean(),
-        this.markModel.find({ studentId: rollNumber }).lean(),
-        this.studentDataModel.findOne({ rollNumber }).lean()
+        this.studentRepo.findOne({ where: { sid: rollNumber } }).catch(err => {
+            console.warn(`[DASHBOARD] studentRepo findOne failed: ${err.message}`);
+            return null;
+        }),
+        this.attendanceModel.find({ studentId: rollNumber }).lean().catch(err => {
+            console.warn(`[DASHBOARD] attendanceModel find failed: ${err.message}`);
+            return [];
+        }),
+        this.markModel.find({ studentId: rollNumber }).lean().catch(err => {
+            console.warn(`[DASHBOARD] markModel find failed: ${err.message}`);
+            return [];
+        }),
+        this.studentDataModel.findOne({ rollNumber }).lean().catch(err => {
+            console.warn(`[DASHBOARD] studentDataModel findOne failed: ${err.message}`);
+            return null;
+        })
     ]);
 
     let totalClasses = attendance?.length || 0;
     let presentClasses = attendance?.filter(a => a.status === 'Present').length || 0;
 
-    // Get courses from MySQL - Filter by Year and Branch for performance
+    // Get courses from MySQL - Filter by Year and Branch for performance (Dual-compatible query syntax)
     let studentCourses = [];
     if (student) {
-        studentCourses = await this.courseRepo.find({
-            where: [
-                { year: String(student.year), branch: student.branch },
-                { year: String(student.year), branch: 'All' },
-                { year: String(student.year), branch: 'Common' }
-            ]
-        });
+        try {
+            studentCourses = await this.courseRepo.find({
+                where: { year: String(student.year), branch: student.branch }
+            });
+            if (studentCourses.length === 0) {
+                studentCourses = await this.courseRepo.find({
+                    where: { year: String(student.year), branch: 'All' }
+                });
+            }
+            if (studentCourses.length === 0) {
+                studentCourses = await this.courseRepo.find({
+                    where: { year: String(student.year), branch: 'Common' }
+                });
+            }
+        } catch (courseErr) {
+            console.warn(`[COURSE] TypeORM course query failed: ${courseErr.message}. Bypassing.`);
+            studentCourses = [];
+        }
     }
 
     const materialQuery: any = {
@@ -102,7 +131,11 @@ export class StudentDataService {
 
     const materials = await this.materialModel.find(materialQuery)
       .sort('-createdAt')
-      .lean();
+      .lean()
+      .catch(err => {
+        console.warn(`[DASHBOARD] materialModel find failed: ${err.message}`);
+        return [];
+      });
 
     const result = {
       profile: student || mongoData || {},
