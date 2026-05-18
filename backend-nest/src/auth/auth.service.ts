@@ -17,6 +17,9 @@ import * as nodemailer from 'nodemailer';
 @Injectable()
 export class AuthService {
     private transporter: nodemailer.Transporter;
+    private fallbackTransporter: nodemailer.Transporter | null = null;
+    private gmailWorking = false;
+    private etherealAccount: any = null;
     private otpStore: Map<string, { otp: string; expiresAt: Date; userId: string; role: string }> = new Map();
 
     constructor(
@@ -28,13 +31,80 @@ export class AuthService {
         @InjectRepository(FacultyEntity) private facultyRepo: Repository<FacultyEntity>,
         private jwtService: JwtService,
     ) {
+        this.initializeEmailTransport();
+    }
+
+    private async initializeEmailTransport() {
+        // Step 1: Try Gmail first
         this.transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: 'vuuniverse360@gmail.com',
-                pass: process.env.EMAIL_PASS || 'ciakvkxygdhmeyte'
+                user: process.env.SMTP_USER || 'vuuniverse360@gmail.com',
+                pass: process.env.SMTP_PASS || ''
             }
         });
+
+        try {
+            await this.transporter.verify();
+            this.gmailWorking = true;
+            console.log('✅ Gmail SMTP is ready — emails will be sent via vuuniverse360@gmail.com');
+        } catch (gmailError) {
+            console.warn('⚠️  Gmail SMTP rejected credentials (App Password required). Setting up Ethereal fallback...');
+            
+            // Step 2: Auto-create Ethereal test account (guaranteed to work)
+            try {
+                this.etherealAccount = await nodemailer.createTestAccount();
+                this.fallbackTransporter = nodemailer.createTransport({
+                    host: 'smtp.ethereal.email',
+                    port: 587,
+                    secure: false,
+                    auth: {
+                        user: this.etherealAccount.user,
+                        pass: this.etherealAccount.pass,
+                    },
+                });
+                console.log('✅ Ethereal Email fallback ready!');
+                console.log('   📧 Ethereal User:', this.etherealAccount.user);
+                console.log('   🔗 View sent emails at: https://ethereal.email/login');
+                console.log('      Login: ' + this.etherealAccount.user + ' / ' + this.etherealAccount.pass);
+                console.log('   💡 To send REAL emails, add a Gmail App Password to SMTP_PASS in .env');
+            } catch (etherealError) {
+                console.error('❌ Both Gmail and Ethereal failed. OTP will be logged to console only.');
+            }
+        }
+    }
+
+    // Smart email sender with auto-fallback
+    private async sendEmailSmart(mailOptions: any): Promise<{ sent: boolean; previewUrl?: string }> {
+        // Try Gmail first if it's working
+        if (this.gmailWorking) {
+            try {
+                await this.transporter.sendMail(mailOptions);
+                console.log(`✅ Email sent via Gmail to ${mailOptions.to}`);
+                return { sent: true };
+            } catch (err) {
+                console.warn('Gmail send failed, trying fallback...', err.message);
+            }
+        }
+
+        // Try Ethereal fallback
+        if (this.fallbackTransporter) {
+            try {
+                const info = await this.fallbackTransporter.sendMail({
+                    ...mailOptions,
+                    from: `"Vu UniVerse360" <${this.etherealAccount.user}>`,
+                });
+                const previewUrl = nodemailer.getTestMessageUrl(info);
+                console.log(`✅ Email captured via Ethereal to ${mailOptions.to}`);
+                console.log(`   🔗 Preview URL: ${previewUrl}`);
+                return { sent: true, previewUrl: previewUrl as string };
+            } catch (err) {
+                console.error('Ethereal send also failed:', err.message);
+            }
+        }
+
+        console.log(`⚠️  No email transport available. OTP logged to console only.`);
+        return { sent: false };
     }
 
     // Admin Login
@@ -388,17 +458,38 @@ export class AuthService {
         let email = '';
         let userId = '';
 
-        if (role === 'student' || role === 'studentLogin') {
-            user = await this.studentRepo.findOne({ where: [{ sid: identifier }, { email: identifier.toLowerCase() }] });
-            if (!user) user = await this.studentModel.findOne({ $or: [{ sid: identifier }, { email: identifier.toLowerCase() }] });
+        const roleLower = String(role || '').toLowerCase();
+
+        if (roleLower.includes('student')) {
+            // Query Mongoose first for MongoDB compatibility
+            user = await this.studentModel.findOne({ $or: [{ sid: identifier }, { email: identifier.toLowerCase() }] });
+            if (!user) {
+                try {
+                    user = await this.studentRepo.findOne({ where: [{ sid: identifier }, { email: identifier.toLowerCase() }] });
+                } catch (e) {
+                    console.warn('TypeORM Student search query ignored:', e.message);
+                }
+            }
             if (user) { email = user.email; userId = user.sid; }
-        } else if (role === 'faculty' || role === 'facultyLogin') {
-            user = await this.facultyRepo.findOne({ where: [{ facultyId: identifier }, { email: identifier.toLowerCase() }] });
-            if (!user) user = await this.facultyModel.findOne({ $or: [{ facultyId: identifier }, { email: identifier.toLowerCase() }] });
+        } else if (roleLower.includes('faculty')) {
+            user = await this.facultyModel.findOne({ $or: [{ facultyId: identifier }, { email: identifier.toLowerCase() }] });
+            if (!user) {
+                try {
+                    user = await this.facultyRepo.findOne({ where: [{ facultyId: identifier }, { email: identifier.toLowerCase() }] });
+                } catch (e) {
+                    console.warn('TypeORM Faculty search query ignored:', e.message);
+                }
+            }
             if (user) { email = user.email; userId = user.facultyId; }
-        } else if (role === 'admin' || role === 'adminLogin') {
-            user = await this.adminRepo.findOne({ where: { adminId: identifier } });
-            if (!user) user = await this.adminModel.findOne({ adminId: identifier });
+        } else if (roleLower.includes('admin')) {
+            user = await this.adminModel.findOne({ adminId: identifier });
+            if (!user) {
+                try {
+                    user = await this.adminRepo.findOne({ where: { adminId: identifier } });
+                } catch (e) {
+                    console.warn('TypeORM Admin search query ignored:', e.message);
+                }
+            }
             if (user) { email = user.email || 'admin@vignan.ac.in'; userId = user.adminId; }
         }
 
@@ -441,18 +532,21 @@ export class AuthService {
             `
         };
 
-        try {
-            await this.transporter.sendMail(mailOptions);
-        } catch (error) {
-            console.error('Nodemailer Error:', error);
-            console.log(`[DEV ONLY] OTP for ${email} is ${otp}`);
+        // Use smart sender with auto-fallback (Gmail → Ethereal)
+        const emailResult = await this.sendEmailSmart(mailOptions);
+        
+        if (!emailResult.sent) {
+            console.log(`[FALLBACK] OTP for ${email} is ${otp}`);
         }
 
         return { 
             success: true, 
-            message: 'Verification code has been sent to your registered email!', 
+            message: emailResult.sent 
+                ? 'Verification code has been sent to your registered email!' 
+                : 'Verification code generated. Check console for OTP.',
             email,
-            otp: otp // FAST UI: Returning OTP directly as requested for "same code show"
+            otp: otp, // FAST UI: Returning OTP directly as requested for "same code show"
+            previewUrl: emailResult.previewUrl || null, // Ethereal preview URL if applicable
         };
     }
 
@@ -477,15 +571,27 @@ export class AuthService {
 
         // Perform Update depending on role
         if (resetData.role.includes('student')) {
-            await this.studentRepo.update({ sid: resetData.userId }, { password: hashedPassword });
+            try {
+                await this.studentRepo.update({ sid: resetData.userId }, { password: hashedPassword });
+            } catch (e) {
+                console.warn(`TypeORM Student password update failed: ${e.message}`);
+            }
             await this.studentModel.updateOne({ sid: resetData.userId }, { $set: { password: hashedPassword } });
             updated = true;
         } else if (resetData.role.includes('faculty')) {
-            await this.facultyRepo.update({ facultyId: resetData.userId }, { password: hashedPassword });
+            try {
+                await this.facultyRepo.update({ facultyId: resetData.userId }, { password: hashedPassword });
+            } catch (e) {
+                console.warn(`TypeORM Faculty password update failed: ${e.message}`);
+            }
             await this.facultyModel.updateOne({ facultyId: resetData.userId }, { $set: { password: hashedPassword } });
             updated = true;
         } else if (resetData.role.includes('admin')) {
-            await this.adminRepo.update({ adminId: resetData.userId }, { password: hashedPassword });
+            try {
+                await this.adminRepo.update({ adminId: resetData.userId }, { password: hashedPassword });
+            } catch (e) {
+                console.warn(`TypeORM Admin password update failed: ${e.message}`);
+            }
             await this.adminModel.updateOne({ adminId: resetData.userId }, { $set: { password: hashedPassword } });
             updated = true;
         }

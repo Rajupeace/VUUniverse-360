@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Param, Put, Query, UseGuards } from '@nestjs/common';
 import { FeeService } from './fee.service';
 import { JwtAuthGuard, StaffGuard } from '../auth/guards';
-import { Public } from '../auth/decorators/public.decorator';
+import { Public } from '../decorators/public.decorator';
 
 @Controller('fees')
 @UseGuards(JwtAuthGuard)

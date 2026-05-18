@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-    FaGraduationCap, FaSignOutAlt, FaRocket, FaChartBar, FaPen, FaShieldAlt, FaClipboardList, FaBriefcase, FaRoad, FaBullhorn, FaUniversity, FaHeadset, FaLayerGroup, FaAward, FaChalkboardTeacher, FaBolt, FaBook
+    FaGraduationCap, FaSignOutAlt, FaRocket, FaChartBar, FaPen, FaShieldAlt, FaClipboardList, FaBriefcase, FaRoad, FaBullhorn, FaUniversity, FaHeadset, FaLayerGroup, FaAward, FaChalkboardTeacher, FaBolt, FaBook, FaTasks, FaUsers, FaMoneyBill, FaCog, FaFileAlt, FaChalkboard
 } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 import './StudentSidebar.css';
@@ -39,13 +39,23 @@ const StudentSidebar = ({
     const menuItems = [
         { id: 'overview', label: 'Dashboard', icon: <FaLayerGroup /> },
         { id: 'semester', label: 'Classroom', icon: <FaChalkboardTeacher /> },
+        { id: 'class-boards', label: 'Class Boards', icon: <FaChalkboard /> },
         { id: 'schedule', label: 'Schedule', icon: <FaClipboardList /> },
         { id: 'marks', label: 'Grades', icon: <FaChartBar /> },
+        { id: 'exams', label: 'Exams', icon: <FaFileAlt /> },
         { id: 'attendance', label: 'Attendance', icon: <FaClipboardList /> },
         { id: 'placement', label: 'Placements', icon: <FaBriefcase /> },
+        { id: 'roadmaps', label: 'Roadmaps', icon: <FaRoad /> },
         { id: 'advanced', label: 'Skill Forge', icon: <FaRocket /> },
+        { id: 'achievements', label: 'Achievements', icon: <FaAward /> },
+        { id: 'tasks', label: 'Tasks', icon: <FaTasks /> },
+        { id: 'journal', label: 'Journal', icon: <FaBook /> },
         { id: 'announcements', label: 'Broadcasts', icon: <FaBullhorn /> },
+        { id: 'faculty', label: 'Faculty', icon: <FaUsers /> },
+        { id: 'fees', label: 'Fees', icon: <FaMoneyBill /> },
+        { id: 'support', label: 'Support', icon: <FaHeadset /> },
         { id: 'ai-agent', label: 'VU AI', icon: <FaBolt /> },
+        { id: 'settings', label: 'Settings', icon: <FaCog /> },
     ];
 
     const [isMobile, setIsMobile] = React.useState(window.innerWidth <= 1100);

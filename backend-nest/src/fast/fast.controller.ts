@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Param, Delete, Query, UseGuards } from '@nestjs/common';
 import { FastService } from './fast.service';
 import { JwtAuthGuard, StaffGuard } from '../auth/guards';
-import { Public } from '../auth/decorators/public.decorator';
+import { Public } from '../decorators/public.decorator';
 
 @Controller(['fast', 'teaching-assignments'])
 @UseGuards(JwtAuthGuard)

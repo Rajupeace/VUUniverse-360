@@ -9,12 +9,16 @@ import { Student as StudentEntity } from '../entities/student.entity';
 import { Attendance as AttendanceEntity } from '../entities/attendance.entity';
 import { Mark as MarkEntity } from '../entities/mark.entity';
 import { Course as CourseEntity } from '../entities/course.entity';
+import { Attendance, AttendanceDocument } from '../schemas/attendance.schema';
+import { Mark, MarkDocument } from '../schemas/mark.schema';
 
 @Injectable()
 export class StudentDataService {
     constructor(
         @InjectModel(StudentData.name) private studentDataModel: Model<StudentDataDocument>,
         @InjectModel(Material.name) private materialModel: Model<MaterialDocument>,
+        @InjectModel(Attendance.name) private attendanceModel: Model<AttendanceDocument>,
+        @InjectModel(Mark.name) private markModel: Model<MarkDocument>,
         @InjectRepository(StudentEntity) private studentRepo: Repository<StudentEntity>,
         @InjectRepository(AttendanceEntity) private attendanceRepo: Repository<AttendanceEntity>,
         @InjectRepository(MarkEntity) private markRepo: Repository<MarkEntity>,
@@ -64,8 +68,8 @@ export class StudentDataService {
     // FETCH ALL DATA IN PARALLEL FOR MAXIMUM PERFORMANCE
     const [student, attendance, marks, mongoData] = await Promise.all([
         this.studentRepo.findOne({ where: { sid: rollNumber } }),
-        this.attendanceRepo.find({ where: { studentId: rollNumber } }),
-        this.markRepo.find({ where: { studentId: rollNumber } }),
+        this.attendanceModel.find({ studentId: rollNumber }).lean(),
+        this.markModel.find({ studentId: rollNumber }).lean(),
         this.studentDataModel.findOne({ rollNumber }).lean()
     ]);
 

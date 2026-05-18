@@ -61,10 +61,8 @@ export default function StudentDashboard({ studentData, onLogout }) {
     const branch = String(initialData.branch || 'CSE').toUpperCase();
 
     // UI & App State
-    const [view, setView] = useState(() => {
-        const params = new URLSearchParams(window.location.search);
-        return params.get('view') || 'overview';
-    });
+    const params = new URLSearchParams(location.search);
+    const view = params.get('view') || 'overview';
     const [isDashboardLoaded, setIsDashboardLoaded] = useState(false);
     const [feeStatus, setFeeStatus] = useState(null);
     const [isSyncing, setIsSyncing] = useState(false);
@@ -141,24 +139,12 @@ export default function StudentDashboard({ studentData, onLogout }) {
         };
     }, []);
 
-    // 🔄 Sync view state with URL Search Params
-    useEffect(() => {
-        const params = new URLSearchParams(location.search);
-        const viewParam = params.get('view');
-        if (viewParam && viewParam !== view) {
-            navigateToView(viewParam);
-        }
-    }, [location.search, view]);
-
     // 🚀 Custom navigate that updates URL
     const navigateToView = (v) => {
-        if (v === view) {
-            setMobileSidebarOpen(false);
-            return;
-        }
-        setView(v);
         setMobileSidebarOpen(false);
-        navigate(`/dashboard?view=${v}`, { replace: true });
+        if (v !== view) {
+            navigate(`/dashboard?view=${v}`, { replace: true });
+        }
     };
 
     // --- Data Fetching ---
@@ -306,14 +292,7 @@ export default function StudentDashboard({ studentData, onLogout }) {
         }
     }, [fetchData]);
 
-    // Sync URL with view state
-    useEffect(() => {
-        const params = new URLSearchParams(location.search);
-        if (params.get('view') !== view) {
-            params.set('view', view);
-            navigate({ search: params.toString() }, { replace: true });
-        }
-    }, [view, navigate, location.search]);
+
 
     // --- CURRICULUM LOGIC ---
     const selectedYear = userData.year || 1;

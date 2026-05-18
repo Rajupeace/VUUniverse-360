@@ -46,6 +46,7 @@ const LoginRegister = ({
     const [resetRole, setResetRole] = useState('student');
     const [otp, setOtp] = useState('');
     const [newPassword, setNewPassword] = useState('');
+    const [previewUrl, setPreviewUrl] = useState('');
 
     // Form States
     const [formData, setFormData] = useState({
@@ -195,6 +196,7 @@ const LoginRegister = ({
         e.preventDefault();
         setLoading(true);
         setError('');
+        setPreviewUrl('');
         try {
             const { apiPost } = await import('../../utils/apiClient');
             const res = await apiPost('/api/forgot-password', {
@@ -205,6 +207,7 @@ const LoginRegister = ({
                 setOtpStep(true);
                 setFormData({ ...formData, email: res.email });
                 if (res.otp) setOtp(res.otp); // Auto-fill for "Fast" response
+                if (res.previewUrl) setPreviewUrl(res.previewUrl);
                 alert(res.message);
             }
         } catch (err) {
@@ -485,6 +488,31 @@ const LoginRegister = ({
                                 <button type="submit" className="btn-primary-glow" disabled={loading}>
                                     {loading ? 'Updating Password...' : 'Create New Password'}
                                 </button>
+                                {previewUrl && (
+                                    <div style={{
+                                        background: 'rgba(255, 171, 0, 0.1)',
+                                        border: '1px solid rgba(255, 171, 0, 0.3)',
+                                        borderRadius: '8px',
+                                        padding: '12px',
+                                        marginTop: '15px',
+                                        fontSize: '13px',
+                                        lineHeight: '1.4',
+                                        color: '#ffb300',
+                                        textAlign: 'center'
+                                    }}>
+                                        💡 Google SMTP blocks standard passwords. A simulated email has been sent successfully!
+                                        <br />
+                                        <a href={previewUrl} target="_blank" rel="noopener noreferrer" style={{
+                                            color: '#38bdf8',
+                                            textDecoration: 'underline',
+                                            fontWeight: 'bold',
+                                            display: 'block',
+                                            marginTop: '6px'
+                                        }}>
+                                            👉 Click here to Open Ethereal Inbox & View Code
+                                        </a>
+                                    </div>
+                                )}
                             </form>
                         )}
                     </div>

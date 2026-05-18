@@ -11,7 +11,7 @@ const fs = require('fs');
 const ROOT = __dirname;
 const NEST_DIR = path.join(ROOT, 'backend-nest');
 const AI_AGENT_DIR = path.join(ROOT, 'ai-agent');
-const BACKEND_DIST = path.join(NEST_DIR, 'dist', 'main.js');
+const BACKEND_DIST = path.join(NEST_DIR, 'dist', 'src', 'main.js');
 const BACKEND_DIST_EXISTS = fs.existsSync(BACKEND_DIST);
 const IS_WIN = os.platform() === 'win32';
 
@@ -173,8 +173,8 @@ console.log(`${C.green}  Ports cleared.\n${C.reset}`);
 
 // ─── 1. NestJS Backend — port 5001 ──────────────────────────
 if (BACKEND_DIST_EXISTS) {
-    log('NEST', `Using compiled dist (production) → dist/main.js`);
-    startService('NEST', 'node', ['dist/main.js'], NEST_DIR, {
+    log('NEST', `Using compiled dist (production) → dist/src/main.js`);
+    startService('NEST', 'node', ['dist/src/main.js'], NEST_DIR, {
         NODE_ENV: 'production',
         PORT: '5001',
     });
@@ -188,14 +188,24 @@ if (BACKEND_DIST_EXISTS) {
 
 // ─── 2. AI Agent — port 8000 ────────────────────────────────
 const agentExists = fs.existsSync(path.join(AI_AGENT_DIR, 'main.py'));
-if (agentExists) {
+let hasPython = false;
+try {
+    execSync(IS_WIN ? 'python --version' : 'python3 --version', { stdio: 'ignore' });
+    hasPython = true;
+} catch (_) {
+    hasPython = false;
+}
+
+if (agentExists && hasPython) {
     const pyCmd = IS_WIN ? 'python' : 'python3';
     startService('AI_AGENT', pyCmd, ['main.py'], AI_AGENT_DIR, {
         USE_MOCK_LLM: '1',
         PORT: '8000',
     });
+} else if (!agentExists) {
+    log('AI_AGENT', `ai-agent/main.py not found — AI Agent skipped`, true);
 } else {
-    log('AI_AGENT', `ai_agent/main.py not found — AI Agent skipped`, true);
+    log('AI_AGENT', `Python was not found on this system — AI Agent skipped. (AI Agent features will be unavailable)`, true);
 }
 
 // ─── 3. Frontend — port 3001 (delayed to let backend boot) ──

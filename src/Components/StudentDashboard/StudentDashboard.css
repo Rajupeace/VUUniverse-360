@@ -555,6 +555,17 @@ body {
 }
 
 /* --- MOBILE RESPONSIVENESS --- */
+.mobile-sidebar-toggle {
+    display: none;
+    position: fixed;
+    bottom: 2rem;
+    left: 2rem;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--v-primary);
+    color: white;
+    border: none;
     box-shadow: 0 15px 35px rgba(79, 70, 229, 0.4);
     font-size: 1.8rem;
     align-items: center;
@@ -609,6 +620,7 @@ body {
 
     .dashboard-content-area {
         padding: 0;
+        padding-bottom: 7.5rem !important;
     }
 }
 

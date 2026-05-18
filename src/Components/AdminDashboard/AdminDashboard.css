@@ -121,7 +121,13 @@ body {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-right: 1px solid var(--admin-border);
-  .admin-sidebar-minimal {
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 50;
+  flex-shrink: 0;
+  will-change: width;
+}
+
+.admin-sidebar-minimal {
     height: 100vh;
     background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(30px);
@@ -301,11 +307,6 @@ body {
         -webkit-backdrop-filter: blur(40px);
         box-shadow: 20px 0 50px rgba(0, 0, 0, 0.1);
     }
-}
-, 0.2, 1);
-  z-index: 50;
-  flex-shrink: 0;
-  will-change: width;
 }
 
 .admin-sidebar.collapsed {

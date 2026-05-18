@@ -106,16 +106,24 @@ export class ExamsService {
   }
 
   async getResultsByStudent(studentId: string): Promise<any[]> {
-    const sqlResults = await this.examResultRepo.find({ where: { studentId }, order: { createdAt: 'DESC' } });
-    if (sqlResults.length > 0) return sqlResults;
+    try {
+      const sqlResults = await this.examResultRepo.find({ where: { studentId }, order: { createdAt: 'DESC' } });
+      if (sqlResults.length > 0) return sqlResults;
+    } catch (e) {
+      console.warn(`MySQL examResultRepo.find failed: ${e.message}`);
+    }
 
     if (this.connection.readyState !== 1) return [];
     return this.examResultModel.find({ studentId }).sort({ date: -1 }).lean();
   }
 
   async getResultsByExam(examTitle: string): Promise<any[]> {
-    const sqlResults = await this.examResultRepo.find({ where: { examTitle }, order: { marksObtained: 'DESC' } });
-    if (sqlResults.length > 0) return sqlResults;
+    try {
+      const sqlResults = await this.examResultRepo.find({ where: { examTitle }, order: { marksObtained: 'DESC' } });
+      if (sqlResults.length > 0) return sqlResults;
+    } catch (e) {
+      console.warn(`MySQL examResultRepo.find failed: ${e.message}`);
+    }
 
     if (this.connection.readyState !== 1) return [];
     return this.examResultModel.find({ examTitle }).sort({ marksObtained: -1 }).lean();

@@ -513,7 +513,7 @@ export class StudentsService {
                 return activeCodes.has(s) || activeNames.has(s) || activeNamesArr.some(an => (an && (an.includes(s) || s.includes(an))));
             };
 
-            let records = await this.attendanceRepo.find({ where: { studentId: String(sid) } }) as any[];
+            let records = await this.attendanceModel.find({ studentId: String(sid) }).lean() as any[];
             records = records.filter(rec => isEnrolled(rec.subject));
 
             const perDate: any = {};
@@ -571,8 +571,13 @@ export class StudentsService {
             };
 
             const [allMarks, examResults] = await Promise.all([
-                (await this.markRepo.find({ where: { studentId: sid } })) as any[],
-                (await this.examResultRepo.find({ where: [{ studentId: sid }, { studentId: userId.toString() }] })) as any[]
+                this.markModel.find({ studentId: sid }).lean() as Promise<any[]>,
+                this.examResultModel.find({
+                    $or: [
+                        { studentId: sid },
+                        { studentId: userId.toString() }
+                    ]
+                }).lean() as Promise<any[]>
             ]);
 
             const academicsSubjects: any = {};
@@ -799,10 +804,7 @@ export class StudentsService {
     }
 
     async getStudentMarksBySubject(studentId: string): Promise<any[]> {
-        let marks: any[] = await this.markRepo.find({ where: { studentId } as any });
-        if (marks.length === 0) {
-            marks = await this.markModel.find({ studentId }).lean();
-        }
+        const marks: any[] = await this.markModel.find({ studentId }).lean();
         const bySubject: any = {};
         marks.forEach(mark => {
             const subName = mark.subject;

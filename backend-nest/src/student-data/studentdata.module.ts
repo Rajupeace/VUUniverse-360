@@ -1,4 +1,4 @@
-﻿import { Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { StudentDataController } from './studentdata.controller';
@@ -10,11 +10,16 @@ import { Attendance as AttendanceEntity } from '../entities/attendance.entity';
 import { Mark as MarkEntity } from '../entities/mark.entity';
 import { Course as CourseEntity } from '../entities/course.entity';
 
+import { Attendance, AttendanceSchema } from '../schemas/attendance.schema';
+import { Mark, MarkSchema } from '../schemas/mark.schema';
+
 @Module({
   imports: [
     MongooseModule.forFeature([
       { name: StudentData.name, schema: StudentDataSchema },
-      { name: Material.name, schema: MaterialSchema }
+      { name: Material.name, schema: MaterialSchema },
+      { name: Attendance.name, schema: AttendanceSchema },
+      { name: Mark.name, schema: MarkSchema }
     ]),
     TypeOrmModule.forFeature([StudentEntity, AttendanceEntity, MarkEntity, CourseEntity]),
   ],

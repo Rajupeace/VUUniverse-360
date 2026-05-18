@@ -75,6 +75,24 @@ export class SeedService implements OnModuleInit {
                 try { await this.studentRepo.save(this.studentRepo.create({ sid: '231fa04A17', studentName: 'Test Student', email: 'student@test.com', password: hashedPassword, branch: 'CSE', year: '3', section: '13' })); } catch(e) { /* TypeORM optional */ }
                 console.log('[SEED] Student created: 231fa04A17 / student123');
             }
+
+            const rajuCount = await this.studentModel.countDocuments({ email: 'rajubhaibhai576@gmail.com' });
+            if (rajuCount === 0) {
+                console.log('[SEED] Creating Raju test student...');
+                const hashedPassword = await bcrypt.hash('raju123', 10);
+                await this.studentModel.create({
+                    sid: 'RAJU123',
+                    studentName: 'Raju Bhai',
+                    email: 'rajubhaibhai576@gmail.com',
+                    password: hashedPassword,
+                    branch: 'CSE',
+                    year: 4,
+                    section: 1,
+                    stats: { streak: 0, lastLogin: new Date() },
+                });
+                try { await this.studentRepo.save(this.studentRepo.create({ sid: 'RAJU123', studentName: 'Raju Bhai', email: 'rajubhaibhai576@gmail.com', password: hashedPassword, branch: 'CSE', year: '4', section: '1' })); } catch(e) { /* TypeORM optional */ }
+                console.log('[SEED] Student created: RAJU123 / raju123');
+            }
         } catch(err) { console.warn('[SEED] Student seed error:', err.message); }
     }
 

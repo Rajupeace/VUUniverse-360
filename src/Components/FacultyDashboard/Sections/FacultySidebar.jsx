@@ -136,6 +136,3 @@ const FacultySidebar = ({
 };
 
 export default FacultySidebar;
-
-
-export default FacultySidebar;
