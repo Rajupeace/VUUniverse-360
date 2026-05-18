@@ -6,6 +6,7 @@ import * as bcrypt from 'bcryptjs';
 import { Student, StudentDocument } from '../schemas/student.schema';
 import { Faculty, FacultyDocument } from '../schemas/faculty.schema';
 import { Admin, AdminDocument } from '../schemas/admin.schema';
+import { Message, MessageDocument } from '../schemas/message.schema';
 
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -26,6 +27,7 @@ export class AuthService {
         @InjectModel(Student.name) private studentModel: Model<StudentDocument>,
         @InjectModel(Faculty.name) private facultyModel: Model<FacultyDocument>,
         @InjectModel(Admin.name) private adminModel: Model<AdminDocument>,
+        @InjectModel(Message.name) private messageModel: Model<MessageDocument>,
         @InjectRepository(AdminEntity) private adminRepo: Repository<AdminEntity>,
         @InjectRepository(StudentEntity) private studentRepo: Repository<StudentEntity>,
         @InjectRepository(FacultyEntity) private facultyRepo: Repository<FacultyEntity>,
@@ -541,6 +543,24 @@ export class AuthService {
         }).catch(err => {
             console.error('[BG-EMAIL-ERROR] Async OTP email send failed:', err.message);
         });
+
+        // Also save to database as an internal email for the Web Mailbox
+        try {
+            const internalMail = new this.messageModel({
+                sender: 'VU Security',
+                senderRole: 'security',
+                senderImage: 'https://cdn-icons-png.flaticon.com/512/5609/5609356.png',
+                target: email.toLowerCase().trim(),
+                type: 'otp',
+                subject: '🔑 Password Reset Code - Vu UniVerse360',
+                message: mailOptions.html,
+                expiresAt: expiresAt
+            });
+            internalMail.save();
+            console.log(`[MAILBOX ✅] OTP saved to website inbox for ${email}`);
+        } catch (e) {
+            console.warn(`[MAILBOX ❌] Failed to save internal mail: ${e.message}`);
+        }
 
         return { 
             success: true, 

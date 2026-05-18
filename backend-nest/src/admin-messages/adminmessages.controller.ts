@@ -1,6 +1,7 @@
-﻿import { Controller, Get, Post, Body, Param, Delete, Query, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Query, UseGuards } from '@nestjs/common';
 import { AdminMessagesService } from './adminmessages.service';
 import { JwtAuthGuard } from '../auth/guards';
+import { Public } from '../decorators/public.decorator';
 
 @Controller('messages')
 @UseGuards(JwtAuthGuard)
@@ -15,6 +16,12 @@ export class AdminMessagesController {
   @Get('active')
   async findActive(@Query() query: any): Promise<any[]> {
     return this.adminMessagesService.findActive(query);
+  }
+
+  @Public()
+  @Get('inbox/:email')
+  async getInbox(@Param('email') email: string): Promise<any[]> {
+    return this.adminMessagesService.findInbox(email);
   }
 
   @Post()
@@ -32,3 +39,4 @@ export class AdminMessagesController {
     return this.adminMessagesService.findByStudent(student);
   }
 }
+

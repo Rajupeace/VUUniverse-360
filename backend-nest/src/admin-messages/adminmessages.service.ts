@@ -1,4 +1,4 @@
-﻿import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel, InjectConnection } from '@nestjs/mongoose';
 import { Model, Connection } from 'mongoose';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -104,5 +104,16 @@ export class AdminMessagesService {
       ]
     };
     return this.findActive(query);
+  }
+
+  async findInbox(email: string): Promise<any[]> {
+    if (this.connection.readyState !== 1) return [];
+    const targetEmail = String(email || '').toLowerCase().trim();
+    return this.messageModel.find({
+      $or: [
+        { target: targetEmail },
+        { target: 'all' }
+      ]
+    }).sort({ createdAt: -1 }).limit(50).lean();
   }
 }

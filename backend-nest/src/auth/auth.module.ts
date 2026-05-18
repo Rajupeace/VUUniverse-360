@@ -7,6 +7,7 @@ import { JwtAuthGuard, AdminGuard, FacultyGuard, StudentGuard, StaffGuard } from
 import { Student, StudentSchema } from '../schemas/student.schema';
 import { Faculty, FacultySchema } from '../schemas/faculty.schema';
 import { Admin, AdminSchema } from '../schemas/admin.schema';
+import { Message, MessageSchema } from '../schemas/message.schema';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 
@@ -27,6 +28,7 @@ import { Faculty as FacultyEntity } from '../entities/faculty.entity';
             { name: Student.name, schema: StudentSchema },
             { name: Faculty.name, schema: FacultySchema },
             { name: Admin.name, schema: AdminSchema },
+            { name: Message.name, schema: MessageSchema },
         ]),
         TypeOrmModule.forFeature([AdminEntity, StudentEntity, FacultyEntity]),
     ],

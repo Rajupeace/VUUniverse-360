@@ -1556,3 +1556,259 @@ body {
     padding: 0.5rem;
   }
 }
+
+/* ========================================================
+   🔥 THE PREMIUM VU VIRTUAL WEBSITE MAILBOX (GMAIL-STYLE)
+   ======================================================== */
+.vu-virtual-mailbox {
+    margin-top: 2rem;
+    background: rgba(13, 17, 23, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    padding: 1.5rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+.mailbox-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+}
+
+.mailbox-title {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.mailbox-title h4 {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.5px;
+}
+
+.gmail-m {
+    background: linear-gradient(135deg, #ef4444, #b91c1c);
+    color: white;
+    font-weight: 900;
+    font-size: 0.85rem;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    box-shadow: 0 4px 8px rgba(239, 68, 68, 0.3);
+}
+
+.refresh-mail-btn {
+    background: rgba(79, 70, 229, 0.2);
+    border: 1px solid rgba(79, 70, 229, 0.4);
+    color: #818cf8;
+    padding: 0.5rem 0.9rem;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.refresh-mail-btn:hover {
+    background: #4f46e5;
+    color: white;
+    box-shadow: 0 0 15px rgba(79, 70, 229, 0.4);
+    transform: translateY(-1px);
+}
+
+.mailbox-inbox {
+    max-height: 250px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.mailbox-loader {
+    text-align: center;
+    color: #94a3b8;
+    font-size: 0.85rem;
+    padding: 2rem 0;
+}
+
+.mailbox-empty {
+    text-align: center;
+    color: #64748b;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    padding: 2rem 0;
+}
+
+.mailbox-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.mailbox-item {
+    display: flex;
+    gap: 0.8rem;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 12px;
+    padding: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.mailbox-item:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(129, 140, 248, 0.3);
+    transform: translateX(4px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.mail-avatar {
+    flex-shrink: 0;
+}
+
+.mail-avatar img {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.mail-meta {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    min-width: 0;
+}
+
+.mail-sender-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.mail-sender {
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: #fff;
+}
+
+.mail-time {
+    font-size: 0.7rem;
+    color: #64748b;
+}
+
+.mail-subject {
+    font-weight: 600;
+    font-size: 0.8rem;
+    color: #cbd5e1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mail-snippet {
+    font-size: 0.72rem;
+    color: #818cf8;
+    font-weight: 500;
+}
+
+/* Overlay and popup mail viewer */
+.mail-viewer-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+}
+
+.mail-viewer-modal {
+    background: #0f172a;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px;
+    width: 100%;
+    max-width: 580px;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.mail-viewer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 1.2rem 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.sender-profile {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.sender-profile img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(129, 140, 248, 0.4);
+}
+
+.sender-profile h4 {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #fff;
+}
+
+.sender-profile span {
+    font-size: 0.72rem;
+    color: #64748b;
+    display: block;
+}
+
+.mail-close {
+    background: transparent;
+    border: none;
+    color: #94a3b8;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: color 0.2s;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.mail-close:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.mail-viewer-body {
+    padding: 1.5rem;
+    overflow-y: auto;
+    max-height: 450px;
+}
+

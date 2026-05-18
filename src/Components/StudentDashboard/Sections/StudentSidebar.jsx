@@ -83,11 +83,11 @@ const StudentSidebar = ({
             transition={{ type: "tween", duration: 0.3, ease: "easeInOut" }}
         >
             <div className="sidebar-branding-minimal">
-                <div className="minimal-logo-orb" onClick={() => !isMobile && setCollapsed(!collapsed)}>
+                <div className="minimal-logo-orb" onClick={(e) => { e.stopPropagation(); !isMobile && setCollapsed(!collapsed); }}>
                     <FaGraduationCap />
                 </div>
                 {(!collapsed || isMobile) && (
-                    <div className="minimal-brand-text">
+                    <div className="minimal-brand-text" onClick={() => setView('overview')} style={{ cursor: 'pointer' }}>
                         <span className="v-main">VU</span>
                         <span className="v-sub">Universe</span>
                     </div>

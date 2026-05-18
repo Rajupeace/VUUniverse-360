@@ -1349,7 +1349,7 @@ export default function AdminDashboard({ setIsAuthenticated, setIsAdmin, setStud
         {mobileSidebarOpen ? <FaTimes /> : <FaBars />}
       </motion.button>
 
-      <main className="admin-viewport" style={{ marginLeft: (window.innerWidth <= 1100 ? '0' : (sidebarCollapsed ? '85px' : '280px')), transition: 'margin 0.3s ease' }}>
+      <main className="admin-viewport">
         <AnimatePresence mode="wait">
           <motion.div
             key={activeSection}

@@ -48,6 +48,34 @@ const LoginRegister = ({
     const [newPassword, setNewPassword] = useState('');
     const [previewUrl, setPreviewUrl] = useState('');
 
+    // Mailbox States
+    const [mails, setMails] = useState([]);
+    const [mailLoading, setMailLoading] = useState(false);
+    const [selectedMail, setSelectedMail] = useState(null);
+
+    const fetchInbox = async () => {
+        const identifier = resetIdentifier || formData.email;
+        if (!identifier) {
+            return;
+        }
+        
+        setMailLoading(true);
+        try {
+            const { apiGet } = await import('../../utils/apiClient');
+            let queryEmail = identifier.toLowerCase().trim();
+            if (!queryEmail.includes('@')) {
+                // If student or faculty ID, query standard Vignan domain
+                queryEmail = `${queryEmail}@vignan.ac.in`;
+            }
+            const fetched = await apiGet(`/api/messages/inbox/${queryEmail}`);
+            setMails(fetched || []);
+        } catch (err) {
+            console.error('Mailbox fetch error:', err);
+        } finally {
+            setMailLoading(false);
+        }
+    };
+
     // Form States
     const [formData, setFormData] = useState({
         email: '',
@@ -209,6 +237,11 @@ const LoginRegister = ({
                 if (res.otp) setOtp(res.otp); // Auto-fill for "Fast" response
                 if (res.previewUrl) setPreviewUrl(res.previewUrl);
                 alert(res.message);
+                
+                // Immediately pull the mailbox to show the OTP mail
+                setTimeout(() => {
+                    fetchInbox();
+                }, 200);
             }
         } catch (err) {
             setError(err.message || 'Failed to request password reset');
@@ -514,6 +547,71 @@ const LoginRegister = ({
                                     </div>
                                 )}
                             </form>
+                        )}
+
+                        {/* 🔥 THE PREMIUM VU VIRTUAL WEBSITE MAILBOX (GMAIL-STYLE) */}
+                        <div className="vu-virtual-mailbox">
+                            <div className="mailbox-header">
+                                <div className="mailbox-title">
+                                    <span className="gmail-m">M</span>
+                                    <h4>VU Universe Mailbox</h4>
+                                </div>
+                                <button className="refresh-mail-btn" type="button" onClick={fetchInbox}>
+                                    🔄 Refresh Inbox
+                                </button>
+                            </div>
+                            <div className="mailbox-inbox">
+                                {mailLoading ? (
+                                    <div className="mailbox-loader">Connecting to Mail Server...</div>
+                                ) : mails.length === 0 ? (
+                                    <div className="mailbox-empty">
+                                        📧 No messages. Submit your ID above to generate an OTP, then click Refresh.
+                                    </div>
+                                ) : (
+                                    <div className="mailbox-list">
+                                        {mails.map(mail => (
+                                            <div key={mail._id} className="mailbox-item" onClick={() => setSelectedMail(mail)}>
+                                                <div className="mail-avatar">
+                                                    <img src={mail.senderImage || "https://cdn-icons-png.flaticon.com/512/5609/5609356.png"} alt="sender" />
+                                                </div>
+                                                <div className="mail-meta">
+                                                    <div className="mail-sender-row">
+                                                        <span className="mail-sender">{mail.sender}</span>
+                                                        <span className="mail-time">{new Date(mail.createdAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+                                                    </div>
+                                                    <div className="mail-subject">{mail.subject}</div>
+                                                    <div className="mail-snippet">Click to open & view secure code...</div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+
+                        {selectedMail && (
+                            <div className="mail-viewer-overlay" onClick={() => setSelectedMail(null)}>
+                                <div className="mail-viewer-modal animate-slide-up" onClick={e => e.stopPropagation()}>
+                                    <div className="mail-viewer-header">
+                                        <div className="sender-profile">
+                                            <img src={selectedMail.senderImage || "https://cdn-icons-png.flaticon.com/512/5609/5609356.png"} alt="sender" />
+                                            <div>
+                                                <h4>{selectedMail.sender}</h4>
+                                                <span>to me ({selectedMail.target})</span>
+                                            </div>
+                                        </div>
+                                        <button className="mail-close" type="button" onClick={() => setSelectedMail(null)}>✕</button>
+                                    </div>
+                                    <div className="mail-viewer-body">
+                                        <h3 style={{ margin: '15px 0', fontSize: '1.2rem', color: '#fff' }}>{selectedMail.subject}</h3>
+                                        <div 
+                                            className="mail-html-content"
+                                            dangerouslySetInnerHTML={{ __html: selectedMail.message }} 
+                                            style={{ background: '#0d1117', padding: '15px', borderRadius: '8px', overflowX: 'auto', border: '1px solid rgba(255,255,255,0.05)' }}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
                         )}
                     </div>
                 );
