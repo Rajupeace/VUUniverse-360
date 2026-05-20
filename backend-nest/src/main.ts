@@ -59,7 +59,9 @@ async function bootstrap() {
     app.use(express.json({ limit: '100mb' }));
     app.use(express.urlencoded({ extended: true, limit: '100mb' }));
 
-    const uploadsDir = path.join(__dirname, '..', '..', 'uploads');
+    // CRITICAL: Use process.cwd() for consistent path resolution in both dev and production.
+    // __dirname varies (src/ in dev, dist/src/ in prod), but cwd is always backend-nest/.
+    const uploadsDir = path.join(process.cwd(), '..', 'uploads');
     app.useStaticAssets(uploadsDir, {
       prefix: '/uploads',
       maxAge: '1d', // Faster delivery

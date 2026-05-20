@@ -3,7 +3,7 @@ import { Document } from 'mongoose';
 
 export type StudentDocument = Student & Document;
 
-@Schema({ collection: 'students' })
+@Schema({ collection: 'AdminDashboardDB_Sections_Students' })
 export class Student {
     @Prop({ required: true, unique: true }) sid: string;
     @Prop({ required: true }) studentName: string;
@@ -28,6 +28,7 @@ export class Student {
     @Prop() bio: string;
     @Prop() address: string;
     @Prop() profileImage: string;
+    @Prop() profilePic: string;
     @Prop() profilePicture: string;
     @Prop() avatar: string;
     @Prop() studentToken: string;

@@ -80,6 +80,9 @@ export class Student {
     profileImage: string;
 
     @Column({ nullable: true })
+    profilePic: string;
+
+    @Column({ nullable: true })
     profilePicture: string;
 
     @Column({ nullable: true })

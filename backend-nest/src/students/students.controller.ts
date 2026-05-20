@@ -40,79 +40,13 @@ export class StudentsController {
         private sseService: SseService,
     ) { }
 
+    // ─── STATIC/NAMED ROUTES FIRST (must be above :id wildcard) ─────────
+
     @Post('profile-pic/upload')
     @UseInterceptors(FileInterceptor('image', { storage: profilePicStorage }))
     async uploadProfilePic(@UploadedFile() file: any) {
         if (!file) return { success: false, error: 'No file uploaded' };
         return { success: true, url: `/uploads/profile-pics/${file.filename}` };
-    }
-
-    @Get()
-    async findAll(@Query() query: any): Promise<any[]> {
-        return this.studentsService.findAll(query);
-    }
-
-    @Public()
-    @Get(':id/overview')
-    async getStudentOverview(@Param('id') id: string): Promise<any> {
-        return this.studentsService.getStudentOverview(id);
-    }
-
-    @Public()
-    @Get(':id/class-attendance')
-    async getClassAttendance(@Param('id') id: string): Promise<any> {
-        return this.studentsService.getClassAttendance(id);
-    }
-
-    @Public()
-    @Get(':studentId/courses')
-    async getCourses(@Param('studentId') studentId: string): Promise<any[]> {
-        return this.studentsService.getStudentCourses(studentId);
-    }
-
-    @Public()
-    @Get(':id')
-    async findOne(@Param('id') id: string): Promise<any> {
-        return this.studentsService.findOne(id);
-    }
-
-    @Post()
-    async create(@Body() body: any) {
-        const student = await this.studentsService.create(body);
-        this.sseService.broadcast({ resource: 'students', action: 'create', data: student });
-        return student;
-    }
-
-    @Put(':id')
-    async update(@Param('id') id: string, @Body() body: any) {
-        const student = await this.studentsService.update(id, body);
-        this.sseService.broadcast({ resource: 'students', action: 'update', data: student });
-        return student;
-    }
-
-    @Delete(':id')
-    async remove(@Param('id') id: string) {
-        const result = await this.studentsService.remove(id);
-        this.sseService.broadcast({ resource: 'students', action: 'delete', data: { id } });
-        return result;
-    }
-
-    @Put('profile/:sid')
-    async updateProfile(@Param('sid') sid: string, @Body() body: any): Promise<any> {
-        const updated = await this.studentsService.updateProfile(sid, body);
-        this.sseService.broadcast({ resource: 'students', action: 'profile-update', data: { sid } });
-        return { success: true, student: { ...updated.toObject?.() || updated, profilePic: (updated as any).profileImage } };
-    }
-
-    @Put('security/:sid')
-    async security(@Param('sid') sid: string, @Body() body: any) {
-        return this.studentsService.changePassword(sid, body);
-    }
-
-    @Public()
-    @Put('change-password/:sid')
-    async changePassword(@Param('sid') sid: string, @Body() body: any) {
-        return this.studentsService.changePassword(sid, body);
     }
 
     @Post('resume/upload')
@@ -121,24 +55,6 @@ export class StudentsController {
         if (!file) return { error: 'No file uploaded' };
         return { url: `/uploads/resumes/${file.filename}` };
     }
-
-    @Post(':studentId/roadmap-progress')
-    async updateRoadmap(
-        @Param('studentId') studentId: string,
-        @Body() body: { roadmapSlug: string; topicName?: string; completedTopics?: string[] },
-    ) {
-        const result = await this.studentsService.updateRoadmapProgress(
-            studentId, body.roadmapSlug, body.topicName, body.completedTopics,
-        );
-        this.sseService.broadcast({ resource: 'studentData', action: 'roadmap-update', data: { studentId } });
-        return result;
-    }
-    
-    @Get(':studentId/marks-by-subject')
-    async getMarksBySubject(@Param('studentId') studentId: string): Promise<any[]> {
-        return this.studentsService.getStudentMarksBySubject(studentId);
-    }
-
 
     @Post('update-roadmap')
     async updateRoadmapAlt(@Body() body: { sid: string; roadmapSlug: string; completedTopics: string[] }) {
@@ -178,5 +94,95 @@ export class StudentsController {
             message: `Bulk upload complete: ${(results.success as any[]).length} succeeded, ${(results.errors as any[]).length} failed`,
             results,
         };
+    }
+
+    @Put('profile/:sid')
+    async updateProfile(@Param('sid') sid: string, @Body() body: any): Promise<any> {
+        const updated = await this.studentsService.updateProfile(sid, body);
+        this.sseService.broadcast({ resource: 'students', action: 'profile-update', data: { sid } });
+        const obj = updated.toObject?.() || updated;
+        return { success: true, student: { ...obj, profilePic: obj.profileImage || obj.profilePicture || obj.avatar } };
+    }
+
+    @Put('security/:sid')
+    async security(@Param('sid') sid: string, @Body() body: any) {
+        return this.studentsService.changePassword(sid, body);
+    }
+
+    @Public()
+    @Put('change-password/:sid')
+    async changePassword(@Param('sid') sid: string, @Body() body: any) {
+        return this.studentsService.changePassword(sid, body);
+    }
+
+    // ─── COLLECTION ROUTES (no param) ───────────────────────────────────
+
+    @Get()
+    async findAll(@Query() query: any): Promise<any[]> {
+        return this.studentsService.findAll(query);
+    }
+
+    @Post()
+    async create(@Body() body: any) {
+        const student = await this.studentsService.create(body);
+        this.sseService.broadcast({ resource: 'students', action: 'create', data: student });
+        return student;
+    }
+
+    // ─── PARAMETERIZED WILDCARD ROUTES LAST ─────────────────────────────
+
+    @Public()
+    @Get(':id/overview')
+    async getStudentOverview(@Param('id') id: string): Promise<any> {
+        return this.studentsService.getStudentOverview(id);
+    }
+
+    @Public()
+    @Get(':id/class-attendance')
+    async getClassAttendance(@Param('id') id: string): Promise<any> {
+        return this.studentsService.getClassAttendance(id);
+    }
+
+    @Public()
+    @Get(':studentId/courses')
+    async getCourses(@Param('studentId') studentId: string): Promise<any[]> {
+        return this.studentsService.getStudentCourses(studentId);
+    }
+
+    @Get(':studentId/marks-by-subject')
+    async getMarksBySubject(@Param('studentId') studentId: string): Promise<any[]> {
+        return this.studentsService.getStudentMarksBySubject(studentId);
+    }
+
+    @Post(':studentId/roadmap-progress')
+    async updateRoadmap(
+        @Param('studentId') studentId: string,
+        @Body() body: { roadmapSlug: string; topicName?: string; completedTopics?: string[] },
+    ) {
+        const result = await this.studentsService.updateRoadmapProgress(
+            studentId, body.roadmapSlug, body.topicName, body.completedTopics,
+        );
+        this.sseService.broadcast({ resource: 'studentData', action: 'roadmap-update', data: { studentId } });
+        return result;
+    }
+
+    @Public()
+    @Get(':id')
+    async findOne(@Param('id') id: string): Promise<any> {
+        return this.studentsService.findOne(id);
+    }
+
+    @Put(':id')
+    async update(@Param('id') id: string, @Body() body: any) {
+        const student = await this.studentsService.update(id, body);
+        this.sseService.broadcast({ resource: 'students', action: 'update', data: student });
+        return student;
+    }
+
+    @Delete(':id')
+    async remove(@Param('id') id: string) {
+        const result = await this.studentsService.remove(id);
+        this.sseService.broadcast({ resource: 'students', action: 'delete', data: { id } });
+        return result;
     }
 }

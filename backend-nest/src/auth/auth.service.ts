@@ -282,6 +282,12 @@ export class AuthService {
                 year: student.year,
                 section: student.section,
                 profileImage: student.profileImage,
+                profilePic: student.profilePic || student.profileImage || student.avatar,
+                avatar: student.avatar,
+                phone: student.phone,
+                gender: student.gender,
+                bio: student.bio,
+                address: student.address,
                 role: 'student',
             },
         };

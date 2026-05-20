@@ -237,7 +237,7 @@ export class StudentsService {
         // 1. Write to MySQL (Primary)
         try {
             const sqlSafeFields = [
-                'studentName', 'email', 'phone', 'address', 'profileImage', 'avatar', 'profilePicture',
+                'studentName', 'email', 'phone', 'address', 'profileImage', 'profilePic', 'avatar', 'profilePicture',
                 'bio', 'gender', 'year', 'section', 'branch', 'dateOfBirth', 'religion',
                 'sscMarks', 'intermediateMarks', 'schoolName', 'schoolLocation',
                 'interCollegeName', 'interLocation', 'sscPassOutYear', 'intermediatePassOutYear',
