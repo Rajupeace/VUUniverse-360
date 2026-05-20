@@ -61,7 +61,7 @@ const FacultySidebar = ({
         position: isMobile ? 'fixed' : 'sticky',
         top: 0,
         left: 0,
-        zIndex: 1001,
+        zIndex: isMobile ? 1600 : 1001,
         display: 'flex',
         flexDirection: 'column',
         padding: '1.5rem 1rem',
