@@ -8,7 +8,7 @@ const path = require('path');
 const { ObjectId } = require('mongodb');
 
 class MemoryMongoDB {
-    constructor(dataDir = path.join(__dirname, '..', 'data')) {
+    constructor(dataDir = path.join(process.cwd(), 'data')) {
         this.dataDir = dataDir;
         this.collections = new Map();
         this.loadCollections();

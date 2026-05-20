@@ -3,7 +3,7 @@ import { Document } from 'mongoose';
 
 export type StudentDocument = Student & Document;
 
-@Schema({ collection: 'AdminDashboardDB_Sections_Students' })
+@Schema({ collection: 'students' })
 export class Student {
     @Prop({ required: true, unique: true }) sid: string;
     @Prop({ required: true }) studentName: string;
