@@ -1,3 +1,7 @@
+// Fix local DNS for MongoDB SRV resolution
+import * as dns from 'dns';
+dns.setServers(['8.8.8.8', '8.8.4.4', '1.1.1.1']);
+
 import 'reflect-metadata';
 import * as path from 'path';
 import * as dotenv from 'dotenv';

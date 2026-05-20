@@ -4,7 +4,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './database.module';
-import { SeedService } from './seed.service';
 
 // Auth (Global)
 import { AuthModule } from './auth/auth.module';
@@ -57,7 +56,7 @@ import { FacultyStatsModule } from './faculty-stats/facultystats.module';
       envFilePath: ['.env', '../.env', '../../.env'],
     }),
 
-    // MongoDB (Primary Database) - Uses Memory Server if USE_MEMORY_DB=true
+    // MongoDB (Primary Database)
     DatabaseModule.forRootAsync(),
 
 
@@ -109,6 +108,6 @@ import { FacultyStatsModule } from './faculty-stats/facultystats.module';
     AdmissionsModule,
     FacultyStatsModule,
   ],
-  providers: [SeedService],
+  providers: [],
 })
 export class AppModule { }

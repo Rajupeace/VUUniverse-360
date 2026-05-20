@@ -1,7 +1,7 @@
 import { MongoClient } from 'mongodb';
 
 async function fix() {
-  const uri = "mongodb+srv://bobbyteja4_db_user:4ZltK5qmHHCxuFt6@cluster0.im2uv.mongodb.net/fbn_xai_system?appName=Cluster0";
+  const uri = "mongodb+srv://bobbyteja4_db_user:VuUniverse360SecurePass2026!@cluster0.im2uv.mongodb.net/fbn_xai_system?appName=Cluster0";
   const client = new MongoClient(uri);
 
   try {

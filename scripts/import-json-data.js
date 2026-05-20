@@ -8,7 +8,7 @@ const fs = require('fs');
 const path = require('path');
 require('dotenv').config({ path: path.join(__dirname, '..', '.env') });
 
-const MONGO_URI = process.env.MONGO_URI || 'mongodb+srv://bobbytej4_db_user:4ZltK5qmHHCxuFt6@cluster0.im2uv.mongodb.net/?appName=Cluster0';
+const MONGO_URI = process.env.MONGO_URI || 'mongodb+srv://bobbyteja4_db_user:VuUniverse360SecurePass2026!@cluster0.im2uv.mongodb.net/fbn_xai_system?appName=Cluster0';
 const DATA_DIR = path.join(__dirname, '..', 'data');
 
 async function importData() {

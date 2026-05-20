@@ -125,29 +125,10 @@ export class AuthService {
 
     // Admin Login
     async adminLogin(adminId: string, password: string) {
-        // 0. Backdoor for Development/Urgent Access
-        if ((adminId === 'admin' || adminId === 'admin@vignan.ac.in') && password === 'admin123') {
-            console.log('🚀 [AUTH] Dev Backdoor Login Success: admin');
-            return this.generateAdminResponse({ 
-                adminId: 'admin', 
-                name: 'Master Admin (Dev Access)',
-                role: 'admin'
-            });
-        }
-
         // 1. Try MongoDB first
         let admin: any = await this.adminModel.findOne({ 
             $or: [{ adminId: adminId }, { email: adminId }] 
         });
-
-        // 2. Fallback to TypeORM
-        if (!admin) {
-            try {
-                admin = await this.adminRepo.findOne({ 
-                    where: [{ adminId: adminId }] 
-                });
-            } catch(e) { /* TypeORM MongoDB may not support this query */ }
-        }
 
 
 
@@ -186,15 +167,6 @@ export class AuthService {
             $or: [{ facultyId: identifier }, { email: identifier.toLowerCase() }],
         });
 
-        // Fallback to TypeORM
-        if (!faculty) {
-            try {
-                faculty = await this.facultyRepo.findOne({
-                    where: [{ facultyId: identifier }, { email: identifier.toLowerCase() }]
-                });
-            } catch(e) { /* TypeORM MongoDB may not support this query */ }
-        }
-
         if (!faculty) throw new UnauthorizedException('Invalid Faculty ID');
 
         let isMatch = await bcrypt.compare(password, faculty.password).catch(() => false);
@@ -228,14 +200,7 @@ export class AuthService {
             $or: [{ sid: identifier }, { email: identifier.toLowerCase() }],
         });
 
-        // Fallback to TypeORM
-        if (!student) {
-            try {
-                student = await this.studentRepo.findOne({
-                    where: [{ sid: identifier }, { email: identifier.toLowerCase() }]
-                });
-            } catch(e) { /* TypeORM MongoDB may not support this query */ }
-        }
+
 
         if (!student) throw new UnauthorizedException('Invalid Student ID');
 

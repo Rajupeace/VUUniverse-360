@@ -25,7 +25,7 @@ import ResearchManagerDashboard from './Components/ResearchManager/ResearchManag
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isInitialized, setIsInitialized] = useState(false);
-    const [showSplash, setShowSplash] = useState(true);
+    const [showSplash, setShowSplash] = useState(false);
     const [studentData, setStudentData] = useState(null);
     const [isAdmin, setIsAdmin] = useState(false);
     const [isFaculty, setIsFaculty] = useState(false);

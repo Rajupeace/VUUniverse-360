@@ -17,7 +17,8 @@ const FacultySidebar = ({
     collapsed,
     setCollapsed,
     onLogout,
-    onNavigate
+    onNavigate,
+    mobileOpen
 }) => {
     facultyData = facultyData || { facultyName: 'Faculty', department: 'Academic' };
 
@@ -50,8 +51,9 @@ const FacultySidebar = ({
     }, []);
 
     const sidebarStyle = {
-        width: isMobile ? '100%' : (collapsed ? '85px' : '280px'),
-        background: 'rgba(255, 255, 255, 0.05)',
+        width: isMobile ? '280px' : (collapsed ? '85px' : '280px'),
+        transform: isMobile ? (mobileOpen ? 'translateX(0)' : 'translateX(-100%)') : 'none',
+        background: 'rgba(255, 255, 255, 0.95)',
         backdropFilter: 'blur(35px)',
         WebkitBackdropFilter: 'blur(35px)',
         borderRight: '1px solid rgba(255, 255, 255, 0.1)',
@@ -59,11 +61,11 @@ const FacultySidebar = ({
         position: isMobile ? 'fixed' : 'sticky',
         top: 0,
         left: 0,
-        zIndex: 1000,
+        zIndex: 1001,
         display: 'flex',
         flexDirection: 'column',
         padding: '1.5rem 1rem',
-        transition: 'width 0.4s cubic-bezier(0.4, 0, 0.2, 1)'
+        transition: 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), width 0.4s cubic-bezier(0.4, 0, 0.2, 1)'
     };
 
     return (

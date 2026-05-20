@@ -286,6 +286,7 @@ const FacultyDashboard = ({ facultyData, setIsAuthenticated, setIsFaculty, isAch
         onNavigate={() => setMobileSidebarOpen(false)}
         activeTab={view}
         isSyncing={isSyncing}
+        mobileOpen={mobileSidebarOpen}
       />
 
       <div className="dashboard-content-area">
