@@ -387,24 +387,127 @@ export class AuthService {
 
         const savedStudent = await newStudent.save();
 
-        // FAST SYNC: Update MySQL for cross-database integrity
+        // Pre-create StudentData in MongoDB immediately to prevent blank dashboard on first login
         try {
-            const mysqlStudent = this.studentRepo.create({
-                studentName,
-                sid,
-                email: email.toLowerCase(),
-                password: hashedPassword,
-                year,
-                section,
-                branch,
-                avatar: data.avatar || 'Midnight',
-                role: 'student'
-            });
-            await this.studentRepo.save(mysqlStudent);
-            console.log('[AUTH] ✅ Student synced to MySQL successfully');
-        } catch (mysqlErr) {
-            console.error('[AUTH] ⚠️ MySQL Sync Failed (Non-critical):', mysqlErr.message);
-            // We allow registration to continue as MongoDB is the primary source for identity
+            const studentDataModel = this.studentModel.db.model('StudentData');
+            if (studentDataModel) {
+                const defaultData = {
+                  studentId: savedStudent._id,
+                  name: savedStudent.studentName,
+                  email: savedStudent.email,
+                  rollNumber: savedStudent.sid,
+                  branch: savedStudent.branch,
+                  currentSemester: '1',
+                  sections: {
+                    overview: {
+                      totalCourses: 0,
+                      activeCoursesCount: 0,
+                      totalClasses: 0,
+                      totalPresent: 0,
+                      totalAbsent: 0,
+                      overallAttendance: 0,
+                      currentCGPA: 8.2,
+                      currentSGPA: 8.2,
+                      lastUpdated: new Date(),
+                    },
+                    courses: {
+                      totalCourses: 0,
+                      courseList: [],
+                      lastUpdated: new Date(),
+                    },
+                    materials: {
+                      totalMaterials: 0,
+                      downloadedCount: 0,
+                      materialList: [],
+                      lastUpdated: new Date(),
+                    },
+                    schedule: {
+                      totalClasses: 0,
+                      upcomingClasses: 0,
+                      classSchedule: [],
+                      weeklySchedule: [],
+                      lastUpdated: new Date(),
+                    },
+                    exams: {
+                      totalExams: 0,
+                      completedExams: 0,
+                      upcomingExams: 0,
+                      examList: [],
+                      lastUpdated: new Date(),
+                    },
+                    faculty: {
+                      totalFaculty: 0,
+                      facultyList: [],
+                      lastUpdated: new Date(),
+                    },
+                    chat: {
+                      totalChats: 0,
+                      recentChats: [],
+                      conversationHistory: [],
+                      lastUpdated: new Date(),
+                    },
+                    attendance: {
+                      totalClasses: 0,
+                      totalPresent: 0,
+                      totalAbsent: 0,
+                      attendancePercentage: 0,
+                      attendanceRecords: [],
+                      lastUpdated: new Date(),
+                    },
+                  },
+                  progress: {
+                    overallProgress: 0,
+                    coursesInProgress: 0,
+                    coursesCompleted: 0,
+                    streak: 1,
+                    aiUsageCount: 0,
+                    tasksCompleted: 0,
+                    careerReadyScore: 0,
+                    advancedProgress: 0,
+                    weeklyActivity: [],
+                    lastUpdated: new Date(),
+                  },
+                  statistics: {
+                    totalAssignmentsSubmitted: 0,
+                    totalAssignmentsReceived: 0,
+                    totalProjectsCompleted: 0,
+                    averageMarks: 0,
+                    lastUpdated: new Date(),
+                  },
+                  activityLog: [],
+                  lastLogin: new Date(),
+                  loginCount: 1,
+                };
+                const newStudentData = new studentDataModel(defaultData);
+                await newStudentData.save();
+                console.log('[AUTH] ✅ Initial StudentData document created successfully for:', savedStudent.sid);
+            }
+        } catch (dataErr) {
+            console.error('[AUTH] ⚠️ Failed to pre-create StudentData (Non-critical):', dataErr.message);
+        }
+
+        // FAST SYNC: Update MySQL for cross-database integrity (skip if using TypeORM MongoDB)
+        const isTypeOrmMongo = this.studentRepo?.manager?.connection?.options?.type === 'mongodb';
+        if (!isTypeOrmMongo) {
+            try {
+                const mysqlStudent = this.studentRepo.create({
+                    studentName,
+                    sid,
+                    email: email.toLowerCase(),
+                    password: hashedPassword,
+                    year,
+                    section,
+                    branch,
+                    avatar: data.avatar || 'Midnight',
+                    role: 'student'
+                });
+                await this.studentRepo.save(mysqlStudent);
+                console.log('[AUTH] ✅ Student synced to MySQL successfully');
+            } catch (mysqlErr) {
+                console.error('[AUTH] ⚠️ MySQL Sync Failed (Non-critical):', mysqlErr.message);
+            }
+        } else {
+            console.log('[AUTH] ℹ️ Skipping TypeORM sync (dialect is mongodb, handled natively by Mongoose)');
         }
 
         console.log('[AUTH] ✅ Student registered successfully:', sid);

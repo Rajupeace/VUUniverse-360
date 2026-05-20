@@ -64,19 +64,21 @@ export class StudentsService {
             { sid: 'STU005', studentName: 'Evan Wright', branch: 'ME', year: '1', section: 'D', email: 'evan@vignan.ac.in', profilePic: 'https://i.pravatar.cc/150?u=evan' }
         ];
 
-        // Try MySQL first
-        try {
-            const sqlStudents = await this.studentRepo.find({ where: filter });
-            if (sqlStudents.length > 0) {
-                return sqlStudents.map(s => ({ ...s, id: s.sid, source: 'mysql' }));
-            }
-        } catch (e) { }
-
-        // Try MongoDB
+        // Try MongoDB/Mongoose first (primary)
         try {
             const students = await this.studentModel.find(filter).limit(1000).maxTimeMS(5000).lean();
             if (students.length > 0) {
                 return students.map(s => ({ ...s, id: s.sid, _id: s._id.toString(), source: 'mongodb' }));
+            }
+        } catch (e) {
+            console.error('[STUDENTS-SERVICE] Mongoose findAll failed:', e.message);
+        }
+
+        // Try MySQL/TypeORM only as fallback
+        try {
+            const sqlStudents = await this.studentRepo.find({ where: filter });
+            if (sqlStudents.length > 0) {
+                return sqlStudents.map(s => ({ ...s, id: s.sid, source: 'mysql' }));
             }
         } catch (e) { }
 
@@ -90,16 +92,25 @@ export class StudentsService {
     }
 
     async findOne(id: string) {
-        // Try MySQL first
-        let student: any = await this.studentRepo.findOne({ where: { sid: id } });
-
-        if (!student) {
+        // Try MongoDB/Mongoose first (primary)
+        let student: any = null;
+        try {
+            const { Types } = require('mongoose');
             student = await this.studentModel.findOne({
                 $or: [
                     { sid: id },
                     ...(Types.ObjectId.isValid(id) ? [{ _id: new Types.ObjectId(id) }] : []),
                 ],
             }).select('-password').lean();
+        } catch (e) {
+            console.error('[STUDENTS-SERVICE] Mongoose findOne failed:', e.message);
+        }
+
+        // Try MySQL/TypeORM only as fallback
+        if (!student) {
+            try {
+                student = await this.studentRepo.findOne({ where: { sid: id } });
+            } catch (e) { }
         }
 
         if (!student) throw new NotFoundException('Student not found');
