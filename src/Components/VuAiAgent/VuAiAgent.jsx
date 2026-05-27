@@ -292,7 +292,7 @@ const VuAiAgent = ({ onNavigate, initialMessage, documentContext }) => {
         };
 
         await sendPayload(1);
-    }, [input, userProfile, isLoading, documentContext, handleActionTags]);
+    }, [input, userProfile, isLoading, agentMode, documentContext, handleActionTags]);
 
     useEffect(() => {
         if (initialMessage && !initialMessageProcessed.current && userProfile && !isHistoryLoading) {
@@ -381,38 +381,21 @@ const VuAiAgent = ({ onNavigate, initialMessage, documentContext }) => {
                         <span>Online & VU</span>
                         
                         {/* Mode Selector */}
-                        <div style={{ marginLeft: '16px', display: 'flex', gap: '6px', alignItems: 'center' }}>
+                        <div className="agent-mode-toggle">
+                            <div className={`mode-slider ${agentMode}`} />
                             <button
+                                type="button"
+                                className={`mode-btn ${agentMode === 'quick' ? 'active' : ''}`}
                                 onClick={() => setAgentMode('quick')}
                                 title="Quick Answer - Fast & Concise"
-                                style={{
-                                    background: agentMode === 'quick' ? '#2d8cff' : '#e2e8f0',
-                                    color: agentMode === 'quick' ? 'white' : '#64748b',
-                                    border: 'none',
-                                    borderRadius: '4px',
-                                    padding: '4px 10px',
-                                    fontSize: '11px',
-                                    cursor: 'pointer',
-                                    fontWeight: agentMode === 'quick' ? 'bold' : 'normal',
-                                    transition: 'all 0.2s'
-                                }}
                             >
                                 ⚡ Quick
                             </button>
                             <button
+                                type="button"
+                                className={`mode-btn ${agentMode === 'full' ? 'active' : ''}`}
                                 onClick={() => setAgentMode('full')}
                                 title="Full Assistant - Detailed & Comprehensive"
-                                style={{
-                                    background: agentMode === 'full' ? '#2d8cff' : '#e2e8f0',
-                                    color: agentMode === 'full' ? 'white' : '#64748b',
-                                    border: 'none',
-                                    borderRadius: '4px',
-                                    padding: '4px 10px',
-                                    fontSize: '11px',
-                                    cursor: 'pointer',
-                                    fontWeight: agentMode === 'full' ? 'bold' : 'normal',
-                                    transition: 'all 0.2s'
-                                }}
                             >
                                 🧠 Full
                             </button>

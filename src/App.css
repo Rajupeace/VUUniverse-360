@@ -227,18 +227,18 @@
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background: var(--v-primary);
+  background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.5rem;
   cursor: pointer;
-  box-shadow: 0 10px 30px rgba(79, 70, 229, 0.4);
+  box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
   z-index: 2001;
   /* Above modal overlay */
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  border: 4px solid rgba(255, 255, 255, 0.2);
+  border: 4px solid rgba(255, 255, 255, 0.15);
   overflow: hidden;
 }
 
@@ -247,22 +247,23 @@
   right: 60px;
   white-space: nowrap;
   font-size: 0.9rem;
-  font-weight: 600;
+  font-weight: 700;
   opacity: 0;
   transform: translateX(20px);
   transition: all 0.3s ease;
   pointer-events: none;
-  background: var(--v-primary);
-  padding: 0.5rem 1rem;
+  background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+  padding: 0.5rem 1.25rem;
   border-radius: 20px 0 0 20px;
+  box-shadow: -4px 4px 10px rgba(99, 102, 241, 0.25);
 }
 
 .ai-fab:hover {
-  width: 160px;
+  width: 170px;
   border-radius: 30px;
   padding-left: 80px;
-  background: var(--v-primary-dark);
-  box-shadow: 0 15px 40px rgba(79, 70, 229, 0.6);
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  box-shadow: 0 15px 40px rgba(99, 102, 241, 0.6);
 }
 
 .ai-fab:hover .fab-label {
@@ -288,24 +289,26 @@
 .admin-modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.85);
+  background: rgba(9, 12, 21, 0.85);
   z-index: 2000;
   display: flex;
   align-items: center;
   justify-content: center;
   animation: fadeIn 0.3s ease-out forwards;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .nexus-modal-content,
 .admin-modal-content {
-  background: white;
+  background: #090c15;
   border-radius: 24px;
   width: 95%;
   max-width: 1200px;
   max-height: 90vh;
   /* Changed from fixed height */
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
   flex-direction: column;
   overflow-y: auto;
@@ -338,10 +341,10 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: #f1f5f9;
+  background: rgba(255, 255, 255, 0.08);
   border: none;
   font-size: 1.5rem;
-  color: #64748b;
+  color: #9ca3af;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -351,7 +354,67 @@
 }
 
 .nexus-modal-close:hover {
-  background: #e2e8f0;
-  color: #0f172a;
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
   transform: rotate(90deg);
+}
+
+/* MOBILE VIEWPORTS SPECIFIC SYSTEM OVERRIDES */
+@media (max-width: 768px) {
+  .ai-fab {
+    bottom: 1.5rem;
+    right: 1.5rem;
+    width: 56px;
+    height: 56px;
+    box-shadow: 0 8px 24px rgba(99, 102, 241, 0.5);
+    border: 3px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .ai-fab:hover {
+    width: 56px; /* Do not expand on touch taps to prevent sticky hover states */
+    border-radius: 50%;
+    padding-left: 0;
+    background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+  }
+
+  .ai-fab:hover .fab-label {
+    display: none;
+    opacity: 0;
+  }
+
+  .nexus-modal-overlay,
+  .admin-modal-overlay {
+    align-items: flex-end;
+    background: rgba(5, 7, 12, 0.95);
+  }
+
+  .nexus-modal-content,
+  .admin-modal-content {
+    width: 100% !important;
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+    border-radius: 0 !important;
+    border: none !important;
+    animation: slideUpMobile 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+  }
+
+  .nexus-modal-close {
+    top: 0.75rem !important;
+    right: 0.75rem !important;
+    width: 44px !important;
+    height: 44px !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff !important;
+    font-size: 1.8rem !important;
+    z-index: 100;
+  }
+}
+
+@keyframes slideUpMobile {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
 }

@@ -657,29 +657,9 @@
   color: #94a3b8;
 }
 
-/* AI FAB */
+/* AI FAB - Inherited from global App.css, with safe layering */
 .ai-fab {
-  position: fixed;
-  bottom: 2.5rem;
-  right: 2.5rem;
-  width: 65px;
-  height: 65px;
-  border-radius: 50%;
-  background: var(--nexus-gradient-primary);
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.6rem;
-  cursor: pointer;
-  box-shadow: 0 15px 35px rgba(99, 102, 241, 0.3);
-  z-index: 1000;
-  transition: all 0.4s var(--nexus-ease);
-}
-
-.ai-fab:hover {
-  transform: scale(1.1) rotate(10deg);
-  box-shadow: 0 20px 45px rgba(99, 102, 241, 0.5);
+  z-index: 2001 !important;
 }
 
 /* Home Section Refinements */
