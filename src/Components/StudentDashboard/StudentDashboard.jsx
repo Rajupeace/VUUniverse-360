@@ -100,12 +100,15 @@ export default function StudentDashboard({ studentData, onLogout }) {
     const openAiWithDoc = (title, url, videoAnalysis = null) => {
         setAiDocumentContext({ title, url, videoAnalysis });
         setAiInitialPrompt(`I have questions about this video/document: ${title}`);
-        navigateToView('ai-agent');
+        setShowAiModal(true);
     };
 
     const toggleAiModal = () => {
         setShowAiModal(prev => {
-            if (prev) setAiInitialPrompt('');
+            if (prev) {
+                setAiInitialPrompt('');
+                setAiDocumentContext(null);
+            }
             return !prev;
         });
     };
@@ -212,6 +215,17 @@ export default function StudentDashboard({ studentData, onLogout }) {
                 // aggregator not available or failed — fall back to existing per-endpoint fetching
             }
 
+            if ((!assignedFaculty || assignedFaculty.length === 0) && userData.year && userData.section && userData.branch) {
+                try {
+                    const facultyList = await apiGet(`/api/faculty/teaching?year=${encodeURIComponent(userData.year)}&section=${encodeURIComponent(userData.section)}&branch=${encodeURIComponent(userData.branch)}`);
+                    if (Array.isArray(facultyList) && facultyList.length > 0) {
+                        setAssignedFaculty(facultyList);
+                    }
+                } catch (e) {
+                    console.debug('Fallback faculty fetch failed', e);
+                }
+            }
+
             if (!serverMaterials || serverMaterials.length === 0) {
                 try {
                     const materials = await apiGet(`/api/materials?year=${encodeURIComponent(userData.year || 1)}&branch=${encodeURIComponent(branch)}&section=${encodeURIComponent(userData.section || 'All')}`);
@@ -238,7 +252,7 @@ export default function StudentDashboard({ studentData, onLogout }) {
         } finally {
             setIsSyncing(false);
         }
-    }, [userData.sid, userData.year, userData.section, userData.branch]);
+    }, [userData.sid, userData.year, userData.section, userData.branch, assignedFaculty]);
 
     useEffect(() => {
         // Initial fetch
@@ -1073,13 +1087,13 @@ export default function StudentDashboard({ studentData, onLogout }) {
 
             {
                 showAiModal && (
-                    <div className="nexus-modal-overlay" onClick={() => setShowAiModal(false)}>
+                    <div className="nexus-modal-overlay" onClick={() => { setShowAiModal(false); setAiInitialPrompt(null); setAiDocumentContext(null); }}>
                         <div className="nexus-modal-content" onClick={e => e.stopPropagation()}>
-                            <button className="nexus-modal-close" onClick={() => setShowAiModal(false)}>
+                            <button className="nexus-modal-close" onClick={() => { setShowAiModal(false); setAiInitialPrompt(null); setAiDocumentContext(null); }}>
                                 &times;
                             </button>
-                            <div className="nexus-modal-body" style={{ padding: 0 }}>
-                                <VuAiAgent onNavigate={handleAiNavigate} />
+                             <div className="nexus-modal-body" style={{ padding: 0 }}>
+                                <VuAiAgent onNavigate={handleAiNavigate} initialMessage={aiInitialPrompt} documentContext={aiDocumentContext} />
                             </div>
                         </div>
                     </div>

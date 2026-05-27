@@ -1,10 +1,14 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, Index } from 'typeorm';
+import { Entity, Column, ObjectIdColumn, CreateDateColumn } from 'typeorm';
+import { ObjectId } from 'mongodb';
 
 @Entity('chat_history')
-@Index(['userId'])
 export class ChatHistory {
-    @PrimaryGeneratedColumn()
-    id: number;
+    @ObjectIdColumn()
+    _id: ObjectId;
+
+    get id(): string {
+        return this._id ? this._id.toString() : '';
+    }
 
     @Column()
     userId: string;
@@ -12,10 +16,10 @@ export class ChatHistory {
     @Column({ nullable: true })
     role: string; // student | faculty | admin
 
-    @Column({ type: 'text' })
+    @Column()
     message: string;
 
-    @Column({ type: 'text', nullable: true })
+    @Column({ nullable: true })
     response: string;
 
     @CreateDateColumn()

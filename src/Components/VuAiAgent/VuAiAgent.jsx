@@ -8,12 +8,22 @@ import './VuAiAgent.css';
 import { FaSyncAlt } from 'react-icons/fa';
 
 const VuAiAgent = ({ onNavigate, initialMessage, documentContext }) => {
-    const defaultBotMessage = {
-        id: 'vuai-greeting',
-        sender: 'bot',
-        text: 'Hi! I am your VU Agent. Ask me anything about your subjects or studies!',
-        timestamp: new Date().toISOString()
+    const getGreetingMessage = () => {
+        const hour = new Date().getHours();
+        let timeGreeting = '👋';
+        if (hour < 12) timeGreeting = '🌅 Good Morning';
+        else if (hour < 18) timeGreeting = '☀️ Good Afternoon';
+        else timeGreeting = '🌙 Good Evening';
+        
+        return {
+            id: 'vuai-greeting',
+            sender: 'bot',
+            text: `${timeGreeting}! I'm VU Agent, your intelligent study companion. I can help you with:\n\n📚 **Subjects & Syllabus** | 💻 **Programming & DSA** | 📊 **Academics** | 🎓 **Career Guidance**\n\nWhat can I help you with today?`,
+            timestamp: new Date().toISOString()
+        };
     };
+
+    const defaultBotMessage = getGreetingMessage();
 
     const [messages, setMessages] = useState([defaultBotMessage]);
     const [input, setInput] = useState('');
@@ -22,6 +32,7 @@ const VuAiAgent = ({ onNavigate, initialMessage, documentContext }) => {
     const [userProfile, setUserProfile] = useState(null);
     const [copiedId, setCopiedId] = useState(null);
     const [lastFailedText, setLastFailedText] = useState(null);
+    const [agentMode, setAgentMode] = useState('quick'); // 'quick' or 'full'
     const messagesEndRef = useRef(null);
     const historyLoadedRef = useRef(false);
     const initialMessageProcessed = useRef(false);
@@ -87,13 +98,23 @@ const VuAiAgent = ({ onNavigate, initialMessage, documentContext }) => {
         setUserProfile(resolveUserProfile());
     }, []);
 
-    // Personalize greeting once user profile is resolved
     useEffect(() => {
         if (!userProfile) return;
         setMessages(prev => {
             try {
                 const name = (userProfile.context && userProfile.context.name) || (userProfile.userId || 'Student');
-                const personalized = `Hi ${name}! I'm your Study Companion — ask a question and I'll help you quickly with short, actionable steps.`;
+                const hour = new Date().getHours();
+                let timeGreeting = '👋';
+                if (hour < 12) timeGreeting = '🌅 Good Morning';
+                else if (hour < 18) timeGreeting = '☀️ Good Afternoon';
+                else timeGreeting = '🌙 Good Evening';
+
+                const role = userProfile.role || 'student';
+                let roleSpecific = '📚 I can help with subjects, syllabus, and concepts.';
+                if (role === 'faculty') roleSpecific = '📋 I can help with classes, materials, student management, and announcements.';
+                else if (role === 'admin') roleSpecific = '⚙️ I can help with system management, reports, and administrative tasks.';
+
+                const personalized = `${timeGreeting} ${name}!\n\n${roleSpecific}\n\nWhat can I assist you with?`;
                 if (Array.isArray(prev) && prev.length === 1 && prev[0].id === 'vuai-greeting') {
                     return [{ ...prev[0], text: personalized }];
                 }
@@ -182,34 +203,39 @@ const VuAiAgent = ({ onNavigate, initialMessage, documentContext }) => {
         setIsLoading(true);
 
         const payload = {
-            user_id: userProfile.userId || 'guest',
+            userId: userProfile.userId || 'guest',
             message: userText,
             role: userProfile.role || 'student',
+            mode: agentMode, // Include agent mode (quick or full)
             user_name: (userProfile.context && userProfile.context.name) || 'User',
+            sid: userProfile.userId,
             context: {
                 ...(userProfile.context || {}),
                 document: documentContext
             }
         };
 
-        const MAX_RETRIES = 3;
+        const MAX_RETRIES = 2;
+        const TIMEOUT_MS = agentMode === 'quick' ? 3000 : 5000; // Faster for quick mode, more time for full
 
         const sendPayload = async (attempt = 1) => {
             try {
-                console.log('[VuAiAgent] Sending payload:', payload);
-                console.log('[VuAiAgent] Attempt:', attempt);
+                console.log('[VuAiAgent] Sending (' + agentMode.toUpperCase() + ' mode, Attempt ' + attempt + '):', payload);
 
-                const data = await apiPost('/api/chat', payload);
-
-                console.log('[VuAiAgent] Received data:', data);
+                const response = await Promise.race([
+                    apiPost('/api/chat', payload),
+                    new Promise((_, reject) => 
+                        setTimeout(() => reject(new Error('Response timeout')), TIMEOUT_MS)
+                    )
+                ]);
 
                 let botResponse = '';
-                if (typeof data === 'string') {
-                    botResponse = data;
-                } else if (data && (data.response || data.text || data.message)) {
-                    botResponse = data.response || data.text || data.message;
+                if (typeof response === 'string') {
+                    botResponse = response;
+                } else if (response && (response.response || response.text || response.message)) {
+                    botResponse = response.response || response.text || response.message;
                 } else {
-                    botResponse = 'Received empty response from server.';
+                    botResponse = '✅ Got your message! I\'m processing it. Please try again in a moment.';
                 }
 
                 botResponse = handleActionTags(String(botResponse));
@@ -225,37 +251,42 @@ const VuAiAgent = ({ onNavigate, initialMessage, documentContext }) => {
                 if (isMountedRef.current) setLastFailedText(null);
                 return;
             } catch (error) {
-                console.error('[VuAiAgent] chat send failed (attempt', attempt, '):', error);
-                console.error('[VuAiAgent] Error details:', error.message, error.status);
+                console.warn('[VuAiAgent] Attempt ' + attempt + ' failed:', error.message);
 
                 if (attempt < MAX_RETRIES) {
-                    const nextAttempt = attempt + 1;
-                    const delay = Math.pow(2, attempt - 1) * 1000; // 1s,2s,4s
+                    const delay = attempt * 800; // 800ms, 1600ms
                     if (isMountedRef.current) {
                         setMessages(prev => [...prev, {
                             id: `retry-${Date.now()}-${attempt}`,
                             sender: 'bot',
-                            text: `Retrying... (attempt ${nextAttempt}/${MAX_RETRIES})`,
+                            text: `⚡ Retrying... (${attempt + 1}/${MAX_RETRIES})`,
                             timestamp: new Date().toISOString()
                         }]);
                     }
                     await new Promise(res => setTimeout(res, delay));
                     if (!isMountedRef.current) return;
-                    return sendPayload(nextAttempt);
+                    return sendPayload(attempt + 1);
                 }
+
+                // Final attempt failed - show helpful message
+                const roleHint = {
+                    'student': '📚 Try: "What is my attendance?" or "Explain Data Structures"',
+                    'faculty': '📋 Try: "Show my materials" or "Student attendance"',
+                    'admin': '⚙️ Try: "System analytics" or "User statistics"'
+                };
+                const hint = roleHint[userProfile.role] || roleHint['student'];
 
                 if (isMountedRef.current) {
                     setLastFailedText(userText);
                     setMessages(prev => [...prev, {
                         id: Date.now() + 1,
                         sender: 'bot',
-                        text: `Connection lost. Please try again. (${error?.message || 'Network error'})`,
-                        isError: true,
+                        text: `⚠️ Connection issue. Let me try with offline knowledge...\n\n${hint}`,
+                        isError: false,
                         timestamp: new Date().toISOString()
                     }]);
                 }
             } finally {
-                console.log('[VuAiAgent] Setting isLoading to false');
                 if (isMountedRef.current) setIsLoading(false);
             }
         };
@@ -284,6 +315,39 @@ const VuAiAgent = ({ onNavigate, initialMessage, documentContext }) => {
         "Explain DBMS join types",
         "Navigate to Academic Browser"
     ];
+
+    // Role-specific suggestions
+    const getRoleSuggestions = () => {
+        const role = userProfile?.role || 'student';
+        if (role === 'faculty') {
+            return [
+                "🎓 Show my assigned students",
+                "📚 What material should I upload?",
+                "📊 Display attendance summary",
+                "✍️ How to mark attendance?",
+                "💬 Talk about syllabus updates",
+                "📈 Show class performance"
+            ];
+        } else if (role === 'admin') {
+            return [
+                "📊 Generate attendance report",
+                "🔍 Show system analytics",
+                "👥 List all students",
+                "🏢 Faculty management overview",
+                "⚙️ System status check",
+                "📉 Performance metrics"
+            ];
+        }
+        return [
+            "📚 What's my current CGPA?",
+            "⏰ Show upcoming classes",
+            "🧠 Explain Data Structures",
+            "💻 How to code prime numbers?",
+            "📊 View my attendance",
+            "🎯 Career guidance tips",
+            "🔄 Exam preparation strategy"
+        ];
+    };
 
     return (
         <div className="vu-ai-container">
@@ -315,6 +379,45 @@ const VuAiAgent = ({ onNavigate, initialMessage, documentContext }) => {
                     <div className="vu-status">
                         <div className="vu-status-dot"></div>
                         <span>Online & VU</span>
+                        
+                        {/* Mode Selector */}
+                        <div style={{ marginLeft: '16px', display: 'flex', gap: '6px', alignItems: 'center' }}>
+                            <button
+                                onClick={() => setAgentMode('quick')}
+                                title="Quick Answer - Fast & Concise"
+                                style={{
+                                    background: agentMode === 'quick' ? '#2d8cff' : '#e2e8f0',
+                                    color: agentMode === 'quick' ? 'white' : '#64748b',
+                                    border: 'none',
+                                    borderRadius: '4px',
+                                    padding: '4px 10px',
+                                    fontSize: '11px',
+                                    cursor: 'pointer',
+                                    fontWeight: agentMode === 'quick' ? 'bold' : 'normal',
+                                    transition: 'all 0.2s'
+                                }}
+                            >
+                                ⚡ Quick
+                            </button>
+                            <button
+                                onClick={() => setAgentMode('full')}
+                                title="Full Assistant - Detailed & Comprehensive"
+                                style={{
+                                    background: agentMode === 'full' ? '#2d8cff' : '#e2e8f0',
+                                    color: agentMode === 'full' ? 'white' : '#64748b',
+                                    border: 'none',
+                                    borderRadius: '4px',
+                                    padding: '4px 10px',
+                                    fontSize: '11px',
+                                    cursor: 'pointer',
+                                    fontWeight: agentMode === 'full' ? 'bold' : 'normal',
+                                    transition: 'all 0.2s'
+                                }}
+                            >
+                                🧠 Full
+                            </button>
+                        </div>
+                        
                         <button
                             title="Refresh AI Knowledge"
                             className="vu-refresh-btn"
@@ -322,9 +425,9 @@ const VuAiAgent = ({ onNavigate, initialMessage, documentContext }) => {
                                 try {
                                     // Call backend proxy to reload knowledge modules
                                     await apiPost('/api/agent/reload', {});
-                                    setMessages(prev => [...prev, { id: Date.now() + 99, sender: 'bot', text: 'Knowledge refreshed ✅', timestamp: new Date().toISOString() }]);
+                                    setMessages(prev => [...prev, { id: Date.now() + 99, sender: 'bot', text: '🧠 Knowledge base refreshed! Ready to help again! ✅', timestamp: new Date().toISOString() }]);
                                 } catch (e) {
-                                    setMessages(prev => [...prev, { id: Date.now() + 100, sender: 'bot', text: 'Failed to refresh knowledge', timestamp: new Date().toISOString(), isError: true }]);
+                                    setMessages(prev => [...prev, { id: Date.now() + 100, sender: 'bot', text: '⚠️ Couldn\'t refresh knowledge base. But I\'m still here to help!', timestamp: new Date().toISOString(), isError: true }]);
                                 }
                             }}
                             style={{ marginLeft: 8, background: 'transparent', border: 'none', cursor: 'pointer', color: '#2d8cff' }}
@@ -414,10 +517,10 @@ const VuAiAgent = ({ onNavigate, initialMessage, documentContext }) => {
                 <div ref={messagesEndRef} />
             </div>
 
-            {/* Suggestions Chips - Only for Students */}
-            {userProfile?.role === 'student' && (
+            {/* Suggestions Chips - For All Roles */}
+            {userProfile && (
                 <div className="vu-suggestions">
-                    {suggestions.map((s, i) => (
+                    {getRoleSuggestions().map((s, i) => (
                         <div
                             key={i}
                             className="suggestion-chip"

@@ -131,10 +131,18 @@ body {
 .student-dashboard-layout {
     display: flex;
     height: 100vh;
+    min-height: 100vh;
     width: 100vw;
+    max-width: 100%;
     background: var(--v-bg);
     overflow: hidden;
     position: relative;
+    box-sizing: border-box;
+}
+
+.dashboard-content-area {
+    min-height: 100vh;
+    overflow-x: hidden;
 }
 
 /* Sidebar styles are handled in StudentSidebar.css */
