@@ -1,4 +1,4 @@
-﻿import { Injectable, NotFoundException, InternalServerErrorException, ServiceUnavailableException } from '@nestjs/common';
+import { Injectable, NotFoundException, InternalServerErrorException, ServiceUnavailableException } from '@nestjs/common';
 import { InjectConnection } from '@nestjs/mongoose';
 import { Connection } from 'mongoose';
 import * as fs from 'fs';
@@ -46,6 +46,16 @@ export class AgentService {
       });
 
       this.sseService.broadcast({ resource: 'knowledge', action: 'reload', files: cleared });
+
+      // Call Python AI Agent to reload its knowledge too
+      try {
+        const axios = require('axios');
+        await axios.post('http://127.0.0.1:8000/reload', {}, { timeout: 2000 });
+        console.log('[AgentService] Successfully triggered Python AI Agent knowledge reload.');
+      } catch (e) {
+        console.warn(`[AgentService] Could not trigger Python AI Agent reload: ${e.message}`);
+      }
+
       return { ok: true, reloaded, cleared };
     } catch (err) {
       console.error('Agent reload error:', err);

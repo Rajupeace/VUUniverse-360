@@ -3,7 +3,7 @@ import { Document } from 'mongoose';
 
 export type FacultyDocument = Faculty & Document;
 
-@Schema({ collection: 'faculties' })
+@Schema({ collection: 'AdminDashboardDB_Sections_Faculty' })
 export class Faculty {
     @Prop({ required: true }) name: string;
     @Prop({ required: true, unique: true }) facultyId: string;

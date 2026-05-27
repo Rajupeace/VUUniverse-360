@@ -40,6 +40,7 @@ const FacultyDashboard = ({ facultyData, setIsAuthenticated, setIsFaculty, isAch
   const [showMsgModal, setShowMsgModal] = useState(false);
   const [showAiModal, setShowAiModal] = useState(false);
   const [aiInitialPrompt, setAiInitialPrompt] = useState('');
+  const [aiDocumentContext, setAiDocumentContext] = useState(null);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [whiteboardHistory, setWhiteboardHistory] = useState([]);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
@@ -60,7 +61,10 @@ const FacultyDashboard = ({ facultyData, setIsAuthenticated, setIsFaculty, isAch
 
   const toggleAiModal = () => {
     setShowAiModal(prev => {
-      if (prev) setAiInitialPrompt('');
+      if (prev) {
+        setAiInitialPrompt('');
+        setAiDocumentContext(null);
+      }
       return !prev;
     });
   };
@@ -831,6 +835,7 @@ const FacultyDashboard = ({ facultyData, setIsAuthenticated, setIsFaculty, isAch
                 const target = String(path).toLowerCase();
                 setShowAiModal(false);
                 setAiInitialPrompt('');
+                setAiDocumentContext(null);
 
                 const viewMap = {
                   'overview': 'overview',
@@ -868,7 +873,7 @@ const FacultyDashboard = ({ facultyData, setIsAuthenticated, setIsFaculty, isAch
                 if (!matched) {
                   console.log('AI requested unknown path:', path);
                 }
-              }} initialMessage={aiInitialPrompt} />
+              }} initialMessage={aiInitialPrompt} documentContext={aiDocumentContext} />
             </div>
           </div>
         </div>

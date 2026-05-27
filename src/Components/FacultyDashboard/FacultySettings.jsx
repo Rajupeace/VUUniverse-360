@@ -91,8 +91,7 @@ const FacultySettings = ({ facultyData, onProfileUpdate }) => {
         const file = e.target.files[0];
         if (file) {
             const formData = new FormData();
-            formData.append('file', file);
-
+                formData.append('profilePic', file);
             try {
                 const token = localStorage.getItem('facultyToken') || localStorage.getItem('adminToken');
         const API_URL = API_BASE.replace(/\/$/, '');

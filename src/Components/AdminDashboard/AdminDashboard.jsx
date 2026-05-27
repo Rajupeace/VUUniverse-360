@@ -102,6 +102,7 @@ export default function AdminDashboard({ setIsAuthenticated, setIsAdmin, setStud
   });
   const [showAiModal, setShowAiModal] = useState(false);
   const [aiInitialPrompt, setAiInitialPrompt] = useState('');
+  const [aiDocumentContext, setAiDocumentContext] = useState(null);
   const [viewedStudentAchievements, setViewedStudentAchievements] = useState([]);
 
   const openAiWithPrompt = (prompt) => {
@@ -111,7 +112,10 @@ export default function AdminDashboard({ setIsAuthenticated, setIsAdmin, setStud
 
   const toggleAiModal = () => {
     setShowAiModal(prev => {
-      if (prev) setAiInitialPrompt('');
+      if (prev) {
+        setAiInitialPrompt('');
+        setAiDocumentContext(null);
+      }
       return !prev;
     });
   };
@@ -1515,7 +1519,7 @@ export default function AdminDashboard({ setIsAuthenticated, setIsAdmin, setStud
                   <h2 style={{ fontSize: '2.4rem', fontWeight: 950, color: 'var(--admin-secondary)', letterSpacing: '-1px' }}>AI ASSISTANT</h2>
                   <div className="admin-badge primary">VU AI</div>
                 </div>
-                <VuAiAgent onNavigate={setActiveSection} />
+                <VuAiAgent onNavigate={setActiveSection} initialMessage={aiInitialPrompt} documentContext={aiDocumentContext} />
               </div>
             )}
 
@@ -2013,7 +2017,7 @@ export default function AdminDashboard({ setIsAuthenticated, setIsAdmin, setStud
       </button>
 
       {showAiModal && (
-        <div className="admin-modal-overlay" onClick={() => setShowAiModal(false)}>
+        <div className="admin-modal-overlay" onClick={toggleAiModal}>
           <div className="admin-modal-content" style={{ height: '80vh', width: '90%', maxWidth: '1200px', display: 'flex', flexDirection: 'column', padding: 0, position: 'relative' }} onClick={e => e.stopPropagation()}>
             <button className="nexus-modal-close" onClick={toggleAiModal}>
               &times;
@@ -2025,11 +2029,12 @@ export default function AdminDashboard({ setIsAuthenticated, setIsAdmin, setStud
               <VuAiAgent onNavigate={(path) => {
                 setShowAiModal(false);
                 setAiInitialPrompt('');
+                setAiDocumentContext(null);
                 if (path.includes('student')) setActiveSection('students');
                 if (path.includes('faculty')) setActiveSection('faculty');
                 if (path.includes('exam')) setActiveSection('exams');
                 if (path.includes('schedule')) setActiveSection('schedule');
-              }} initialMessage={aiInitialPrompt} />
+              }} initialMessage={aiInitialPrompt} documentContext={aiDocumentContext} />
             </div>
           </div>
         </div>

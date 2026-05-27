@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaIdBadge, FaPen, FaBus, FaHome } from 'react-icons/fa';
+import { FaPen } from 'react-icons/fa';
 import './StudentProfileCard.css';
 import { motion } from 'framer-motion';
 import { resolveImageUrl, apiUpload, apiPut } from '../../../utils/apiClient';
@@ -12,6 +12,10 @@ import { FaCamera, FaSpinner } from 'react-icons/fa';
 const StudentProfileCard = ({ userData, setView, onProfileUpdate }) => {
     const [uploading, setUploading] = React.useState(false);
     const fileInputRef = React.useRef(null);
+
+    const openFilePicker = () => {
+        if (fileInputRef.current) fileInputRef.current.click();
+    };
 
     const handleImageChange = async (e) => {
         const file = e.target.files[0];
@@ -61,7 +65,7 @@ const StudentProfileCard = ({ userData, setView, onProfileUpdate }) => {
                 position: 'relative'
             }}
         >
-            <div className="profile-avatar-wrapper" onClick={() => setView('settings')}>
+            <div className="profile-avatar-wrapper" onClick={openFilePicker} title="Tap to change your profile photo">
                 <div className="profile-avatar-inner">
                     {uploading ? (
                         <FaSpinner className="spinner" />
