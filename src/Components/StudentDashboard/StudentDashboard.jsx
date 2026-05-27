@@ -78,6 +78,11 @@ export default function StudentDashboard({ studentData, onLogout }) {
     const [advancedData, setAdvancedData] = useState(null);
     const [roadmapData, setRoadmapData] = useState(null);
     const [assignedFaculty, setAssignedFaculty] = useState([]);
+    const assignedFacultyRef = React.useRef(assignedFaculty);
+    useEffect(() => {
+        assignedFacultyRef.current = assignedFaculty;
+    }, [assignedFaculty]);
+
 
     // Modals & UI Flags
     const [showAiModal, setShowAiModal] = useState(false);
@@ -215,7 +220,7 @@ export default function StudentDashboard({ studentData, onLogout }) {
                 // aggregator not available or failed — fall back to existing per-endpoint fetching
             }
 
-            if ((!assignedFaculty || assignedFaculty.length === 0) && userData.year && userData.section && userData.branch) {
+            if ((!assignedFacultyRef.current || assignedFacultyRef.current.length === 0) && userData.year && userData.section && userData.branch) {
                 try {
                     const facultyList = await apiGet(`/api/faculty/teaching?year=${encodeURIComponent(userData.year)}&section=${encodeURIComponent(userData.section)}&branch=${encodeURIComponent(userData.branch)}`);
                     if (Array.isArray(facultyList) && facultyList.length > 0) {
@@ -252,7 +257,7 @@ export default function StudentDashboard({ studentData, onLogout }) {
         } finally {
             setIsSyncing(false);
         }
-    }, [userData.sid, userData.year, userData.section, userData.branch, assignedFaculty]);
+    }, [userData.sid, userData.year, userData.section, userData.branch]);
 
     useEffect(() => {
         // Initial fetch
