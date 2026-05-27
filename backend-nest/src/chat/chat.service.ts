@@ -316,7 +316,9 @@ export class ChatService {
     }
 
     this.loadKnowledge();
-    let response = "💡 I'm learning! That's an interesting question.\n\n**What I can help with:**\n📚 B.Tech Subjects (DSA, OOPS, Database, Networks, OS, Web Dev)\n👨‍🎓 Academic Guidance\n📊 University Services & Announcements\n💻 Programming & Debugging\n\nTry asking about:\n• \"Explain binary search trees\"\n• \"What's my attendance?\"\n• \"Show my academic progress\"\n• \"Help with SQL joins\"\n\nFeel free to ask anything! 🚀";
+    
+    // Clean punctuation and spaces from message to ensure high-fidelity keyword matching
+    const cleanedMessage = message.replace(/[?!\.,;]/g, '').replace(/\s+/g, ' ').trim();
 
     const keys = Object.keys(this.knowledgeBase);
     // Sort keys to prioritize student/faculty specific files first
@@ -359,13 +361,13 @@ export class ChatService {
         if (!kw) continue;
         const kwLower = kw.toLowerCase();
         
-        if (kwLower === message) {
+        if (kwLower === cleanedMessage) {
           const score = kwLower.length * 10;
           if (score > maxKeywordMatchLen) maxKeywordMatchLen = score;
-        } else if (` ${message} `.includes(` ${kwLower} `)) {
+        } else if (` ${cleanedMessage} `.includes(` ${kwLower} `)) {
           const score = kwLower.length * 5;
           if (score > maxKeywordMatchLen) maxKeywordMatchLen = score;
-        } else if (message.includes(kwLower)) {
+        } else if (cleanedMessage.includes(kwLower)) {
           const score = kwLower.length;
           if (score > maxKeywordMatchLen) maxKeywordMatchLen = score;
         }
@@ -393,6 +395,9 @@ export class ChatService {
       }
     }
 
+    let response = '';
+    let localMatchFound = false;
+
     if (bestKey && bestEntry) {
       const context = {
         message: userMessage,
@@ -411,11 +416,14 @@ export class ChatService {
         response = typeof bestEntry.response === 'function' ? bestEntry.response(context) : bestEntry.response;
       }
       
-      console.log(`[Knowledge Base ✅] Matched "${bestKey}" in ${mode} mode with score ${bestScore} for: "${userMessage.substring(0, 40)}..."`);
+      if (response) {
+        localMatchFound = true;
+        console.log(`[Knowledge Base ✅] Matched "${bestKey}" in ${mode} mode with score ${bestScore} for: "${userMessage.substring(0, 40)}..."`);
+      }
     }
 
-    if (response.startsWith("I'm sorry")) {
-      // 3. Try Direct Gemini API Fallback from Node if Python Agent Failed
+    // 3. Try Direct Gemini API Fallback from Node if local RAG did not match
+    if (!localMatchFound) {
       try {
         const apiKey = process.env.GOOGLE_API_KEY || process.env.GEMINI_API_KEY;
         if (apiKey && apiKey !== 'your-api-key-here' && apiKey.length > 10) {
@@ -499,14 +507,16 @@ Always be encouraging! 🎓`;
       } catch (err) {
         console.warn(`[Node AI 🛰️] Gemini setup failed: ${err.message}`);
       }
+    }
 
-      // If still "I'm sorry" after API attempt, use local default
-      if (response.startsWith("I'm sorry")) {
-        const defaultKey = sortedKeys.find(key => key.startsWith('default_'));
-        if (defaultKey && this.knowledgeBase[defaultKey]) {
-          const entry = this.knowledgeBase[defaultKey];
-          response = typeof entry.response === 'function' ? entry.response(message) : entry.response;
-        }
+    // 4. Ultimate Fallback to local default / learn more message if Gemini failed or RAG missed
+    if (!response) {
+      const defaultKey = sortedKeys.find(key => key.startsWith('default_'));
+      if (defaultKey && this.knowledgeBase[defaultKey]) {
+        const entry = this.knowledgeBase[defaultKey];
+        response = typeof entry.response === 'function' ? entry.response(message) : entry.response;
+      } else {
+        response = "💡 I'm learning! That's an interesting question.\n\n**What I can help with:**\n📚 B.Tech Subjects (DSA, OOPS, Database, Networks, OS, Web Dev)\n👨‍🎓 Academic Guidance\n📊 University Services & Announcements\n💻 Programming & Debugging\n\nTry asking about:\n• \"Explain binary search trees\"\n• \"What's my attendance?\"\n• \"Show my academic progress\"\n• \"Help with SQL joins\"\n\nFeel free to ask anything! 🚀";
       }
     }
 
